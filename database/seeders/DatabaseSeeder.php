@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
-use Database\Seeders\ClientsTableSeeder;
+use Database\Seeders\CustomersTableSeeder;
 use Database\Seeders\ProductsTableSeeder;
 use Database\Seeders\OrdersTableSeeder;
 use Database\Seeders\OrderItemsTableSeeder;
@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            ClientsTableSeeder::class,
+            CustomersTableSeeder::class,
             ProductsTableSeeder::class,
             OrdersTableSeeder::class,
             OrderItemsTableSeeder::class,

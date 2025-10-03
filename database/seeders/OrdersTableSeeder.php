@@ -4,17 +4,17 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Order;
-use App\Models\Client;
+use App\Models\Customer;
 
 class OrdersTableSeeder extends Seeder
 {
     public function run(): void
     {
-        $clients = Client::all();
+        $customers = Customer::all();
 
-        foreach ($clients as $client) {
+        foreach ($customers as $customer) {
             Order::factory()->count(rand(1, 5))->create([
-                'client_id' => $client->id
+                'customer_id' => $customer->id
             ]);
         }
     }

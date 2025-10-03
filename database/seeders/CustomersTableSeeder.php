@@ -3,12 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Client;
+use App\Models\Customer;
 
-class ClientsTableSeeder extends Seeder
+class CustomersTableSeeder extends Seeder
 {
     public function run(): void
     {
-        Client::factory()->count(10)->create();
+        Customer::factory()->count(10)->create();
     }
 }
