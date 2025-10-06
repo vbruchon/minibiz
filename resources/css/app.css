@@ -1,11 +1,64 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* ------------------------------
+   THEME CONFIGURATION
+------------------------------ */
 
+/* === SOURCES === */
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+/* === BASE FONT === */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
 }
+
+@import "tailwindcss";
+
+/* ------------------------------
+   THEME CONFIGURATION
+------------------------------ */
+
+/* === SOURCES === */
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+/* === BASE FONT === */
+@theme {
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --color-primary: #11a667;
+    --color-destructive: #f61500;
+    --color-warning: #b17f2c;
+}
+
+/* === DARK THEME === */
+/* @theme dark {
+    --color-primary: #11a667;
+    --color-background: #1f2429;
+    --color-bg-card: #252930;
+    --color-foreground: #ffffff;
+    --color-muted: #a0a0a0;
+    --color-accent: #369061;
+    --color-destructive: #a12c2c;
+    --color-warning: #b17f2c;
+} */
+
+/* === LIGHT THEME === */
+/* @theme light {
+    --color-primary: #11a667;
+    --color-background: #f5f5f5;
+    --color-bg-card: #ffffff;
+    --color-foreground: #1f2429;
+    --color-muted: #252930;
+    --color-accent: #369061;
+    --color-destructive: #a12c2c;
+    --color-warning: #b17f2c;
+} */
