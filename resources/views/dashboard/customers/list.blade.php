@@ -35,7 +35,7 @@
           <a href="{{ route('customers.edit', $customer->id) }}" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
             <x-heroicon-o-pencil-square class="size-5" />
           </a>
-          <form action="#" method="POST">
+          <form action="{{ route('customers.delete', $customer->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
             @csrf
             @method('DELETE')
             <button type="submit" class="text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100">
