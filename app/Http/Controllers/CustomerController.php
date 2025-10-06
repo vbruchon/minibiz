@@ -14,17 +14,16 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::paginate(10);
+        $customers = Customer::latest()->paginate(10);
         return view('dashboard.customers.list', ['customers' => $customers]);
     }
-
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        return view('dashboard.customers.create');
     }
 
     /**
@@ -32,7 +31,10 @@ class CustomerController extends Controller
      */
     public function store(CustomerRequest $request)
     {
-        //
+        Customer::create($request->validated());
+
+        return redirect()->route('customers.all')
+            ->with('success', 'Customer successfully added !');
     }
 
     /**

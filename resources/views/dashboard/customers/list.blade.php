@@ -32,7 +32,7 @@
         <td class="px-6 py-4 text-gray-300">{{ $customer->address }}</td>
 
         <td class="px-6 py-4 flex items-center gap-3">
-          <a href="#" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
+          <a href="{{ route('customers.create') }}" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
             <x-heroicon-o-pencil-square class="size-5" />
           </a>
           <form action="#" method="POST">
