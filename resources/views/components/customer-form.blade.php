@@ -14,7 +14,7 @@
     <div>
         <label class="block mb-2 font-semibold text-gray-200">Name</label>
         <input type="text" name="name" value="{{ old('name', $customer?->name) }}" required
-            class="w-full px-4 py-2 text-gray-100 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
         @error('name')
         <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
         @enderror
@@ -25,7 +25,7 @@
         <div class="w-full">
             <label class="block mb-2 font-semibold text-gray-200">Email</label>
             <input type="email" name="email" value="{{ old('email', $customer?->email) }}" required
-                class="w-full px-4 py-2 text-gray-100 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
             @error('email')
             <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
             @enderror
@@ -37,7 +37,7 @@
                 Phone <span class="text-sm font-normal text-muted italic">(optionnal)</span>
             </label>
             <input type="tel" name="phone" value="{{ old('phone', $customer?->phone) }}"
-                class="w-full px-4 py-2 text-gray-100 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                class="w-full px-4 py-2 text-foureground bg-gray-700 borderborder-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
             @error('phone')
             <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
             @enderror
@@ -50,7 +50,7 @@
             Address <span class="text-sm font-normal text-gray-400">(optionnal)</span>
         </label>
         <input type="text" name="address" value="{{ old('address', $customer?->address) }}"
-            class="w-full px-4 py-2 text-gray-100 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
         @error('address')
         <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
         @enderror

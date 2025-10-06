@@ -50,16 +50,23 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('dashboard.customers.edit', ['customer' => $customer]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CustomerRequest $request, Customer $customer)
     {
-        //
+        $data = $request->validated();
+
+        $customer->update($data);
+
+        return redirect()->route('customers.all')
+            ->with('success', 'Customer updated successfully !');
     }
+
 
     /**
      * Remove the specified resource from storage.

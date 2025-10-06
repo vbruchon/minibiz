@@ -32,13 +32,13 @@
         <td class="px-6 py-4 text-gray-300">{{ $customer->address }}</td>
 
         <td class="px-6 py-4 flex items-center gap-3">
-          <a href="{{ route('customers.create') }}" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
+          <a href="{{ route('customers.edit', $customer->id) }}" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
             <x-heroicon-o-pencil-square class="size-5" />
           </a>
           <form action="#" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="text-destructive hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100">
+            <button type="submit" class="text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100">
               <x-heroicon-o-trash class="size-5" />
             </button>
           </form>

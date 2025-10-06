@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Add customer')
+@section('title', 'Edit customer')
 
 @section('content')
 <div>
@@ -11,9 +11,12 @@
     Back
   </a>
   <div class="max-w-4xl mx-auto mt-12 p-8">
-    <h2 class="text-5xl font-bold text-foreground mb-8">Add customer</h2>
+    <h2 class="text-5xl font-bold text-foreground mb-8">Edit customer</h2>
 
-    <x-customer-form />
+    <x-customer-form
+      :action="route('customers.update', $customer->id)"
+      method="PUT"
+      :customer="$customer" />
 
   </div>
 </div>
