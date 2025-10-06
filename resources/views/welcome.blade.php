@@ -81,7 +81,7 @@
 
             <div class="links">
                 <a href="#">Dashboard</a>
-                <a href="#">Clients</a>
+                <a href="{{ route('clients.all') }}">Customers</a>
                 <a href="#">Products</a>
                 <a href="#">Orders</a>
                 <a href="#">Reports</a>

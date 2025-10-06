@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@yield('title', 'MiniBiz Dashboard')</title>
+  @vite('resources/css/app.css')
+
+  @stack('styles')
+</head>
+
+<body class="flex min-h-screen font-sans bg-gray-800 text-white">
+
+  <!-- Sidebar -->
+  <aside class="w-56 bg-gray-900 text-foreground border-r border-gray-700 py-6 px-4">
+    <div class="flex items-center gap-2 mb-12 ml-2">
+      <img src="/logo.png" alt="MiniBiz Logo" class="size-12">
+      <span class="text-2xl font-bold">MiniBiz</span>
+    </div>
+    <nav>
+      <ul class="space-y-2 list-none">
+        <li>
+          <a href="{{ route('customers.all') }}"
+            class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
+            <x-heroicon-s-user-group class="size-6" />
+            Customers</a>
+        </li>
+        <li>
+          <a href="#"
+            class="block px-3 py-2 rounded hover:bg-gray-700">Products</a>
+        </li>
+        <li>
+          <a href="#"
+            class="block px-3 py-2 rounded hover:bg-gray-700">Orders</a>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 p-8">
+    @yield('content')
+  </main>
+
+</body>
+
+</html>
