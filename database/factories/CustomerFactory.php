@@ -11,10 +11,19 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
-            'address' => $this->faker->address(),
+            'company_name' => $this->faker->company(),
+            'company_email' => $this->faker->unique()->companyEmail(),
+            'company_phone' => $this->faker->phoneNumber(),
+            'address_line1' => $this->faker->streetAddress(),
+            'address_line2' => $this->faker->secondaryAddress(),
+            'postal_code' => $this->faker->postcode(),
+            'city' => $this->faker->city(),
+            'website' => $this->faker->url(),
+            'vat_number' => strtoupper('FR' . $this->faker->numerify('##########')),
+            'contact_name' => $this->faker->name(),
+            'contact_email' => $this->faker->unique()->safeEmail(),
+            'contact_phone' => $this->faker->phoneNumber(),
+            'status' => $this->faker->randomElement(['active', 'inactive', 'prospect']),
         ];
     }
 }

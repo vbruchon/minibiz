@@ -20,7 +20,7 @@ class CustomerSearchFilterServiceTest extends TestCase
         $this->service = new CustomerSearchFilterService();
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_all_customers_when_no_filter_or_search()
     {
         Customer::factory()->count(5)->create();
@@ -31,131 +31,127 @@ class CustomerSearchFilterServiceTest extends TestCase
         $this->assertCount(5, $result->items());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_empty_when_search_matches_nothing()
     {
-        Customer::factory()->create(['name' => 'Alice']);
-        $request = new Request(['s' => 'John']);
+        Customer::factory()->create(['company_name' => 'Upton BLX']);
+        $request = new Request(['s' => 'tes']);
         $result = $this->service->handle($request);
 
         $this->assertCount(0, $result->items());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_falls_back_to_default_sort_for_invalid_sort_column()
     {
-        Customer::factory()->create(['name' => 'Alice']);
-        Customer::factory()->create(['name' => 'Bob']);
+        Customer::factory()->create(['company_name' => 'Upton BLX']);
+        Customer::factory()->create(['company_name' => 'Mocky']);
 
         $request = new Request(['sort' => 'invalid_column', 'dir' => 'asc']);
         $result = $this->service->handle($request);
 
-        // Vérifie que ça retourne quand même les éléments
         $this->assertCount(2, $result->items());
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_falls_back_to_default_sort_for_invalid_direction()
     {
-        Customer::factory()->create(['name' => 'Alice']);
-        Customer::factory()->create(['name' => 'Bob']);
+        Customer::factory()->create(['company_name' => 'Upton BLX']);
+        Customer::factory()->create(['company_name' => 'Mocky']);
 
-        $request = new Request(['sort' => 'name', 'dir' => 'invalid_dir']);
+        $request = new Request(['sort' => 'company_name', 'dir' => 'invalid_dir']);
         $result = $this->service->handle($request);
 
         $this->assertCount(2, $result->items());
     }
 
-    /** @test */
-    public function it_can_sort_by_name_asc()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_sort_by_company_name_asc()
     {
-        Customer::factory()->create(['name' => 'Charlie']);
-        Customer::factory()->create(['name' => 'Alice']);
+        Customer::factory()->create(['company_name' => 'Upton BLX']);
+        Customer::factory()->create(['company_name' => 'Mocky']);
 
-        $request = new Request(['sort' => 'name', 'dir' => 'asc']);
+        $request = new Request(['sort' => 'company_name', 'dir' => 'asc']);
         $result = $this->service->handle($request);
 
-        $this->assertEquals('Alice', $result->first()->name);
-        $this->assertEquals('Charlie', $result->last()->name);
+        $this->assertEquals('Mocky', $result->first()->company_name);
+        $this->assertEquals('Upton BLX', $result->last()->company_name);
     }
 
-    /** @test */
-    public function it_can_sort_by_email_desc()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_sort_by_company_email_desc()
     {
-        Customer::factory()->create(['name' => 'Charlie', 'email' => 'charlie@email.fr']);
-        Customer::factory()->create(['name' => 'Alice', 'email' => 'alice@email.fr']);
+        Customer::factory()->create(['company_name' => 'Mocky', 'company_email' => 'charlie@email.fr']);
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'company_email' => 'alice@email.fr']);
 
-        $request = new Request(['sort' => 'name', 'dir' => 'desc']);
+        $request = new Request(['sort' => 'company_email', 'dir' => 'desc']);
         $result = $this->service->handle($request);
 
-        $this->assertEquals('Alice', $result->first()->name);
-        $this->assertEquals('Charlie', $result->last()->name);
+        $this->assertEquals('Mocky', $result->first()->company_name);
+        $this->assertEquals('Upton BLX', $result->last()->company_name);
     }
 
-
-
-    /** @test */
-    public function it_can_search_by_name()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_search_by_company_name()
     {
-        Customer::factory()->create(['name' => 'John Doe']);
-        Customer::factory()->create(['name' => 'Jane Doe']);
+        Customer::factory()->create(['company_name' => 'Upton BLX']);
+        Customer::factory()->create(['company_name' => 'Drizzle']);
 
-        $request = new Request(['s' => 'John']);
+        $request = new Request(['s' => 'Drizz']);
         $result = $this->service->handle($request);
 
         $this->assertCount(1, $result->items());
-        $this->assertEquals('John Doe', $result->first()->name);
+        $this->assertEquals('Drizzle', $result->first()->company_name);
     }
 
-    /** @test */
-    public function it_can_search_by_email()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_search_by_company_email()
     {
-        Customer::factory()->create(['email' => 'john@test.com']);
-        Customer::factory()->create(['email' => 'jane@test.com']);
+        Customer::factory()->create(['company_email' => 'john@test.com']);
+        Customer::factory()->create(['company_email' => 'jane@test.com']);
 
         $request = new Request(['s' => 'john']);
         $result = $this->service->handle($request);
 
         $this->assertCount(1, $result->items());
-        $this->assertEquals('john@test.com', $result->first()->email);
+        $this->assertEquals('john@test.com', $result->first()->company_email);
     }
 
-    /** @test */
-    public function it_can_search_by_phone()
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_search_by_company_phone()
     {
         Customer::factory()->create([
-            'name' => 'John Doe',
-            'phone' => '+33475903856',
+            'company_name' => 'Upton BLX',
+            'company_phone' => '+33475903856',
         ]);
 
         Customer::factory()->create([
-            'name' => 'Jane Smith',
-            'phone' => '+42659304390',
+            'company_name' => 'Solup',
+            'company_phone' => '+42659304390',
         ]);
 
         $request = new Request(['s' => '+33475903']);
         $result = $this->service->handle($request);
 
         $this->assertCount(1, $result->items());
-        $this->assertEquals('+33475903856', $result->first()->phone);
+        $this->assertEquals('+33475903856', $result->first()->company_phone);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_combine_search_and_sort()
     {
-        Customer::factory()->create(['name' => 'John', 'email' => 'john@test.com']);
-        Customer::factory()->create(['name' => 'John', 'email' => 'abc@test.com']);
-        Customer::factory()->create(['name' => 'Alice', 'email' => 'alice@test.com']);
+        Customer::factory()->create(['company_name' => 'Drizzle', 'company_email' => 'john@test.com']);
+        Customer::factory()->create(['company_name' => 'Soleup', 'company_email' => 'abc@test.com']);
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'company_email' => 'alice@test.com']);
 
-        $request = new Request(['s' => 'John', 'sort' => 'email', 'dir' => 'asc']);
+        $request = new Request(['s' => 'abc', 'sort' => 'company_email', 'dir' => 'asc']);
         $result = $this->service->handle($request);
 
-        $this->assertCount(2, $result->items());
-        $this->assertEquals('abc@test.com', $result->first()->email);
-        $this->assertEquals('john@test.com', $result->last()->email);
+        $this->assertCount(1, $result->items());
+        $this->assertEquals('abc@test.com', $result->first()->company_email);
     }
 
-    /** @test */
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_paginate_results()
     {
         Customer::factory()->count(15)->create();

@@ -26,14 +26,27 @@ class CustomerRequest extends FormRequest
         $customerId = $this->route('customer')?->id;
 
         return [
-            'name' => 'required|string|max:255',
-            'email' => [
+            'company_name' => 'required|string|max:255',
+            'company_email' => [
                 'required',
                 'email',
-                Rule::unique('customers', 'email')->ignore($customerId),
+                Rule::unique('customers', 'company_email')->ignore($customerId),
             ],
-            'phone' => 'nullable|string|max:20',
-            'address' => 'nullable|string|max:255',
+            'company_phone' => 'nullable|string|max:20',
+            'address_line1' => 'nullable|string|max:255',
+            'address_line2' => 'nullable|string|max:255',
+            'postal_code' => 'nullable|string|max:20',
+            'city' => 'nullable|string|max:100',
+            'website' => 'nullable|url|max:255',
+            'vat_number' => 'nullable|string|max:20',
+            'contact_name' => 'nullable|string|max:255',
+            'contact_email' => [
+                'nullable',
+                'email',
+                Rule::unique('customers', 'contact_email')->ignore($customerId),
+            ],
+            'contact_phone' => 'nullable|string|max:20',
+            'status' => ['required', Rule::in(['active', 'inactive', 'prospect'])],
         ];
     }
 }

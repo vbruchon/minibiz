@@ -3,6 +3,14 @@
 @section('title', 'MiniBiz - Customers')
 
 @section('content')
+@php
+$statusClasses = [
+'active' => 'border border-primary px-2 py-1 rounded text-primary',
+'inactive' => 'border border-muted px-2 py-1 rounded text-muted',
+'prospect' => ' border border-warning px-2 py-1 rounded text-warning',
+];
+@endphp
+
 <div class="flex items-center justify-between mb-8">
   <h2 class="text-3xl font-bold text-white">Customers</h2>
 
@@ -20,29 +28,40 @@
       <tr>
         <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
           <div class="flex items-center gap-4">
-            <span>Name</span>
-            <x-sort-arrows column="name" route="customers.index" />
+            <span>Company</span>
+            <x-sort-arrows column="company_name" route="customers.index" />
           </div>
         </th>
         <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
           <div class="flex items-center gap-4">
             <span>Email</span>
-            <x-sort-arrows column="email" route="customers.index" />
+            <x-sort-arrows column="company_email" route="customers.index" />
           </div>
         </th>
         <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">Phone</th>
-        <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">Address</th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">
+          <div class="flex items-center gap-4">
+            <span>City</span>
+            <x-sort-arrows column="city" route="customers.index" />
+          </div>
+        </th>
+        <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">Status</th>
         <th class="px-6 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider">Actions</th>
       </tr>
     </thead>
     <tbody class="bg-gray-900/60 divide-y divide-gray-700">
       @forelse($customers as $customer)
       <tr class="hover:bg-gray-700/40 transition-colors group">
-        <td class="px-6 py-4 text-gray-200 font-medium">{{ $customer->name }}</td>
-        <td class="px-6 py-4 text-gray-300">{{ $customer->email }}</td>
-        <td class="px-6 py-4 text-gray-300">{{ $customer->phone }}</td>
-        <td class="px-6 py-4 text-gray-300">{{ $customer->address }}</td>
-
+        <td class="px-6 py-4 text-gray-200 font-medium">{{ $customer->company_name }}</td>
+        <td class="px-6 py-4 text-gray-300">{{ $customer->company_email }}</td>
+        <td class="px-6 py-4 text-gray-300">{{ $customer->company_phone }}</td>
+        <td class="px-6 py-4 text-gray-300">{{ $customer->city }}</td>
+        <td class="px-6 py-4">
+          <span class="{{ $statusClasses[$customer->status] ?? 'bg-gray-100 text-gray-700 border border-gray-300' }} 
+                 inline-block text-center px-2 py-1 rounded min-w-[80px]">
+            {{ ucfirst($customer->status) }}
+          </span>
+        </td>
         <td class="px-6 py-4 flex items-center gap-3">
           <a href="{{ route('customers.edit', $customer->id) }}" class="text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100">
             <x-heroicon-o-pencil-square class="size-5" />
@@ -58,7 +77,7 @@
       </tr>
       @empty
       <tr>
-        <td colspan="5" class="px-6 py-4 text-center text-gray-400">
+        <td colspan="6" class="px-6 py-4 text-center text-gray-400">
           No data found
         </td>
       </tr>

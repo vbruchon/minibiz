@@ -11,9 +11,8 @@ class CustomerSearchFilterService
   {
     $query = Customer::query();
 
-    // Étape 2 — Si un filtre est présent
     if ($request->filled('sort') && $request->filled('dir')) {
-      $allowedSorts = ['name', 'email', 'created_at'];
+      $allowedSorts = ['company_name', 'company_email', 'created_at', 'city'];
       $allowedDirs = ['asc', 'desc'];
 
       $sort = in_array($request->sort, $allowedSorts) ? $request->sort : 'created_at';
@@ -24,10 +23,14 @@ class CustomerSearchFilterService
 
     if ($request->filled('s')) {
       $query->where(function ($q) use ($request) {
-        $q->where('name', 'like', "%{$request->s}%")
-          ->orWhere('email', 'like', "%{$request->s}%")
-          ->orWhere('address', 'like', "%{$request->s}%")
-          ->orWhere('phone', 'like', "%{$request->s}%");
+        $q->where('company_name', 'like', "%{$request->s}%")
+          ->orWhere('company_email', 'like', "%{$request->s}%")
+          ->orWhere('city', 'like', "%{$request->s}%")
+          ->orWhere('company_phone', 'like', "%{$request->s}%")
+          ->orWhere('contact_name', 'like', "%{$request->s}%")
+          ->orWhere('contact_email', 'like', "%{$request->s}%")
+          ->orWhere('contact_phone', 'like', "%{$request->s}%")
+          ->orWhere('city', 'like', "%{$request->s}%");
       });
     }
 
