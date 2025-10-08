@@ -5,8 +5,8 @@
 ])
 
 <div class="mb-4">
-    <form id="searchForm" action="{{ route($route) }}" method="GET" class="flex gap-2 items-center">
-        <div class="relative w-1/3">
+    <form id="searchForm" action="{{ route($route) }}" method="GET">
+        <div class="relative w-[90%]">
             <input
                 id="searchInput"
                 type="text"

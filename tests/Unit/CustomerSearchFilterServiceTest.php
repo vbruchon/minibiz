@@ -152,6 +152,63 @@ class CustomerSearchFilterServiceTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_filter_by_status_active()
+    {
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'status' => 'active']);
+        Customer::factory()->create(['company_name' => 'Drizzle', 'status' => 'inactive']);
+        Customer::factory()->create(['company_name' => 'Soleup', 'status' => 'prospect']);
+
+        $request = new Request(['status' => 'active']);
+        $result = $this->service->handle($request);
+
+        $this->assertCount(1, $result->items());
+        $this->assertEquals('active', $result->first()->status);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_filter_by_status_inactive()
+    {
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'status' => 'active']);
+        Customer::factory()->create(['company_name' => 'Drizzle', 'status' => 'inactive']);
+        Customer::factory()->create(['company_name' => 'Soleup', 'status' => 'prospect']);
+
+        $request = new Request(['status' => 'inactive']);
+        $result = $this->service->handle($request);
+
+        $this->assertCount(1, $result->items());
+        $this->assertEquals('inactive', $result->first()->status);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_filter_by_status_prospect()
+    {
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'status' => 'active']);
+        Customer::factory()->create(['company_name' => 'Drizzle', 'status' => 'inactive']);
+        Customer::factory()->create(['company_name' => 'Soleup', 'status' => 'prospect']);
+
+        $request = new Request(['status' => 'prospect']);
+        $result = $this->service->handle($request);
+
+        $this->assertCount(1, $result->items());
+        $this->assertEquals('prospect', $result->first()->status);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_can_combine_status_filter_and_search()
+    {
+        Customer::factory()->create(['company_name' => 'Upton BLX', 'status' => 'active']);
+        Customer::factory()->create(['company_name' => 'Drizzle', 'status' => 'inactive']);
+        Customer::factory()->create(['company_name' => 'Soleup', 'status' => 'prospect']);
+
+        $request = new Request(['status' => 'inactive', 's' => 'Drizz']);
+        $result = $this->service->handle($request);
+
+        $this->assertCount(1, $result->items());
+        $this->assertEquals('Drizzle', $result->first()->company_name);
+        $this->assertEquals('inactive', $result->first()->status);
+    }
+
+    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_paginate_results()
     {
         Customer::factory()->count(15)->create();

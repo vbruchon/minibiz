@@ -21,6 +21,14 @@ class CustomerSearchFilterService
       $query->orderBy($sort, $dir);
     }
 
+    if ($request->filled('status')) {
+      $allowedStatus = ['active', 'prospect', 'inactive'];
+
+      $status = in_array($request->status, $allowedStatus) ? $request->status : 'status';
+
+      $query->where('status', $status);
+    }
+
     if ($request->filled('s')) {
       $query->where(function ($q) use ($request) {
         $q->where('company_name', 'like', "%{$request->s}%")

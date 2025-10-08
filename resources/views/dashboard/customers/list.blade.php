@@ -19,8 +19,16 @@ $statusClasses = [
     + Add Customer
   </a>
 </div>
+<div class="flex items-center">
+  <div class="flex-1">
+    <x-search-bar route="customers.index" placeholder="Search in customers..." name="s" />
+  </div>
+  <div class="flex-2">
+    <x-filter-bar />
+  </div>
+</div>
 
-<x-search-bar route="customers.index" placeholder="Search in customers..." name="s" />
+
 
 <div class="overflow-x-auto bg-gray-800/50 rounded-lg shadow-lg">
   <table class="min-w-full divide-y divide-gray-700">
