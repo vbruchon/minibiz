@@ -5,16 +5,19 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Client;
 use App\Models\Customer;
+use App\Services\CustomerSearchFilterService;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    protected CustomerSearchFilterService $service;
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, CustomerSearchFilterService $service)
     {
-        $customers = Customer::latest()->paginate(10);
+        $customers = $service->handle($request);
         return view('dashboard.customers.list', ['customers' => $customers]);
     }
 
@@ -33,7 +36,7 @@ class CustomerController extends Controller
     {
         Customer::create($request->validated());
 
-        return redirect()->route('customers.all')
+        return redirect()->route('customers.index')
             ->with('success', 'Customer successfully added !');
     }
 
@@ -63,7 +66,7 @@ class CustomerController extends Controller
 
         $customer->update($data);
 
-        return redirect()->route('customers.all')
+        return redirect()->route('customers.index')
             ->with('success', 'Customer updated successfully !');
     }
 
@@ -75,7 +78,7 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        return redirect()->route('customers.all')
+        return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully !');
     }
 }

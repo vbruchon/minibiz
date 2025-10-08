@@ -7,6 +7,8 @@
   <title>@yield('title', 'MiniBiz Dashboard')</title>
   @vite('resources/css/app.css')
 
+  @yield('scripts')
+
   @stack('styles')
 </head>
 
@@ -21,7 +23,7 @@
     <nav>
       <ul class="space-y-2 list-none">
         <li>
-          <a href="{{ route('customers.all') }}"
+          <a href="{{ route('customers.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-user-group class="size-6" />
             Customers</a>

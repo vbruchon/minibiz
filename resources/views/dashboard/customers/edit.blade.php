@@ -4,7 +4,7 @@
 
 @section('content')
 <div>
-  <a href="{{ route('customers.all') }}"
+  <a href="{{ route('customers.index') }}"
     class="flex items-center gap-2 w-fit px-4 py-2 bg-muted/50 text-gray-200 rounded-lg font-semibold hover:bg-muted transition-colors">
     <x-heroicon-s-arrow-left class="size-5" />
 
