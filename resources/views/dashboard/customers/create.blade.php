@@ -4,14 +4,12 @@
 
 @section('content')
 <div>
-  <a href="{{ route('customers.index') }}"
-    class="flex items-center gap-2 w-fit px-4 py-2 bg-muted/50 text-gray-200 rounded-lg font-semibold hover:bg-muted transition-colors">
+  <x-button :href="route('customers.index')" variant="secondary" size="sm">
     <x-heroicon-s-arrow-left class="size-5" />
-
     Back
-  </a>
-  <div class="max-w-4xl mx-auto mt-12 p-8">
-    <h2 class="text-5xl font-bold text-foreground mb-8">Add customer</h2>
+  </x-button>
+  <div class=" mx-auto mt-2 p-8">
+    <h2 class="text-3xl font-bold text-foreground mb-8">Add customer</h2>
 
     <x-customer-form />
 

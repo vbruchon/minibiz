@@ -1,161 +1,125 @@
 @props([
-'action' => route('customers.store'), // action par défaut pour create
-'method' => 'POST', // méthode par défaut
-'customer' => null // client existant pour update
+'action' => route('customers.store'),
+'method' => 'POST',
+'customer' => null
 ])
 
-<form method="POST" action="{{ $action }}" id="customerForm" class="space-y-6">
+<form method="POST" action="{{ $action }}" id="customerForm" class="space-y-8">
     @csrf
     @if(in_array($method, ['PUT', 'PATCH']))
     @method($method)
     @endif
 
-    <!-- Company Name -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Company Name</label>
-        <input type="text" name="company_name" value="{{ old('company_name', $customer?->company_name) }}" required
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('company_name')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
+    <x-form.section title="Status">
+        <x-form.select
+            name="status"
+            label="Status"
+            required
+            :value="old('status', $customer?->status)"
+            :options="[
+                'prospect' => 'Prospect',
+                'active' => 'Active'
+            ]"
+            class="!w-1/3" />
+    </x-form.section>
 
-    <div class="flex items-center justify-between gap-6">
-        <!-- Company Email -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">Company Email</label>
-            <input type="email" name="company_email" value="{{ old('company_email', $customer?->company_email) }}" required
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('company_email')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
+    <x-form.section title="Company Info">
+        <x-form.input
+            label="Company Name"
+            name="company_name"
+            :value="$customer?->company_name"
+            required />
+
+        <div class="flex flex-col md:flex-row gap-4">
+            <x-form.input
+                label="Company Email"
+                name="company_email"
+                type="email"
+                :value="$customer?->company_email"
+                required
+                class="flex-1" />
+            <x-form.input
+                label="Company Phone"
+                name="company_phone"
+                type="tel"
+                :value="$customer?->company_phone"
+                optional
+                class="flex-1" />
         </div>
 
-        <!-- Company Phone -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">
-                Company Phone <span class="text-sm font-normal text-muted italic">(optional)</span>
-            </label>
-            <input type="tel" name="company_phone" value="{{ old('company_phone', $customer?->company_phone) }}"
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('company_phone')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-
-    <!-- Address -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Address Line 1 <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-        <input type="text" name="address_line1" value="{{ old('address_line1', $customer?->address_line1) }}"
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('address_line1')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Address Line 2 <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-        <input type="text" name="address_line2" value="{{ old('address_line2', $customer?->address_line2) }}"
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('address_line2')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <div class="flex items-center justify-between gap-6">
-        <!-- Postal Code -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">Postal Code</label>
-            <input type="text" name="postal_code" value="{{ old('postal_code', $customer?->postal_code) }}"
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('postal_code')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
+        <div class="flex flex-col md:flex-row gap-4">
+            <x-form.input
+                label="Address Line 1"
+                name="address_line1"
+                :value="$customer?->address_line1"
+                optional
+                class="flex-1" />
+            <x-form.input
+                label="Address Line 2"
+                name="address_line2"
+                :value="$customer?->address_line2"
+                optional
+                class="flex-1" />
         </div>
 
-        <!-- City -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">City</label>
-            <input type="text" name="city" value="{{ old('city', $customer?->city) }}"
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('city')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
-        </div>
-    </div>
-
-    <!-- Website -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Website <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-        <input type="url" name="website" value="{{ old('website', $customer?->website) }}"
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('website')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <!-- VAT Number -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">VAT Number <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-        <input type="text" name="vat_number" value="{{ old('vat_number', $customer?->vat_number) }}"
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('vat_number')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <!-- Contact -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Contact Name <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-        <input type="text" name="contact_name" value="{{ old('contact_name', $customer?->contact_name) }}"
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-        @error('contact_name')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
-
-    <div class="flex items-center justify-between gap-6">
-        <!-- Contact Email -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">Contact Email <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-            <input type="email" name="contact_email" value="{{ old('contact_email', $customer?->contact_email) }}"
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('contact_email')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
+        <div class="flex flex-col md:flex-row gap-4">
+            <x-form.input
+                label="Postal Code"
+                name="postal_code"
+                :value="$customer?->postal_code"
+                class="flex-1" />
+            <x-form.input
+                label="City"
+                name="city"
+                :value="$customer?->city"
+                class="flex-1" />
         </div>
 
-        <!-- Contact Phone -->
-        <div class="w-full">
-            <label class="block mb-2 font-semibold text-gray-200">Contact Phone <span class="text-sm font-normal text-gray-400">(optional)</span></label>
-            <input type="tel" name="contact_phone" value="{{ old('contact_phone', $customer?->contact_phone) }}"
-                class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            @error('contact_phone')
-            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-            @enderror
+        <div class="flex flex-col md:flex-row gap-4">
+            <x-form.input
+                label="Website"
+                name="website"
+                type="url"
+                :value="$customer?->website"
+                optional
+                class="flex-1" />
+            <x-form.input
+                label="VAT Number"
+                name="vat_number"
+                :value="$customer?->vat_number"
+                optional
+                class="flex-1" />
         </div>
-    </div>
+    </x-form.section>
 
-    <!-- Status -->
-    <div>
-        <label class="block mb-2 font-semibold text-gray-200">Status</label>
-        <select name="status" required
-            class="w-full px-4 py-2 text-foureground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
-            <option value="active" {{ old('status', $customer?->status) === 'active' ? 'selected' : '' }}>Active</option>
-            <option value="inactive" {{ old('status', $customer?->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
-            <option value="prospect" {{ old('status', $customer?->status) === 'prospect' ? 'selected' : '' }}>Prospect</option>
-        </select>
-        @error('status')
-        <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-        @enderror
-    </div>
+    <x-form.section title="Contact Info" :separator="false">
+        <x-form.input
+            label="Contact Name"
+            name="contact_name"
+            :value="$customer?->contact_name"
+            optional />
 
-    <!-- Actions -->
-    <div class="flex justify-end">
-        <button type="submit"
-            class="px-6 py-2 bg-primary text-white rounded-lg font-semibold hover:bg-primary/70 hover:cursor-pointer">
-            {{ $customer ? 'Update' : 'Enregistrer' }}
-        </button>
+        <div class="flex flex-col md:flex-row gap-4">
+            <x-form.input
+                label="Contact Email"
+                name="contact_email"
+                type="email"
+                :value="$customer?->contact_email"
+                optional
+                class="flex-1" />
+            <x-form.input
+                label="Contact Phone"
+                name="contact_phone"
+                type="tel"
+                :value="$customer?->contact_phone"
+                optional
+                class="flex-1" />
+        </div>
+    </x-form.section>
+
+    <div class="flex justify-end px-6">
+        <x-button type="submit" variant="primary">
+            {{ $customer ? 'Update' : 'Create' }}
+        </x-button>
     </div>
 </form>

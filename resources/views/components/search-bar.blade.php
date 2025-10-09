@@ -13,7 +13,7 @@
                 name="{{ $name }}"
                 value="{{ request($name) }}"
                 placeholder="{{ $placeholder }}"
-                class="border border-muted rounded-lg px-3 py-2 pr-8 w-full">
+                class="border border-muted rounded-lg px-3 py-1.5 pr-8 w-full">
 
             <button
                 id="delete-search-btn"
