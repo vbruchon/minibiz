@@ -16,10 +16,15 @@
             label="Status"
             required
             :value="old('status', $customer?->status)"
-            :options="[
+            :options="array_merge(
+            [
                 'prospect' => 'Prospect',
-                'active' => 'Active'
-            ]"
+                'active' => 'Active',
+            ],
+            in_array($method, ['PUT', 'PATCH'])
+                ? ['inactive' => 'Inactive']
+                : []
+            )"
             class="!w-1/3" />
     </x-form.section>
 
