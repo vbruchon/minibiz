@@ -16,6 +16,7 @@ $variants = [
 'secondary' => 'bg-gray-700 text-white hover:bg-gray-600',
 'ghost' => 'bg-transparent text-gray-300 hover:text-white',
 'destructive' => 'bg-destructive/70 text-white hover:bg-destructive/60 !rounded',
+'info' => 'bg-blue-500/70 text-white shadow hover:bg-blue-500/80',
 ];
 
 $sizes = [

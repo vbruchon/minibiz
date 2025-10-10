@@ -12,7 +12,7 @@ $statusClasses = [
 ];
 @endphp
 
-<div class="flex items-center justify-between mb-6">
+<div class="flex items-center justify-between mb-8">
   <h2 class="text-3xl font-bold text-white">Customers</h2>
 
   <x-button :href="route('customers.create')" variant="primary" size="sm">
@@ -20,7 +20,7 @@ $statusClasses = [
   </x-button>
 
 </div>
-<div class="flex items-center">
+<div class="flex items-center mb-3">
   <div class="flex-1">
     <x-search-bar route="customers.index" placeholder="Search in customers..." name="s" />
   </div>
@@ -50,9 +50,14 @@ $statusClasses = [
       <td class="px-6 py-3 text-gray-300">{{ $customer->company_phone }}</td>
       <td class="px-6 py-3 text-gray-300">{{ $customer->city }}</td>
       <td class="px-6 py-3">
-        <span class="{{ $statusClasses[$customer->status] ?? 'bg-gray-100 text-gray-700 border border-gray-300' }} 
-                    inline-block text-sm text-center px-1 py-0.5 rounded-lg min-w-[80px]">
-          {{ ucfirst($customer->status) }}
+        <span class="block w-24 text-center px-3 py-1.5 text-sm rounded-md {{ 
+    strtolower(trim($customer->status ?? '')) === 'active' 
+        ? 'bg-green-600/20 text-green-400 border border-green-500/30' 
+        : (strtolower(trim($customer->status ?? '')) === 'inactive' 
+            ? 'bg-gray-600/20 text-gray-400 border border-gray-500/30' 
+            : 'bg-yellow-600/20 text-yellow-400 border border-yellow-500/30') 
+}}">
+          {{ ucfirst(strtolower(trim($customer->status ?? ''))) ?: '—' }}
         </span>
       </td>
       <td class="px-6 py-3 flex items-center">
@@ -64,7 +69,10 @@ $statusClasses = [
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
-        <x-confirmation-delete-dialog customerId="{{ $customer->id }}" />
+        <x-confirmation-delete-dialog customerId="{{ $customer->id }}" variant="ghost">
+          <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
+
+        </x-confirmation-delete-dialog>
 
       </td>
     </tr>

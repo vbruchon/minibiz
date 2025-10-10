@@ -4,8 +4,8 @@
 
 @section('content')
 <div>
-  <x-button :href="route('customers.index')" variant="secondary" size="sm">
-    <x-heroicon-s-arrow-left class="size-5" />
+  <x-button :href="route('customers.index')" variant="secondary" size="sm" class="flex items-center gap-2">
+    <x-heroicon-s-arrow-left class="size-4" />
     Back
   </x-button>
 

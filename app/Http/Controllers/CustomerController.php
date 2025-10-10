@@ -45,7 +45,9 @@ class CustomerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $customer = Customer::find($id);
+
+        return view('dashboard.customers.show', ['customer' => $customer]);
     }
 
     /**

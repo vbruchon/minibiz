@@ -1,18 +1,18 @@
 @props([
-'customerId'
+'customerId',
+'variant'
 ])
 
 <div class="inline" id="deleteWrapper-{{ $customerId }}">
-    <x-button id="deleteBtn-{{ $customerId }}" variant="ghost" size="sm">
-        <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
+    <x-button id="deleteBtn-{{ $customerId }}" variant="{{ $variant}}" size="sm">
+        {{ $slot }}
     </x-button>
 
 
-    <!-- Dialog -->
     <div id="deleteModal-{{ $customerId }}" class="fixed inset-0 items-center justify-center bg-black/50 z-50 hidden">
         <div class="bg-gray-800 p-6 rounded-lg max-w-sm w-full">
-            <h2 class="text-xl font-bold mb-4 text-white">Confirm deletion</h2>
-            <p class="mb-4 text-gray-200">Are you sure you want to delete this customer?</p>
+            <h2 class="text-xl font-bold mb-6 text-white">Confirm deletion</h2>
+            <p class="mb-6 text-gray-200">Are you sure you want to delete this customer?</p>
             <div class="flex justify-end gap-4">
                 <x-button id="cancelBtn-{{ $customerId }}" variant="secondary" size="sm" class="!rounded">Cancel</x-button>
 
