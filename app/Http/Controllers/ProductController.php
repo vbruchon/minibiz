@@ -34,7 +34,8 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        //
+        $product = Product::find($id);
+        return view('dashboard.products.show', ['product' => $product]);
     }
 
     public function edit(string $id)
