@@ -18,12 +18,18 @@
         Edit
       </x-button>
 
-      <x-confirmation-delete-dialog customerId="{{ $customer->id }}" variant="destructive">
+      <x-confirmation-delete-dialog
+        :modelId="$customer->id"
+        modelName="customer"
+        route="dashboard.customers.delete"
+        variant="destructive">
         <div class="flex items-center gap-2 py-0.5">
           <x-heroicon-o-trash class="size-5" />
           <span>Delete</span>
         </div>
       </x-confirmation-delete-dialog>
+
+
     </div>
   </div>
 
