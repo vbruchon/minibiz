@@ -25,5 +25,6 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::post('/store', [ProductController::class, 'store'])->name('store');
         Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('edit');
         Route::put('/{product}', [ProductController::class, 'update'])->name('update');
+        Route::delete('/{product}', [ProductController::class, 'destroy'])->name('delete');
     });
 });

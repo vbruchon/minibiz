@@ -53,8 +53,11 @@ class ProductController extends Controller
             ->with('success', 'Product updated successfully !');
     }
 
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()->route('dashboard.products.index')
+            ->with('success', 'Product deleted successfully !');
     }
 }

@@ -80,7 +80,7 @@ $statusClasses = [
         <x-confirmation-delete-dialog
           :modelId="$product->id"
           modelName="product"
-          route="dashboard.products.index"
+          route="dashboard.products.delete"
           variant="ghost">
           <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
         </x-confirmation-delete-dialog>
