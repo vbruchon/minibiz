@@ -1,5 +1,5 @@
 @props([
-'action' => route('customers.store'),
+'action' => route('dashboard.customers.store'),
 'method' => 'POST',
 'customer' => null
 ])

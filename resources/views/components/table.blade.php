@@ -2,6 +2,7 @@
 'headers' => [],
 'route' => null,
 'empty' => 'No data found',
+'rowsCount' => 0,
 ])
 
 <table class="min-w-full divide-y divide-gray-700">
@@ -23,6 +24,14 @@
   </thead>
 
   <tbody class="bg-gray-900/60 divide-y divide-gray-700">
+    @if($rowsCount > 0)
     {{ $slot }}
+    @else
+    <tr>
+      <td colspan="{{ count($headers) }}" class="px-6 py-3 text-center text-gray-400">
+        {{ $empty }}
+      </td>
+    </tr>
+    @endif
   </tbody>
 </table>

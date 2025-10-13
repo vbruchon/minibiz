@@ -1,11 +1,7 @@
 @props([
-'route' => route('customers.index'),
+'route',
 'currentStatus' => request('status'),
-'options' => [
-'active' => 'Active',
-'prospect' => 'Prospect',
-'inactive' => 'Inactive',
-],
+'options' => [],
 ])
 
 <div class="relative mb-4">

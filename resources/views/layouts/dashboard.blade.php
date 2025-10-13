@@ -23,14 +23,18 @@
     <nav>
       <ul class="space-y-2 list-none">
         <li>
-          <a href="{{ route('customers.index') }}"
+          <a href="{{ route('dashboard.customers.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-user-group class="size-6" />
             Customers
           </a>
         </li>
         <li>
-          <a href="#" class="block px-3 py-2 rounded hover:bg-gray-700">Products</a>
+          <a href="{{ route('dashboard.products.list') }}"
+            class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
+            <x-heroicon-s-cube class="size-6" />
+            Products
+          </a>
         </li>
         <li>
           <a href="#" class="block px-3 py-2 rounded hover:bg-gray-700">Orders</a>

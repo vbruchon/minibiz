@@ -36,7 +36,7 @@ class CustomerController extends Controller
     {
         Customer::create($request->validated());
 
-        return redirect()->route('customers.index')
+        return redirect()->route('dashboard.customers.index')
             ->with('success', 'Customer successfully added !');
     }
 
@@ -68,7 +68,7 @@ class CustomerController extends Controller
 
         $customer->update($data);
 
-        return redirect()->route('customers.index')
+        return redirect()->route('dashboard.customers.index')
             ->with('success', 'Customer updated successfully !');
     }
 
@@ -80,7 +80,7 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        return redirect()->route('customers.index')
+        return redirect()->route('dashboard.customers.index')
             ->with('success', 'Customer deleted successfully !');
     }
 }

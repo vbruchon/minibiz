@@ -5,7 +5,7 @@
 @section('content')
 <div class="mx-auto">
 
-  <x-button :href="route('customers.index')" variant="secondary" size="sm" class="flex items-center gap-2">
+  <x-button :href="route('dashboard.customers.index')" variant="secondary" size="sm" class="flex items-center gap-2">
     <x-heroicon-s-arrow-left class="size-4" />
     Back
   </x-button>
@@ -13,7 +13,7 @@
   <div class=" mx-auto mt-2 p-8 flex items-center justify-between">
     <h1 class="text-3xl font-bold text-foreground">Customer Details</h1>
     <div class="flex items-center gap-3">
-      <x-button :href="route('customers.edit', $customer->id)" variant="info" size="sm" class="gap-2 py-0.5 w-22">
+      <x-button :href="route('dashboard.customers.edit', $customer->id)" variant="info" size="sm" class="gap-2 py-0.5 w-22">
         <x-heroicon-o-pencil-square class="size-5" />
         Edit
       </x-button>

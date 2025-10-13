@@ -4,7 +4,7 @@
 
 @section('content')
 <div>
-  <x-button :href="route('customers.index')" variant="secondary" size="sm" class="flex items-center gap-2">
+  <x-button :href="route('dashboard.customers.index')" variant="secondary" size="sm" class="flex items-center gap-2">
     <x-heroicon-s-arrow-left class="size-4" />
     Back
   </x-button>
@@ -13,7 +13,7 @@
     <h2 class="text-5xl font-bold text-foreground mb-8">Edit customer</h2>
 
     <x-customer-form
-      :action="route('customers.update', $customer->id)"
+      :action="route('dashboard.customers.update', $customer->id)"
       method="PUT"
       :customer="$customer" />
 

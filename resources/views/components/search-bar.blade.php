@@ -1,7 +1,7 @@
 @props([
-'route', // route name for the form
-'placeholder' => 'Search...', // placeholder text
-'name' => 's', // query param name
+'route',
+'placeholder' => 'Search...',
+'name' => 's',
 ])
 
 <div class="mb-4">

@@ -1,22 +1,23 @@
 @props([
-'customerId',
-'variant'
+'modelId',
+'modelName' => 'item',
+'route',
+'variant' => 'destructive'
 ])
 
-<div class="inline" id="deleteWrapper-{{ $customerId }}">
-    <x-button id="deleteBtn-{{ $customerId }}" variant="{{ $variant}}" size="sm">
+<div class="inline" id="deleteWrapper-{{ $modelId }}">
+    <x-button id="deleteBtn-{{ $modelId }}" variant="{{ $variant }}" size="sm">
         {{ $slot }}
     </x-button>
 
-
-    <div id="deleteModal-{{ $customerId }}" class="fixed inset-0 items-center justify-center bg-black/50 z-50 hidden">
-        <div class="bg-gray-800 p-6 rounded-lg max-w-sm w-full">
+    <div id="deleteModal-{{ $modelId }}" class="fixed inset-0 items-center justify-center bg-black/50 z-50 hidden">
+        <div class="bg-gray-800 p-6 rounded-lg max-w-lg w-full">
             <h2 class="text-xl font-bold mb-6 text-white">Confirm deletion</h2>
-            <p class="mb-6 text-gray-200">Are you sure you want to delete this customer?</p>
+            <p class="mb-6 text-gray-200">Are you sure you want to delete this {{ $modelName }}?</p>
             <div class="flex justify-end gap-4">
-                <x-button id="cancelBtn-{{ $customerId }}" variant="secondary" size="sm" class="!rounded">Cancel</x-button>
+                <x-button id="cancelBtn-{{ $modelId }}" variant="secondary" size="sm" class="!rounded">Cancel</x-button>
 
-                <form action="{{ route('customers.delete', $customerId) }}" method="POST">
+                <form action="{{ route($route, $modelId) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <x-button type="submit" variant="destructive" size="sm">Delete</x-button>
@@ -28,7 +29,7 @@
 
 <script>
     (function() {
-        const wrapperId = "{{ $customerId }}";
+        const wrapperId = "{{ $modelId }}";
         const deleteBtn = document.getElementById(`deleteBtn-${wrapperId}`);
         const cancelBtn = document.getElementById(`cancelBtn-${wrapperId}`);
         const modal = document.getElementById(`deleteModal-${wrapperId}`);

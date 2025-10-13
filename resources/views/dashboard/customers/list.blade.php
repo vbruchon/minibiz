@@ -15,17 +15,24 @@ $statusClasses = [
 <div class="flex items-center justify-between mb-8">
   <h2 class="text-3xl font-bold text-white">Customers</h2>
 
-  <x-button :href="route('customers.create')" variant="primary" size="sm">
+  <x-button :href="route('dashboard.customers.create')" variant="primary" size="sm">
     + Add Customer
   </x-button>
 
 </div>
 <div class="flex items-center mb-3">
   <div class="flex-1">
-    <x-search-bar route="customers.index" placeholder="Search in customers..." name="s" />
+    <x-search-bar route="dashboard.customers.index" placeholder="Search in customers..." name="s" />
   </div>
   <div class="flex-2">
-    <x-filter-bar />
+    <x-filter-bar
+      :route="route('dashboard.customers.index')"
+      :currentStatus="request('status')"
+      :options="[
+        'active' => 'Active',
+        'prospect' => 'Prospect',
+        'inactive' => 'Inactive'
+    ]" />
   </div>
 </div>
 
@@ -42,7 +49,8 @@ $statusClasses = [
         ['label' => 'Status'],
         ['label' => 'Actions'],
     ]"
-    route="customers.index">
+    route="dashboard.customers.index"
+    :rowsCount="$customers->count()">
     @foreach ($customers as $customer)
     <tr class="hover:bg-gray-700/40 transition-colors group">
       <td class="px-6 py-3 text-gray-200 font-medium">{{ $customer->company_name }}</td>
@@ -61,18 +69,22 @@ $statusClasses = [
         </span>
       </td>
       <td class="px-6 py-3 flex items-center">
-        <x-button :href="route('customers.show', $customer->id)" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.customers.show', $customer->id)" variant="ghost" size="sm">
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
-        <x-button :href="route('customers.edit', $customer->id)" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.customers.edit', $customer->id)" variant="ghost" size="sm">
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
-        <x-confirmation-delete-dialog customerId="{{ $customer->id }}" variant="ghost">
+        <x-confirmation-delete-dialog
+          :modelId="$customer->id"
+          modelName="customer"
+          route="dashboard.customers.delete"
+          variant="ghost">
           <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
-
         </x-confirmation-delete-dialog>
+
 
       </td>
     </tr>
