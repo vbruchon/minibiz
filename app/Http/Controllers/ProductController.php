@@ -39,12 +39,18 @@ class ProductController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $product = Product::find($id);
+        return view('dashboard.products.edit', ['product' => $product]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(ProductRequest $request, Product $product)
     {
-        //
+        $data = $request->validated();
+
+        $product->update($data);
+
+        return redirect()->route('dashboard.products.index')
+            ->with('success', 'Product updated successfully !');
     }
 
     public function destroy(string $id)

@@ -68,7 +68,7 @@ $statusClasses = [
         </x-button>
 
         <!-- edit -->
-        <x-button :href="route('dashboard.products.index')" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products.edit', $product->id)" variant="ghost" size="sm">
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 

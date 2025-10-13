@@ -18,7 +18,7 @@
             label="Status"
             required
             :value="old('status', $product?->status)"
-            :options="['active' => 'Active', 'inactive' => 'Inactive', 'archived' => 'Archived']"
+            :options="['active' => 'Active', 'inactive' => 'Inactive']"
             class="!w-1/3" />
     </x-form.section>
     @endif
