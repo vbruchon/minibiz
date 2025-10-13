@@ -30,7 +30,7 @@
           </a>
         </li>
         <li>
-          <a href="{{ route('dashboard.products.list') }}"
+          <a href="{{ route('dashboard.products.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-cube class="size-6" />
             Products

@@ -14,7 +14,7 @@ $statusClasses = [
 <div class="flex items-center justify-between mb-8">
   <h2 class="text-3xl font-bold text-white">Products</h2>
 
-  <x-button :href="route('dashboard.products.list')" variant="primary" size="sm">
+  <x-button :href="route('dashboard.products.create')" variant="primary" size="sm">
     + Add Product
   </x-button>
 
@@ -22,11 +22,11 @@ $statusClasses = [
 
 <div class="flex items-center mb-3">
   <div class="flex-1">
-    <x-search-bar route="dashboard.products.list" placeholder="Search in products..." name="s" />
+    <x-search-bar route="dashboard.products.index" placeholder="Search in products..." name="s" />
   </div>
   <div class="flex-2">
     <x-filter-bar
-      :route="route('dashboard.products.list')"
+      :route="route('dashboard.products.index')"
       :currentStatus="request('status')"
       :options="[
         'active' => 'Active',
@@ -45,7 +45,7 @@ $statusClasses = [
         ['label' => 'Status', 'sortable' => true, 'column' => 'status'],
         ['label' => 'Actions'],
     ]"
-    route="dashboard.products.list"
+    route="dashboard.products.index"
     :rowsCount="$products->count()">
 
     @foreach ($products as $product)
@@ -63,24 +63,24 @@ $statusClasses = [
       </td>
       <td class="px-6 py-3 flex items-center gap-1">
         <!-- show -->
-        <x-button :href="route('dashboard.products.list')" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products.index')" variant="ghost" size="sm">
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
         <!-- edit -->
-        <x-button :href="route('dashboard.products.list')" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products.index')" variant="ghost" size="sm">
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
         <!-- settings options  -->
-        <x-button :href="route('dashboard.products.list')" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products.index')" variant="ghost" size="sm">
           <x-heroicon-o-cog-6-tooth class="size-5 text-amber-400 hover:text-amber-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
         <x-confirmation-delete-dialog
           :modelId="$product->id"
           modelName="product"
-          route="dashboard.products.list"
+          route="dashboard.products.index"
           variant="ghost">
           <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
         </x-confirmation-delete-dialog>
