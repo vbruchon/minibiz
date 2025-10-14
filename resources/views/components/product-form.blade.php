@@ -4,7 +4,7 @@
 'product' => null
 ])
 
-<form method="POST" action="{{ $action }}" id="productForm" class="space-y-10 p-8 rounded-2xl shadow-md">
+<form method="POST" action="{{ $action }}" id="productForm" class="space-y-10 p-8 rounded-2xl bg-gray-900/50">
     @csrf
     @if(in_array($method, ['PUT', 'PATCH']))
     @method($method)

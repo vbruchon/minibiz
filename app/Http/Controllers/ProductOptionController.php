@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductOptionRequest;
 use App\Models\Product;
 use App\Models\ProductOption;
 use App\Services\ProductOptionSearchFilterService;
@@ -43,10 +44,41 @@ class ProductOptionController extends Controller
         return view('dashboard.products-options.create', ['products' => $products]);
     }
 
-    public function store(Request $request)
+    public function store(ProductOptionRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $option = ProductOption::create([
+            'name' => $data['name'],
+            'type' => $data['type'],
+        ]);
+
+        $pivotData = [];
+
+        if (in_array($data['type'], ['text', 'number'])) {
+            $pivotData = [
+                'default_value' => $data['default_value'] ?? null,
+                'default_price' => $data['default_price'] ?? 0,
+                'is_default_attached' => true,
+            ];
+        }
+
+        $option->products()->attach($data['product_id'], $pivotData);
+
+        if (in_array($data['type'], ['select', 'checkbox']) && isset($data['values'])) {
+            foreach ($data['values'] as $index => $value) {
+                $option->values()->create([
+                    'value' => $value['value'],
+                    'price' => $value['price'] ?? 0,
+                    'is_default' => isset($data['default_index']) && $data['default_index'] == $index,
+                ]);
+            }
+        }
+
+        return redirect()->route('dashboard.products-options.index')
+            ->with('success', 'Product option successfully added!');
     }
+
 
     public function show(string $id)
     {

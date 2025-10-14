@@ -31,5 +31,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     });
     Route::prefix('products-options')->name('products-options.')->group(function () {
         Route::get('/', [ProductOptionController::class, 'index'])->name('index');
+        Route::get('/create', [ProductOptionController::class, 'create'])->name('create');
+        Route::post('/stroe', [ProductOptionController::class, 'store'])->name('store');
     });
 });
