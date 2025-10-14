@@ -68,7 +68,7 @@
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
-        <x-button :href="route('dashboard.products-options.index', $option->id)" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products-options.edit', $option->id)" variant="ghost" size="sm">
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 

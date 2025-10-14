@@ -43,7 +43,6 @@ class ProductOptionController extends Controller
 
         return view('dashboard.products-options.create', ['products' => $products]);
     }
-
     public function store(ProductOptionRequest $request)
     {
         $data = $request->validated();
@@ -53,17 +52,19 @@ class ProductOptionController extends Controller
             'type' => $data['type'],
         ]);
 
-        $pivotData = [];
+        foreach ($data['product_id'] as $productId) {
+            $pivotData = [];
 
-        if (in_array($data['type'], ['text', 'number'])) {
-            $pivotData = [
-                'default_value' => $data['default_value'] ?? null,
-                'default_price' => $data['default_price'] ?? 0,
-                'is_default_attached' => true,
-            ];
+            if (in_array($data['type'], ['text', 'number'])) {
+                $pivotData = [
+                    'default_value' => $data['default_value'] ?? null,
+                    'default_price' => $data['default_price'] ?? 0,
+                    'is_default_attached' => true,
+                ];
+            }
+
+            $option->products()->attach($productId, $pivotData);
         }
-
-        $option->products()->attach($data['product_id'], $pivotData);
 
         if (in_array($data['type'], ['select', 'checkbox']) && isset($data['values'])) {
             foreach ($data['values'] as $index => $value) {
@@ -80,6 +81,7 @@ class ProductOptionController extends Controller
     }
 
 
+
     public function show(string $id)
     {
         //
@@ -87,13 +89,57 @@ class ProductOptionController extends Controller
 
     public function edit(string $id)
     {
-        //
+        $productOption = ProductOption::find($id);
+        $products = Product::where('type', 'package')
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
+
+        return view('dashboard.products-options.edit', ['products' => $products, 'productOption' => $productOption]);
     }
 
-    public function update(Request $request, string $id)
+    public function update(ProductOptionRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        $option = ProductOption::findOrFail($id);
+
+        $option->update([
+            'name' => $data['name'],
+            'type' => $data['type'],
+        ]);
+
+        $option->products()->detach();
+
+        foreach ($data['product_id'] as $productId) {
+            $pivotData = [];
+
+            if (in_array($data['type'], ['text', 'number'])) {
+                $pivotData = [
+                    'default_value' => $data['default_value'] ?? null,
+                    'default_price' => $data['default_price'] ?? 0,
+                    'is_default_attached' => true,
+                ];
+            }
+
+            $option->products()->attach($productId, $pivotData);
+        }
+
+        $option->values()->delete();
+        if (in_array($data['type'], ['select', 'checkbox']) && isset($data['values'])) {
+            foreach ($data['values'] as $index => $value) {
+                $option->values()->create([
+                    'value' => $value['value'],
+                    'price' => $value['price'] ?? 0,
+                    'is_default' => isset($data['default_index']) && $data['default_index'] == $index,
+                ]);
+            }
+        }
+
+        return redirect()->route('dashboard.products-options.index')
+            ->with('success', 'Product option successfully updated!');
     }
+
+
 
     public function destroy(string $id)
     {
