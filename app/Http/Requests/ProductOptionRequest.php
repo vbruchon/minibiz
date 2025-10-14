@@ -14,7 +14,9 @@ class ProductOptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'exists:products,id'],
+            'product_id' => ['required', 'array'],
+            'product_id.*' => ['exists:products,id'],
+
             'name' => ['required', 'string', 'max:255'],
             'type' => ['required', 'in:choose,text,number,checkbox,select'],
 
@@ -26,12 +28,10 @@ class ProductOptionRequest extends FormRequest
             'values' => ['nullable', 'array'],
             'values.*.value' => ['required_with:values|string|max:255'],
             'values.*.price' => ['nullable', 'numeric', 'min:0'],
-            'default_index' => [
-                'nullable',
-                'integer',
-            ],
+            'default_index' => ['nullable', 'integer'],
         ];
     }
+
 
     public function withValidator($validator)
     {
