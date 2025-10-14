@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductOptionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +28,8 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('edit');
         Route::put('/{product}', [ProductController::class, 'update'])->name('update');
         Route::delete('/{product}', [ProductController::class, 'destroy'])->name('delete');
+    });
+    Route::prefix('products-options')->name('products-options.')->group(function () {
+        Route::get('/', [ProductOptionController::class, 'index'])->name('index');
     });
 });

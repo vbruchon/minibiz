@@ -37,6 +37,13 @@
           </a>
         </li>
         <li>
+          <a href="{{ route('dashboard.products-options.index') }}"
+            class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
+            <x-heroicon-o-adjustments-horizontal class="size-6" />
+            Products Options
+          </a>
+        </li>
+        <li>
           <a href="#" class="block px-3 py-2 rounded hover:bg-gray-700">Orders</a>
         </li>
       </ul>
