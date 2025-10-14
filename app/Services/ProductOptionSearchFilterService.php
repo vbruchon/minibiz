@@ -19,8 +19,11 @@ class ProductOptionSearchFilterService
     $query = ProductOption::query();
 
     if ($request->filled('product_id')) {
-      $query->where('product_id', $request->product_id);
+      $query->whereHas('products', function ($q) use ($request) {
+        $q->where('product_id', $request->product_id);
+      });
     }
+
 
     if ($request->filled('type')) {
       $query->where('type', $request->type);

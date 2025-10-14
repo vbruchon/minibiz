@@ -14,12 +14,12 @@ $hasFilter = $currentProduct || $currentType;
   {{-- Filtre Product --}}
   <div class="relative mb-4">
     <button id="productDropdownBtn" type="button"
-      class="flex items-center justify-between gap-3 w-fit px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+      class="flex items-center justify-between gap-3  px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
       <span id="productDropdownLabel">{{ $products[$currentProduct] ?? 'Product' }}</span>
       <x-heroicon-o-chevron-down id="productDropdownChevron" class="size-4 ml-2 transition-transform" />
     </button>
 
-    <div id="productDropdownMenu" class="absolute z-20 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden hidden">
+    <div id="productDropdownMenu" class="absolute z-20 mt-2 min-w-[200px] bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden hidden">
       <form action="{{ $route }}" method="GET">
         @if($currentType)
         <input type="hidden" name="type" value="{{ $currentType }}">
@@ -28,7 +28,7 @@ $hasFilter = $currentProduct || $currentType;
         <input type="hidden" name="s" value="{{ request('s') }}">
         @endif
 
-        <ul class="text-gray-200">
+        <ul class="text-gray-200 w-full">
           <li>
             <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-700"
               onclick="clearFilter('product_id')">All</button>
@@ -49,7 +49,7 @@ $hasFilter = $currentProduct || $currentType;
   {{-- Filtre Type --}}
   <div class="relative mb-4">
     <button id="typeDropdownBtn" type="button"
-      class="flex items-center justify-between gap-3 w-fit px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+      class="flex items-center justify-between gap-3  px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
       <span id="typeDropdownLabel">{{ $currentType ? ucfirst($currentType) : 'Type' }}</span>
       <x-heroicon-o-chevron-down id="typeDropdownChevron" class="size-4 ml-2 transition-transform" />
     </button>
@@ -87,7 +87,7 @@ $hasFilter = $currentProduct || $currentType;
     <button type="button"
       class="px-3 py-1 border-2 border-gray-600 text-gray-200 rounded-lg hover:bg-gray-500 transition"
       onclick="resetAllFilters()">
-      Reset All
+      Reset filters
     </button>
   </div>
   @endif

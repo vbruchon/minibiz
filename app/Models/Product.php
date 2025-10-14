@@ -20,6 +20,13 @@ class Product extends Model
 
     public function options()
     {
-        return $this->hasMany(ProductOption::class);
+        return $this->belongsToMany(ProductOption::class, 'product_product_option')
+            ->withPivot(['default_value', 'default_price', 'is_default_attached'])
+            ->withTimestamps();
+    }
+
+    public function defaultOptions()
+    {
+        return $this->options()->wherePivot('is_default_attached', true);
     }
 }

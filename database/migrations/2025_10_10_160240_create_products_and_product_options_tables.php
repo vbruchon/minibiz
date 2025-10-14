@@ -11,7 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
+        Schema::dropIfExists('product_options');
         Schema::dropIfExists('products');
+
+        Schema::enableForeignKeyConstraints();
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -35,7 +40,6 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.

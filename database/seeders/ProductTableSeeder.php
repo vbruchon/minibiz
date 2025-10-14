@@ -5,131 +5,170 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Product;
 use App\Models\ProductOption;
+use App\Models\ProductOptionValue;
 
 class ProductTableSeeder extends Seeder
 {
     public function run(): void
     {
         // --------------------------
-        // 1️⃣ Produit : Heure
+        // 1️⃣ Create products
         // --------------------------
-        $hour = Product::create([
-            'name' => 'Heure',
-            'description' => 'Prestation à l’heure pour interventions ponctuelles ou missions courtes.',
-            'type' => 'time_unit',
-            'base_price' => 50.00,
-            'unit' => 'hour',
-            'status' => 'active',
-        ]);
+        $products = [
+            'hour' => [
+                'name' => 'Hour',
+                'description' => 'Hourly service for short interventions or missions.',
+                'type' => 'time_unit',
+                'base_price' => 50.00,
+                'unit' => 'hour',
+                'status' => 'active',
+            ],
+            'day' => [
+                'name' => 'Day',
+                'description' => 'Full-day service for longer missions or projects.',
+                'type' => 'time_unit',
+                'base_price' => 400.00,
+                'unit' => 'day',
+                'status' => 'active',
+            ],
+            'vitrine' => [
+                'name' => 'Website Showcase',
+                'description' => 'Modern, responsive showcase website optimized for SEO and conversions.',
+                'type' => 'package',
+                'base_price' => 800.00,
+                'unit' => null,
+                'status' => 'active',
+            ],
+            'ecommerce' => [
+                'name' => 'E-commerce Website',
+                'description' => 'Complete online store development (Shopify, WooCommerce or Laravel).',
+                'type' => 'package',
+                'base_price' => 2500.00,
+                'unit' => null,
+                'status' => 'active',
+            ],
+        ];
+
+        $createdProducts = [];
+        foreach ($products as $slug => $data) {
+            $createdProducts[$slug] = Product::create($data);
+        }
 
         // --------------------------
-        // 2️⃣ Produit : Journée
+        // 2️⃣ Define reusable options
         // --------------------------
-        $day = Product::create([
-            'name' => 'Journée',
-            'description' => 'Prestation à la journée pour missions ou projets plus conséquents.',
-            'type' => 'time_unit',
-            'base_price' => 400.00,
-            'unit' => 'day',
-            'status' => 'active',
-        ]);
-
-        // --------------------------
-        // 3️⃣ Produit : Site vitrine
-        // --------------------------
-        $vitrine = Product::create([
-            'name' => 'Site vitrine',
-            'description' => 'Création d’un site vitrine moderne et responsive, optimisé pour le SEO et les conversions.',
-            'type' => 'package',
-            'base_price' => 800.00,
-            'unit' => null,
-            'status' => 'active',
-        ]);
-
-        // Options pour le site vitrine
-        ProductOption::insert([
-            [
-                'product_id' => $vitrine->id,
-                'name' => 'Nombre de pages',
-                'type' => 'number',
-                'default_value' => '3',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '3', 'price' => 0],
+        $options = [
+            'pages' => [
+                'name' => 'Number of pages',
+                'type' => 'select',
+                'values' => [
+                    ['value' => '3', 'price' => 0, 'is_default' => true],
                     ['value' => '5', 'price' => 100],
                     ['value' => '8', 'price' => 250],
-                ]),
+                ],
             ],
-            [
-                'product_id' => $vitrine->id,
-                'name' => 'Design personnalisé',
+            'custom_design' => [
+                'name' => 'Custom design',
                 'type' => 'checkbox',
-                'default_value' => '0',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '1', 'label' => 'Oui', 'price' => 200],
-                ]),
+                'values' => [
+                    ['value' => '1', 'price' => 200],
+                ],
             ],
-            [
-                'product_id' => $vitrine->id,
-                'name' => 'Livraison express',
+            'express_delivery' => [
+                'name' => 'Express delivery',
                 'type' => 'checkbox',
-                'default_value' => '0',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '1', 'label' => 'Oui', 'price' => 150],
-                ]),
+                'values' => [
+                    ['value' => '1', 'price' => 150],
+                ],
             ],
-        ]);
-
-        // --------------------------
-        // 4️⃣ Produit : Site e-commerce
-        // --------------------------
-        $ecommerce = Product::create([
-            'name' => 'Site e-commerce',
-            'description' => 'Développement complet d’une boutique en ligne (Shopify, WooCommerce ou Laravel).',
-            'type' => 'package',
-            'base_price' => 2500.00,
-            'unit' => null,
-            'status' => 'active',
-        ]);
-
-        // Options pour le e-commerce
-        ProductOption::insert([
-            [
-                'product_id' => $ecommerce->id,
-                'name' => 'Nombre de produits initiaux',
+            'initial_products' => [
+                'name' => 'Initial product count',
                 'type' => 'select',
-                'default_value' => '10',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '10', 'label' => '10 produits', 'price' => 0],
-                    ['value' => '50', 'label' => '50 produits', 'price' => 200],
-                    ['value' => '100', 'label' => '100 produits', 'price' => 400],
-                ]),
+                'values' => [
+                    ['value' => '10', 'price' => 0, 'is_default' => true],
+                    ['value' => '50', 'price' => 200],
+                    ['value' => '100', 'price' => 400],
+                ],
             ],
-            [
-                'product_id' => $ecommerce->id,
-                'name' => 'Intégration de paiement en ligne',
+            'payment_integration' => [
+                'name' => 'Online payment integration',
                 'type' => 'checkbox',
-                'default_value' => '1',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '1', 'label' => 'Stripe', 'price' => 0],
-                    ['value' => '2', 'label' => 'PayPal', 'price' => 50],
-                    ['value' => '3', 'label' => 'Autre', 'price' => 100],
-                ]),
+                'values' => [
+                    ['value' => '1', 'price' => 0],
+                    ['value' => '2', 'price' => 50],
+                    ['value' => '3', 'price' => 100],
+                ],
             ],
-            [
-                'product_id' => $ecommerce->id,
-                'name' => 'Maintenance mensuelle',
+            'monthly_maintenance' => [
+                'name' => 'Monthly maintenance',
                 'type' => 'checkbox',
-                'default_value' => '0',
-                'default_price' => 0,
-                'values' => json_encode([
-                    ['value' => '1', 'label' => 'Oui', 'price' => 150],
-                ]),
+                'values' => [
+                    ['value' => '1', 'price' => 150],
+                ],
             ],
+        ];
+
+        // --------------------------
+        // 3️⃣ Helper to attach options to product
+        // --------------------------
+        $addOptionToProduct = function (Product $product, string $optionKey, array $pivot) use ($options) {
+            $optionData = $options[$optionKey];
+
+            $option = ProductOption::firstOrCreate([
+                'name' => $optionData['name'],
+                'type' => $optionData['type'],
+            ]);
+
+            if (!empty($optionData['values'])) {
+                foreach ($optionData['values'] as $valueData) {
+                    ProductOptionValue::firstOrCreate(
+                        ['product_option_id' => $option->id, 'value' => $valueData['value']],
+                        ['price' => $valueData['price'] ?? 0, 'is_default' => $valueData['is_default'] ?? false]
+                    );
+                }
+            }
+
+            $product->options()->syncWithoutDetaching([
+                $option->id => $pivot
+            ]);
+        };
+
+        // --------------------------
+        // 4️⃣ Attach options to products
+        // --------------------------
+
+        // Website Showcase
+        $addOptionToProduct($createdProducts['vitrine'], 'pages', [
+            'default_value' => '3',
+            'default_price' => 0,
+            'is_default_attached' => true
+        ]);
+        $addOptionToProduct($createdProducts['vitrine'], 'custom_design', [
+            'default_value' => '0',
+            'default_price' => 0,
+            'is_default_attached' => true
+        ]);
+        $addOptionToProduct($createdProducts['vitrine'], 'express_delivery', [
+            'default_value' => '0',
+            'default_price' => 0,
+            'is_default_attached' => false
+        ]);
+
+        // E-commerce Website
+        $addOptionToProduct($createdProducts['ecommerce'], 'initial_products', [
+            'default_value' => '10',
+            'default_price' => 0,
+            'is_default_attached' => true
+        ]);
+        $addOptionToProduct($createdProducts['ecommerce'], 'payment_integration', [
+            'default_value' => '1',
+            'default_price' => 0,
+            'is_default_attached' => true
+        ]);
+        $addOptionToProduct($createdProducts['ecommerce'], 'monthly_maintenance', [
+            'default_value' => '0',
+            'default_price' => 0,
+            'is_default_attached' => false
         ]);
     }
 }

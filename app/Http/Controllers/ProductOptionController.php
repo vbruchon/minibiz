@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\ProductOption;
 use App\Services\ProductOptionSearchFilterService;
 use Illuminate\Http\Request;
 
@@ -11,11 +13,11 @@ class ProductOptionController extends Controller
     {
         $productOptions = $service->handle($request);
 
-        $products = \App\Models\Product::where('type', 'package')
+        $products = Product::where('type', 'package')
             ->orderBy('name')
             ->pluck('name', 'id');
 
-        $types = \App\Models\ProductOption::select('type')
+        $types = ProductOption::select('type')
             ->distinct()
             ->pluck('type');
 
@@ -30,10 +32,15 @@ class ProductOptionController extends Controller
     }
 
 
-
     public function create()
     {
-        //
+        $products = Product::where('type', 'package')
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
+
+
+        return view('dashboard.products-options.create', ['products' => $products]);
     }
 
     public function store(Request $request)
