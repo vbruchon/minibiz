@@ -75,7 +75,7 @@
         <x-confirmation-delete-dialog
           :modelId="$option->id"
           modelName="productOption"
-          route="dashboard.products-options.index"
+          route="dashboard.products-options.delete"
           variant="ghost">
           <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
         </x-confirmation-delete-dialog>

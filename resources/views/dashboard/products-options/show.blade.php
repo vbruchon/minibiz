@@ -21,7 +21,7 @@
       <x-confirmation-delete-dialog
         :modelId="$productOption->id"
         modelName="product option"
-        route="dashboard.products-options.index"
+        route="dashboard.products-options.delete"
         variant="destructive">
         <div class="flex items-center gap-2 py-0.5">
           <x-heroicon-o-trash class="size-5" />

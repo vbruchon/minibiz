@@ -36,5 +36,6 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/{productOption}', [ProductOptionController::class, 'show'])->name('show');
         Route::get('/{productOption}/edit', [ProductOptionController::class, 'edit'])->name('edit');
         Route::put('/{productOption}', [ProductOptionController::class, 'update'])->name('update');
+        Route::delete('/{productOption}', [ProductOptionController::class, 'destroy'])->name('delete');
     });
 });

@@ -152,6 +152,18 @@ class ProductOptionController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $option = ProductOption::with('products', 'values')->findOrFail($id);
+
+        if ($option->products()->exists()) {
+            $option->products()->detach();
+        }
+
+        $option->values()->delete();
+
+        $option->delete();
+
+        return redirect()
+            ->route('dashboard.products-options.index')
+            ->with('success', 'Product option successfully deleted!');
     }
 }
