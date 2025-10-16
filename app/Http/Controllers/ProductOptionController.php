@@ -84,8 +84,17 @@ class ProductOptionController extends Controller
 
     public function show(string $id)
     {
-        //
+        $productOption = ProductOption::with([
+            'products',
+            'values'
+        ])->findOrFail($id);
+
+        return view('dashboard.products-options.show', [
+            'productOption' => $productOption,
+        ]);
     }
+
+
 
     public function edit(string $id)
     {

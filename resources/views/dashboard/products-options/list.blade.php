@@ -64,7 +64,7 @@
       </td>
 
       <td class="px-6 py-3 flex items-center gap-1">
-        <x-button :href="route('dashboard.products-options.index', $option->id)" variant="ghost" size="sm">
+        <x-button :href="route('dashboard.products-options.show', $option->id)" variant="ghost" size="sm">
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 

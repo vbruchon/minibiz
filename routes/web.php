@@ -32,7 +32,8 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::prefix('products-options')->name('products-options.')->group(function () {
         Route::get('/', [ProductOptionController::class, 'index'])->name('index');
         Route::get('/create', [ProductOptionController::class, 'create'])->name('create');
-        Route::post('/stroe', [ProductOptionController::class, 'store'])->name('store');
+        Route::post('/store', [ProductOptionController::class, 'store'])->name('store');
+        Route::get('/{productOption}', [ProductOptionController::class, 'show'])->name('show');
         Route::get('/{productOption}/edit', [ProductOptionController::class, 'edit'])->name('edit');
         Route::put('/{productOption}', [ProductOptionController::class, 'update'])->name('update');
     });
