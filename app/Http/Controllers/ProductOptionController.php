@@ -166,4 +166,13 @@ class ProductOptionController extends Controller
             ->route('dashboard.products-options.index')
             ->with('success', 'Product option successfully deleted!');
     }
+
+    public function syncOptions(Request $request, Product $product)
+    {
+        $optionIds = $request->input('options', []);
+
+        $product->options()->sync($optionIds);
+
+        return redirect()->back()->with('success', 'Options updated successfully!');
+    }
 }

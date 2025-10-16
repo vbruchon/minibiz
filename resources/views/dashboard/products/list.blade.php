@@ -62,18 +62,12 @@ $statusClasses = [
         </span>
       </td>
       <td class="px-6 py-3 flex items-center gap-1">
-        <!-- show -->
         <x-button :href="route('dashboard.products.show', $product->id)" variant="ghost" size="sm">
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
         <x-button :href="route('dashboard.products.edit', $product->id)" variant="ghost" size="sm">
           <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
-        </x-button>
-
-        <!-- settings options  -->
-        <x-button :href="route('dashboard.products.index')" variant="ghost" size="sm">
-          <x-heroicon-o-cog-6-tooth class="size-5 text-amber-400 hover:text-amber-500 transition opacity-0 group-hover:opacity-100" />
         </x-button>
 
         <x-confirmation-delete-dialog

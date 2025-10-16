@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductOption;
 use App\Services\ProductSearchFilterService;
 use Illuminate\Http\Request;
 
@@ -34,13 +35,21 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        $product = Product::find($id);
-        return view('dashboard.products.show', ['product' => $product]);
+        $product = Product::with(['options.values'])->findOrFail($id);
+
+        $allOptions = ProductOption::all();
+
+        return view('dashboard.products.show', [
+            'product' => $product,
+            'allOptions' => $allOptions,
+        ]);
     }
+
 
     public function edit(string $id)
     {
         $product = Product::find($id);
+
         return view('dashboard.products.edit', ['product' => $product]);
     }
 
