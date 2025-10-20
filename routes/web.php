@@ -37,7 +37,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/{productOption}/edit', [ProductOptionController::class, 'edit'])->name('edit');
         Route::put('/{productOption}', [ProductOptionController::class, 'update'])->name('update');
         Route::delete('/{productOption}', [ProductOptionController::class, 'destroy'])->name('delete');
-        Route::post('/dashboard/products/{product}/options-sync', [ProductOptionController::class, 'syncOptions'])
+        Route::post('/products/{product}/options-sync', [ProductOptionController::class, 'syncOptions'])
             ->name('sync');
     });
 });

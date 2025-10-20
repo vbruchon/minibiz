@@ -35,9 +35,11 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        $product = Product::with(['options.values'])->findOrFail($id);
+        $product = Product::findOrFail($id);
 
-        $allOptions = ProductOption::all();
+        $productOptions = $product->options()->with('values')->paginate(5);
+
+        $allOptions = ProductOption::paginate(5);
         $packageProducts = Product::where('type', 'package')
             ->orderBy('name')
             ->pluck('name', 'id');
@@ -45,6 +47,8 @@ class ProductController extends Controller
         return view('dashboard.products.show', [
             'product' => $product,
             'allOptions' => $allOptions,
+            'productOptions' => $productOptions,
+
             'packageProducts' => $packageProducts,
         ]);
     }

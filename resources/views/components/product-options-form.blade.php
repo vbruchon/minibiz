@@ -26,7 +26,7 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
 
 @endphp
 
-<form method="POST" action="{{ $action }}" id="productOptionForm" class="space-y-10 py-8 px-6 rounded-2xl bg-gray-900/50 shadow-lg">
+<form method="POST" action="{{ $action }}" id="productOptionForm" class="space-y-10 py-8 px-6">
     @csrf
     @if(in_array($method, ['PUT', 'PATCH']))
     @method($method)

@@ -7,9 +7,9 @@
   <title>@yield('title', 'MiniBiz Dashboard')</title>
   @vite('resources/css/app.css')
 
-  @yield('scripts')
 
   @stack('styles')
+
 </head>
 
 <body class="font-sans bg-gray-800 text-white">
@@ -54,6 +54,8 @@
   <main class="ml-56 p-8">
     @yield('content')
   </main>
+  @yield('scripts')
+  @stack('scripts')
 
 </body>
 

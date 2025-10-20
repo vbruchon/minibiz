@@ -5,10 +5,7 @@
 @section('content')
 <div class="mx-auto">
 
-  <x-button :href="route('dashboard.products-options.index')" variant="secondary" size="sm" class="flex items-center gap-2">
-    <x-heroicon-s-arrow-left class="size-4" />
-    Back
-  </x-button>
+  <x-back-button />
 
   <div class="mx-auto mt-2 p-8 flex items-center justify-between">
     <h1 class="text-3xl font-bold text-foreground">Product Option Details</h1>
