@@ -19,4 +19,22 @@ class ProductOption extends Model
   {
     return $this->hasMany(ProductOptionValue::class);
   }
+
+  public function getDefaultValueAttribute()
+  {
+    if (in_array($this->type, ['text', 'number'])) {
+      return $this->pivot->default_value ?? '-';
+    }
+
+    return optional($this->values->firstWhere('is_default', true))->value ?? '-';
+  }
+
+  public function getDefaultPriceAttribute()
+  {
+    if (in_array($this->type, ['text', 'number'])) {
+      return $this->pivot->default_price ?? 0;
+    }
+
+    return optional($this->values->firstWhere('is_default', true))->price ?? 0;
+  }
 }

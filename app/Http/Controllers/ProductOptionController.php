@@ -144,8 +144,7 @@ class ProductOptionController extends Controller
             }
         }
 
-        return redirect()->route('dashboard.products-options.index')
-            ->with('success', 'Product option successfully updated!');
+        return redirect()->back()->with('success', 'Product updated!');
     }
 
 

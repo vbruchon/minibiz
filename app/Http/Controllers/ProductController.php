@@ -38,10 +38,14 @@ class ProductController extends Controller
         $product = Product::with(['options.values'])->findOrFail($id);
 
         $allOptions = ProductOption::all();
+        $packageProducts = Product::where('type', 'package')
+            ->orderBy('name')
+            ->pluck('name', 'id');
 
         return view('dashboard.products.show', [
             'product' => $product,
             'allOptions' => $allOptions,
+            'packageProducts' => $packageProducts,
         ]);
     }
 

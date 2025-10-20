@@ -29,40 +29,25 @@
 <div class="overflow-x-auto bg-gray-800/50 rounded-lg shadow-lg">
   <x-table
     :headers="[
-            ['label' => 'Name', 'sortable' => true, 'column' => 'name'],
-            ['label' => 'Type', 'sortable' => true, 'column' => 'type'],
-            ['label' => 'Default Value'],
-            ['label' => 'Default Price', 'sortable' => true, 'column' => 'default_price'],
-            ['label' => 'Product', 'sortable' => true, 'column' => 'product_id'],
-            ['label' => 'Actions'],
-        ]"
+        ['label' => 'Name', 'sortable' => true, 'column' => 'name'],
+        ['label' => 'Type', 'sortable' => true, 'column' => 'type'],
+        ['label' => 'Default Value'],
+        ['label' => 'Default Price', 'sortable' => true, 'column' => 'default_price'],
+        ['label' => 'Product', 'sortable' => true, 'column' => 'product_id'],
+        ['label' => 'Actions'],
+    ]"
     route="dashboard.products-options.index"
     :rowsCount="$productOptions->count()">
 
     @foreach ($productOptions as $option)
-
-    @php
-    $defaultPivot = $option->products->first()?->pivot;
-    if (in_array($option->type, ['text', 'number'])) {
-    $defaultValue = $option->products->first()?->pivot->default_value ?? '—';
-    $defaultPrice = $option->products->first()?->pivot->default_price ?? 0;
-    } else {
-    $defaultValObj = $option->values->firstWhere('is_default', true);
-    $defaultValue = $defaultValObj->value ?? '—';
-    $defaultPrice = $defaultValObj->price ?? 0;
-    }
-    @endphp
-
     <tr class="hover:bg-gray-700/40 transition-colors group">
       <td class="px-6 py-3 text-gray-200 font-medium">{{ $option->name }}</td>
       <td class="px-6 py-3 text-gray-300 capitalize">{{ ucfirst(str_replace('_', ' ', $option->type)) }}</td>
-      <td class="px-6 py-3 text-gray-300">{{ $defaultValue }}</td>
-      <td class="px-6 py-3 text-gray-300">{{ number_format($defaultPrice, 2) }} €</td>
-
+      <td class="px-6 py-3 text-gray-300">{{ $option->default_value }}</td>
+      <td class="px-6 py-3 text-gray-300">{{ number_format($option->default_price, 2) }} €</td>
       <td class="px-6 py-3 text-gray-300">
         {{ $option->products->pluck('name')->join(', ') ?: '—' }}
       </td>
-
       <td class="px-6 py-3 flex items-center gap-1">
         <x-button :href="route('dashboard.products-options.show', $option->id)" variant="ghost" size="sm">
           <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
@@ -83,6 +68,7 @@
     </tr>
     @endforeach
   </x-table>
+
 </div>
 
 @if(session('success'))

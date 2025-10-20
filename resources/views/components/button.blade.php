@@ -4,6 +4,7 @@
 'variant' => 'default', // default | primary | outline | secondary | ghost | destructive
 'size' => 'md', // sm | md | lg
 'disabled' => false,
+'class' => null
 ])
 
 @php
@@ -37,14 +38,16 @@ $classes = trim("{$base} {$variantClass} {$sizeClass} {$disabledClass}");
 <a
   href="{{ $disabled ? '#' : $href }}"
   @if($disabled) aria-disabled="true" tabindex="-1" onclick="event.preventDefault();" @endif
-  {{ $attributes->merge(['class' => $classes]) }}>
+  class="{{ $classes }} {{ $class ?? '' }}"
+  {{ $attributes }}>
   {{ $slot }}
 </a>
 @else
 <button
   type="{{ $type }}"
   @if($disabled) disabled @endif
-  {{ $attributes->merge(['class' => $classes]) }}>
+  class="{{ $classes }} {{ $class ?? '' }}"
+  {{ $attributes }}>
   {{ $slot }}
 </button>
 @endif
