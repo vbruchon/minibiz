@@ -2,11 +2,16 @@
 'action' => route('dashboard.products-options.store'),
 'method' => 'POST',
 'option' => null,
-'products' => []
+'products' => [],
+'selectedProductId' => null,
 ])
 
 @php
-$selectedProductId = old('product_id') ?? $option?->products->first()?->id ?? null;
+$selectedProductId = $selectedProductId
+?? old('product_id')
+?? $option?->products->first()?->id
+?? null;
+
 $defaultValue = old('default_value')
 ?? $option?->products->first()?->pivot->default_value
 ?? null;
@@ -16,14 +21,15 @@ $defaultPrice = old('default_price')
 ?? 0;
 
 $values = old('values')
-?? ($option?->values->map(fn($v, $i) => [
+?? ($option?->values->map(fn($v) => [
+'id' => $v->id,
 'value' => $v->value,
 'price' => $v->price,
 'is_default' => $v->is_default,
 ])->toArray() ?? []);
 
-$defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_default) ?? null);
-
+$defaultIndex = old('default_index')
+?? collect($values)->firstWhere('is_default', true)['id'] ?? null;
 @endphp
 
 <form method="POST" action="{{ $action }}" id="productOptionForm" class="space-y-10 py-8 px-6">
@@ -33,7 +39,7 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
     @endif
 
     <x-form.section title="Product Option Details" class="space-y-6" :separator="false">
-
+        {{-- Associated Products --}}
         <div class="mb-8">
             <label class="block mb-2 font-semibold text-gray-200">Associated Products</label>
             <div class="flex items-center flex-wrap gap-6 ml-4">
@@ -44,19 +50,20 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
                         name="product_id[]"
                         value="{{ $id }}"
                         id="product_{{ $id }}"
-                        @if(in_array($id, old('product_id', $option?->products->pluck('id')->toArray() ?? []))) checked @endif
+                        @if( ($selectedProductId && $selectedProductId==$id) ||
+                            in_array($id, old('product_id', $option?->products->pluck('id')->toArray() ?? []))
+                        ) checked @endif
                     class="w-4 h-4 rounded border-gray-600 bg-gray-700 focus:ring-2 focus:ring-primary">
                     <span>{{ $name }}</span>
                 </label>
                 @endforeach
             </div>
-
             @error('product_id')
             <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
             @enderror
         </div>
 
-
+        {{-- Option Name & Type --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <x-form.input
                 label="Option Name"
@@ -71,16 +78,16 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
                 required
                 :selected="old('type', $option?->type)"
                 :options="[
-        'choose' => 'Choose a type',
-        'text' => 'Text',
-        'number' => 'Number',
-        'checkbox' => 'Checkbox',
-        'select' => 'Select (multiple values)',
-    ]"
+                    'choose' => 'Choose a type',
+                    'text' => 'Text',
+                    'number' => 'Number',
+                    'checkbox' => 'Checkbox',
+                    'select' => 'Select (multiple values)',
+                ]"
                 class="w-full" />
-
         </div>
 
+        {{-- Default value for text/number --}}
         <div id="default-value-wrapper" class="grid grid-cols-1 md:grid-cols-2 gap-4" style="display: none;">
             <x-form.input
                 label="Value"
@@ -88,7 +95,6 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
                 :value="$defaultValue"
                 placeholder="ex: yes / 5 / blue"
                 class="w-full" />
-
             <x-form.input
                 label="Price (€)"
                 name="default_price"
@@ -99,20 +105,21 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
                 class="w-full" />
         </div>
 
+        {{-- Values for select/checkbox --}}
         <div id="valuesContainer" class="space-y-2" style="display:none;">
             <label class="block text-gray-300 font-medium">Values</label>
             <div id="valuesList" class="space-y-2">
-                @if(isset($option) && $option->values)
-                @foreach($option->values as $index => $value)
+                @if(!empty($values))
+                @foreach($values as $value)
                 <div class="flex gap-2 items-center">
-                    <input type="text" name="values[{{ $index }}][value]" value="{{ $value['value'] }}"
+                    <input type="text" name="values[{{ $value['id'] }}][value]" value="{{ $value['value'] }}"
                         placeholder="Value"
                         class="w-1/3 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-                    <input type="number" name="values[{{ $index }}][price]" value="{{ $value['price'] ?? 0 }}" step="0.01"
+                    <input type="number" name="values[{{ $value['id'] }}][price]" value="{{ $value['price'] ?? 0 }}" step="0.01"
                         placeholder="Price (€)"
                         class="w-1/4 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-                    <input type="radio" name="default_index" value="{{ $index }}" title="Default" class="cursor-pointer"
-                        {{ $index == $defaultIndex ? 'checked' : '' }} />
+                    <input type="radio" name="default_index" value="{{ $value['id'] }}" title="Default" class="cursor-pointer"
+                        {{ $value['id'] == $defaultIndex ? 'checked' : '' }} />
                     <x-button type="button" variant="ghost" size="sm"
                         class="!py-1 !text-3xl !text-destructive hover:!text-destructive/70 removeValue">×</x-button>
                 </div>
@@ -129,8 +136,6 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
                 </div>
                 @endif
             </div>
-
-
             <x-button type="button" id="addValueBtn" variant="ghost" size="md" class="!text-blue-500 hover:!text-blue-700 !px-0">
                 + Add Value
             </x-button>
@@ -138,6 +143,7 @@ $defaultIndex = old('default_index', $option?->values->search(fn($v) => $v->is_d
 
     </x-form.section>
 
+    {{-- Submit --}}
     <div class="flex justify-end mt-8 mr-8">
         <x-button type="submit" variant="primary">
             {{ $option ? 'Update Option' : 'Create Option' }}

@@ -35,14 +35,21 @@
     {{-- Manage Options Button --}}
 
     <div class="mt-4 flex items-center justify-between">
-      <x-button
-        type="button"
-        variant="outline"
-        size="sm"
-        id="manageOptionsBtn"
-        class="!text-gray-400">
-        <x-heroicon-o-cog class="size-6" /> Manage Options
-      </x-button>
+
+      <div class="flex gap-2 mt-4">
+        <x-button
+          type="button"
+          variant="outline"
+          size="sm"
+          id="manageOptionsBtn">
+          <x-heroicon-o-cog class="size-6" /> Manage Options
+        </x-button>
+
+        <x-button type="button" id="addOptionBtn" variant="ghost" size="sm" class="!text-blue-500 hover:!text-blue-700 !px-0">
+          + Add Option
+        </x-button>
+      </div>
+
 
       {{ $productOptions->links() }}
     </div>

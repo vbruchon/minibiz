@@ -75,9 +75,7 @@ class ProductOptionController extends Controller
                 ]);
             }
         }
-
-        return redirect()->route('dashboard.products-options.index')
-            ->with('success', 'Product option successfully added!');
+        return redirect()->back()->with('success', 'Product option successfully added!');
     }
 
 

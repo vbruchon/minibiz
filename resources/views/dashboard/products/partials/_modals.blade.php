@@ -4,6 +4,7 @@
 @endforeach
 
 @include('dashboard.products.partials._manage_options_modal')
+@include('dashboard.products.partials._add_option_modal')
 
 {{-- Containers pour injection dynamique --}}
 <x-modal id="productOptionModal">
