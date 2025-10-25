@@ -35,7 +35,7 @@ class ProductController extends Controller
 
     public function show(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with(['options.values'])->findOrFail($id);
 
         $productOptions = $product->options()->with('values')->paginate(5);
 

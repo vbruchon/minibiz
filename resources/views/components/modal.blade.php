@@ -1,50 +1,84 @@
-<div id="{{ $id }}" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
-    <div class="bg-gray-800 rounded-lg shadow-lg max-w-4xl w-full p-6 relative">
-        <button id="{{ $id }}-close" class="absolute top-3 right-3 text-gray-400 hover:text-gray-200">✕</button>
+@props([
+'id',
+'showCloseBtn' => true,
+'size' => 'max-w-3xl',
+])
 
-        <div id="{{ $id }}-content">
+<div
+    id="{{ $id }}"
+    class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50"
+    data-modal>
+    <div
+        class="bg-gray-800 rounded-2xl shadow-xl w-full {{ $size }} mx-4 p-6 relative"
+        data-modal-dialog>
+        @if ($showCloseBtn)
+        <button
+            type="button"
+            class="absolute top-3 right-3 text-gray-400 hover:text-gray-200 text-2xl"
+            data-modal-close>
+            ✕
+        </button>
+        @endif
+
+        <div class="modal-content">
             {{ $slot }}
         </div>
     </div>
 </div>
 
+@once
+@push('scripts')
 <script>
-    (function() {
-        const modal = document.getElementById('{{ $id }}');
-        const modalContent = document.getElementById('{{ $id }}-content');
-        const closeBtn = document.getElementById('{{ $id }}-close');
+    window.ModalSystem = {
+        init() {
+            const modals = document.querySelectorAll('[data-modal]');
 
-        closeBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        });
+            const openModal = (id) => {
+                const modal = document.getElementById(id);
+                if (!modal) return;
 
-        modal.addEventListener('click', e => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        });
-
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        });
-
-        document.querySelectorAll(`[data-modal-target="{{ $id }}"]`).forEach(btn => {
-            btn.addEventListener('click', () => {
-                const contentId = btn.dataset.modalContentId;
-                if (contentId) {
-                    const template = document.getElementById(contentId);
-                    if (template) {
-                        modalContent.innerHTML = template.innerHTML;
-                    }
+                // Run content-specific JS
+                if (typeof window.initModalContent === 'function') {
+                    window.initModalContent(modal.querySelector('.modal-content'));
                 }
+
+                modals.forEach((m) => m.classList.add('hidden'));
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
+            };
+
+            const closeModal = (modal) => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            };
+
+            // open button
+            document.querySelectorAll('[data-modal-target]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    openModal(btn.dataset.modalTarget);
+                });
             });
-        });
-    })();
+
+            modals.forEach((modal) => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal(modal);
+                });
+                modal.querySelectorAll('[data-modal-close]').forEach((btn) => {
+                    btn.addEventListener('click', () => closeModal(modal));
+                });
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    modals.forEach((modal) => closeModal(modal));
+                }
+            });
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        window.ModalSystem.init();
+    });
 </script>
+@endpush
+@endonce

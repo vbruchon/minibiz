@@ -23,7 +23,7 @@
           type="button"
           variant="secondary"
           size="sm"
-          data-action="back-to-show">
+          data-modal-close>
           Cancel
         </x-button>
 
