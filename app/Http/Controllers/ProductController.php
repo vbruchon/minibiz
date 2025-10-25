@@ -39,7 +39,7 @@ class ProductController extends Controller
 
         $productOptions = $product->options()->with('values')->paginate(5);
 
-        $allOptions = ProductOption::paginate(5);
+        $allOptions = ProductOption::all();
         $packageProducts = Product::where('type', 'package')
             ->orderBy('name')
             ->pluck('name', 'id');

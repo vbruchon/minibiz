@@ -75,7 +75,11 @@ class ProductOptionController extends Controller
                 ]);
             }
         }
-        return redirect()->back()->with('success', 'Product option successfully added!');
+
+        $redirectTo = $request->input('redirect_to', route('dashboard.products-options.index'));
+
+        return redirect($redirectTo)
+            ->with('success', 'Product option successfully added!');
     }
 
 
@@ -142,7 +146,10 @@ class ProductOptionController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Product updated!');
+        $redirectTo = $request->input('redirect_to', route('dashboard.products-options.index'));
+
+        return redirect($redirectTo)
+            ->with('success', 'Product option successfully added!');
     }
 
 

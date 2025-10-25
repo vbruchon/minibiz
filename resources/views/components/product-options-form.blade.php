@@ -6,7 +6,11 @@
 'selectedProductId' => null,
 ])
 
+@aware(['context' => 'option'])
+
 @php
+use Illuminate\Support\Str;
+
 $selectedProductId = $selectedProductId
 ?? old('product_id')
 ?? $option?->products->first()?->id
@@ -20,8 +24,6 @@ $defaultPrice = old('default_price')
 ?? $option?->products->first()?->pivot->default_price
 ?? 0;
 
-
-
 $values = old('values')
 ?? (collect($option?->values ?? [])->map(fn($v) => [
 'id' => $v['id'] ?? $v->id,
@@ -33,7 +35,25 @@ $values = old('values')
 $defaultIndex = old('default_index')
 ?? collect($values)->firstWhere('is_default', true)['id'] ?? null;
 
+// Automatic redirection determination
+switch ($context) {
+case 'product':
+if (isset($option) && $option->products->first()) {
+$redirectTo = route('dashboard.products.show', $option->products->first()->id);
+} elseif (isset($selectedProductId)) {
+$redirectTo = route('dashboard.products.show', $selectedProductId);
+} else {
+$redirectTo = url()->previous();
+}
+break;
+
+case 'option':
+default:
+$redirectTo = route('dashboard.products-options.index');
+break;
+}
 @endphp
+
 
 <form method="POST" action="{{ $action }}" data-form="product-option" class="space-y-10 py-8 px-6">
     @csrf
@@ -42,7 +62,6 @@ $defaultIndex = old('default_index')
     @endif
 
     <x-form.section title="Product Option Details" class="space-y-6" :separator="false">
-        {{-- Associated Products --}}
         <div class="mb-8">
             <label class="block mb-2 font-semibold text-gray-200">Associated Products</label>
             <div class="flex items-center flex-wrap gap-6 ml-4">
@@ -66,7 +85,6 @@ $defaultIndex = old('default_index')
             @enderror
         </div>
 
-        {{-- Option Name & Type --}}
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <x-form.input
                 label="Option Name"
@@ -143,16 +161,18 @@ $defaultIndex = old('default_index')
                 + Add Value
             </x-button>
         </div>
-
     </x-form.section>
 
-    {{-- Submit --}}
     <div class="flex justify-end mt-8 mr-8">
         <x-button type="submit" variant="primary" size="sm">
             {{ $option ? 'Update Option' : 'Create Option' }}
         </x-button>
     </div>
+
+    {{-- Redirect automatique --}}
+    <input type="hidden" name="redirect_to" value="{{ $redirectTo }}">
 </form>
+
 
 <script>
     window.initProductOptionForm = (container = document) => {
@@ -191,11 +211,11 @@ $defaultIndex = old('default_index')
             const div = document.createElement('div');
             div.className = 'flex gap-2 items-center';
             div.innerHTML = `
-            <input type="text" name="values[${index}][value]" placeholder="Value" class="w-1/3 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-            <input type="number" name="values[${index}][price]" placeholder="Price (€)" step="0.01" class="w-1/4 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-            <input type="radio" name="default_index" value="${index}" title="Default" class="cursor-pointer" />
-            <x-button type="button" variant="ghost" size="sm" class="!py-1 !text-3xl !text-destructive hover:!text-destructive/70 removeValue">×</x-button>
-        `;
+                <input type="text" name="values[${index}][value]" placeholder="Value" class="w-1/3 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
+                <input type="number" name="values[${index}][price]" placeholder="Price (€)" step="0.01" class="w-1/4 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
+                <input type="radio" name="default_index" value="${index}" title="Default" class="cursor-pointer" />
+                <x-button type="button" variant="ghost" size="sm" class="!py-1 !text-3xl !text-destructive hover:!text-destructive/70 removeValue">×</x-button>
+            `;
             valuesList.appendChild(div);
             attachRemoveEvent(div.querySelector('.removeValue'));
         });
@@ -205,49 +225,3 @@ $defaultIndex = old('default_index')
         window.initProductOptionForm();
     });
 </script>
-
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const typeSelect = document.querySelector('select[name="type"]');
-        const valuesContainer = document.getElementById('valuesContainer');
-        const valuesList = document.getElementById('valuesList');
-        const addValueBtn = document.getElementById('addValueBtn');
-        const defaultValueWrapper = document.getElementById('default-value-wrapper');
-
-        const toggleFields = () => {
-            const type = typeSelect.value;
-            defaultValueWrapper.style.display = ['text', 'number'].includes(type) ? 'grid' : 'none';
-            valuesContainer.style.display = ['select', 'checkbox'].includes(type) ? 'block' : 'none';
-        };
-
-        typeSelect.addEventListener('change', toggleFields);
-        toggleFields();
-
-        const attachRemoveEvent = (btn) => {
-            btn.addEventListener('click', () => {
-                btn.parentElement.remove();
-                Array.from(valuesList.children).forEach((div, i) => {
-                    div.querySelector('input[type="text"]').name = `values[${i}][value]`;
-                    div.querySelector('input[type="number"]').name = `values[${i}][price]`;
-                    div.querySelector('input[type="radio"]').value = i;
-                });
-            });
-        };
-
-        Array.from(valuesList.querySelectorAll('.removeValue')).forEach(attachRemoveEvent);
-
-        addValueBtn.addEventListener('click', () => {
-            const index = valuesList.children.length;
-            const div = document.createElement('div');
-            div.className = 'flex gap-2 items-center';
-            div.innerHTML = `
-            <input type="text" name="values[${index}][value]" placeholder="Value" class="w-1/3 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-            <input type="number" name="values[${index}][price]" placeholder="Price (€)" step="0.01" class="w-1/4 rounded-lg bg-gray-800 border border-gray-700 text-gray-200 p-2" />
-            <input type="radio" name="default_index" value="${index}" title="Default" class="cursor-pointer" />
-            <x-button type="button" variant="ghost" size="sm" class="!py-1 !text-3xl !text-destructive hover:!text-destructive/70 removeValue">×</x-button>
-        `;
-            valuesList.appendChild(div);
-            attachRemoveEvent(div.querySelector('.removeValue'));
-        });
-    });
-</script> -->
