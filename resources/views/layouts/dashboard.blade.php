@@ -23,6 +23,13 @@
     <nav>
       <ul class="space-y-2 list-none">
         <li>
+          <a href="{{ route('dashboard.company-settings.index') }}"
+            class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
+            <x-heroicon-s-building-storefront class="size-6" />
+            Mon Entreprise
+          </a>
+        </li>
+        <li>
           <a href="{{ route('dashboard.customers.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-user-group class="size-6" />

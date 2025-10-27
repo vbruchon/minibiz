@@ -30,7 +30,7 @@ $variantClass = $variants[$variant] ?? $variants['default'];
 $sizeClass = $sizes[$size] ?? $sizes['sm'];
 $disabledClass = $disabled ? 'opacity-50 pointer-events-none' : '';
 
-$classes = trim("{$base} {$variantClass} {$sizeClass} {$disabledClass}");
+$classes = trim("{$base} {$variantClass} {$sizeClass} {$disabledClass} transition-all duration-300");
 @endphp
 
 

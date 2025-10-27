@@ -1,12 +1,10 @@
 @props([
 'label',
 'name',
-'type' => 'text',
+'rows' => 4,
 'value' => null,
 'required' => false,
 'optional' => false,
-'placeholder' => null,
-'id' => null
 ])
 
 <div {{ $attributes->merge(['class' => '']) }}>
@@ -17,16 +15,11 @@
     @endif
   </label>
 
-  <input
-    type="{{ $type }}"
+  <textarea
     name="{{ $name }}"
-    value="{{ old($name, $value) }}"
+    rows="{{ $rows }}"
     @if($required) required @endif
-    @if($id) id="{{$id}}" @endif
-
-    @if($placeholder) placeholder="{{$placeholder}}" @endif
-
-    class="w-full px-4 py-2 text-foreground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
+    class="w-full px-4 py-2 text-foreground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">{{ old($name, $value) }}</textarea>
 
   @error($name)
   <p class="mt-1 text-sm text-destructive">{{ $message }}</p>

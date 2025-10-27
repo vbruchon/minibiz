@@ -3,30 +3,12 @@
 'message' => '',
 ])
 
-<style>
-    .toast {
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        color: white;
-        padding: 12px 20px;
-        border-radius: 6px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-        font-weight: 500;
-        z-index: 9999;
-        transition: opacity 0.5s ease;
-    }
-
-    .toast-success {
-        background-color: #16a34a;
-    }
-
-    .toast-error {
-        background-color: #dc2626;
-    }
-</style>
 @if($message)
-<div id="toast" class="toast {{ $type === 'success' ? 'toast-success' : 'toast-error' }}">
+<div
+    id="toast"
+    class="fixed bottom-5 right-5 z-[9999] text-white font-medium
+           px-5 py-3 rounded-md shadow-lg transition-opacity duration-500
+           {{ $type === 'success' ? 'bg-primary' : 'bg-destructive' }}">
     {{ $message }}
 </div>
 

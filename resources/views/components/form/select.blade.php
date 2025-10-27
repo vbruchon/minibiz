@@ -11,7 +11,7 @@
   <label class="block mb-2 font-semibold text-gray-200">
     {{ $label }}
     @if($optional)
-    <span class="text-sm font-normal text-gray-400">(optional)</span>
+    <span class="text-sm font-normal text-gray-400">(optionnel)</span>
     @endif
   </label>
 
