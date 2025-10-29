@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 
 use Database\Seeders\CustomersTableSeeder;
 use Database\Seeders\ProductTableSeeder;
+use Database\Seeders\BillSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -18,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CustomersTableSeeder::class,
             ProductTableSeeder::class,
+            BillSeeder::class,
         ]);
     }
 }

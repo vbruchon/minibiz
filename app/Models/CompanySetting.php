@@ -29,6 +29,12 @@ class CompanySetting extends Model
         'default_tax_rate' => 'float',
     ];
 
+    public function bills()
+    {
+        return $this->hasMany(Bill::class);
+    }
+
+
     public function getFullAddressAttribute(): string
     {
         $parts = array_filter([
