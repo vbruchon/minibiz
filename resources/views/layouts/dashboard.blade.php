@@ -33,25 +33,27 @@
           <a href="{{ route('dashboard.customers.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-user-group class="size-6" />
-            Customers
+            Clients
           </a>
         </li>
         <li>
           <a href="{{ route('dashboard.products.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-s-cube class="size-6" />
-            Products
+            Produits
           </a>
         </li>
         <li>
           <a href="{{ route('dashboard.products-options.index') }}"
             class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
             <x-heroicon-o-adjustments-horizontal class="size-6" />
-            Products Options
+            Options produit
           </a>
         </li>
         <li>
-          <a href="#" class="block px-3 py-2 rounded hover:bg-gray-700">Orders</a>
+          <a href="{{ route('dashboard.bills.index') }}" class="flex gap-2 items-center p-3 rounded hover:bg-gray-700">
+            <x-heroicon-s-document-currency-euro class="size-6" />
+            Facturation</a>
         </li>
       </ul>
     </nav>
