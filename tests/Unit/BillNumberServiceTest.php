@@ -82,7 +82,7 @@ class BillNumberServiceTest extends TestCase
 
         for ($i = 0; $i < 3; $i++) {
             $next = $this->service->generate('quote');
-            $this->createQuote($next); // 🧩 on simule la création du devis à chaque itération
+            $this->createQuote($next);
             $numbers[] = $next;
         }
 
