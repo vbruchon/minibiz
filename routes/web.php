@@ -14,6 +14,9 @@ Route::get('/', function () {
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::prefix('bills')->name('bills.')->group(function () {
         Route::get('/', [BillController::class, 'index'])->name('index');
+        Route::get('/create', [BillController::class, 'create'])->name('create');
+        Route::patch('/{bill}/status', [BillController::class, 'updateStatus'])
+            ->name('update-status');
     });
 
     Route::prefix('company-setup')->name('company-settings.')->group(function () {

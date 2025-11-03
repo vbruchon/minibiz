@@ -6,10 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@yield('title', 'MiniBiz Dashboard')</title>
   @vite('resources/css/app.css')
-
-
+  @yield('head')
   @stack('styles')
-
 </head>
 
 <body class="font-sans bg-gray-800 text-white">

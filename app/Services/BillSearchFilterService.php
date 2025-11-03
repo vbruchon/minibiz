@@ -19,7 +19,8 @@ class BillSearchFilterService
     $query = Bill::query()
       ->leftJoin('customers', 'bills.customer_id', '=', 'customers.id')
       ->select('bills.*')
-      ->with('customer');
+      ->with('customer')
+      ->orderBy('issue_date', 'desc');
 
     if ($request->filled('type')) {
       $query->where('bills.type', $request->type);

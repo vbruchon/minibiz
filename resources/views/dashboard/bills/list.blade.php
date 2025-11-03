@@ -9,9 +9,9 @@
   <div class="flex items-center justify-between mb-8">
     <h1 class="text-3xl font-bold text-foreground">Facturation</h1>
 
-    <x-button :href="route('dashboard.bills.index')" variant="primary" size="sm" class="flex items-center gap-2">
+    <x-button :href="route('dashboard.bills.create')" variant="primary" size="sm" class="flex items-center gap-2">
       <x-heroicon-o-plus class="size-4" />
-      New Bill
+      Créer un devis
     </x-button>
   </div>
 

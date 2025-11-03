@@ -23,10 +23,9 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
     <x-bill-type-badge :type="$bill->type" />
   </td>
 
-  <td class="px-6 py-3">
-    <span class="block w-28 text-center px-3 py-1.5 text-sm rounded-md border {{ $statusColor }}">
-      {{ ucfirst($bill->status->value) }}
-    </span>
+  <td class="px-6 py-3 relative">
+    <x-bill-status-badge :bill="$bill" />
+
   </td>
 
   <td class="px-6 py-3 text-gray-300">
