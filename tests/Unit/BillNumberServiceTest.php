@@ -2,10 +2,11 @@
 
 namespace Tests\Unit\Services;
 
+use Tests\TestCase;
+use Tests\Support\BillTestHelper;
 use App\Models\Bill;
 use App\Models\CompanySetting;
 use App\Models\Customer;
-use Tests\TestCase;
 use App\Services\BillNumberService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -13,6 +14,8 @@ use PHPUnit\Framework\Attributes\Test;
 class BillNumberServiceTest extends TestCase
 {
     use RefreshDatabase;
+    use BillTestHelper;
+
 
     protected BillNumberService $service;
     protected Customer $customer;
@@ -151,28 +154,5 @@ class BillNumberServiceTest extends TestCase
         $number = $this->service->generate('quote');
 
         $this->assertEquals("D" . now()->year . "-0005", $number);
-    }
-
-    protected function createQuote(string $number): Bill
-    {
-        // Extract year
-        preg_match('/D(\d{4})-/', $number, $matches);
-        $year = $matches[1] ?? now()->year;
-
-        $issueDate = ($year == now()->year)
-            ? now()
-            : now()->copy()->setDate($year, 6, 15);
-
-        return Bill::create([
-            'type' => 'quote',
-            'number' => $number,
-            'status' => 'draft',
-            'subtotal' => 100,
-            'tax_total' => 0,
-            'total' => 100,
-            'issue_date' => $issueDate,
-            'customer_id' => $this->customer->id,
-            'company_setting_id' => $this->company->id,
-        ]);
     }
 }
