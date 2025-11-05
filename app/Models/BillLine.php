@@ -35,4 +35,12 @@ class BillLine extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function selectedOptions()
+    {
+        return $this->belongsToMany(
+            ProductOptionValue::class,
+            'bill_line_option_values'
+        );
+    }
 }
