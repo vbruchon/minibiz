@@ -1,7 +1,6 @@
-export function renderProductOptions(container, product, productId) {
+export function renderProductOptions(container, product, productId, lineIndex) {
     container.innerHTML = "";
 
-    // Cas 1 : produit avec options
     if (product.type === "package") {
         const opts = product.options || [];
         const optionTpl = document.getElementById("bill-option-template");
@@ -18,7 +17,7 @@ export function renderProductOptions(container, product, productId) {
             "Système de paiement",
         ];
 
-        opts.forEach((opt) => {
+        opts.forEach((opt, optIndex) => {
             const fieldset = optionTpl.content.cloneNode(true);
             fieldset.querySelector("[data-option-name]").textContent = opt.name;
             const valuesContainer = fieldset.querySelector(
@@ -26,39 +25,55 @@ export function renderProductOptions(container, product, productId) {
             );
             const isSingle = singleChoice.includes(opt.name);
 
+            const groupName = isSingle
+                ? `lines[${lineIndex}][selected_group_${optIndex}]`
+                : `lines[${lineIndex}][selected_options][]`;
+
             opt.values.forEach((v) => {
-                let html = valueTpl.innerHTML
+                const html = valueTpl.innerHTML
                     .replace("{type}", isSingle ? "radio" : "checkbox")
-                    .replace(
-                        "{name}",
-                        isSingle
-                            ? `option_${opt.name
-                                  .replace(/\s+/g, "_")
-                                  .toLowerCase()}_${productId}`
-                            : "lines[][options][]"
-                    )
+                    .replace("{name}", groupName)
                     .replace("{value}", v.id)
                     .replace("{price}", v.price)
                     .replace("{checked}", v.is_default ? "checked" : "")
                     .replace(
                         "{label}",
                         `${v.value}${
-                            v.price > 0 ? " (+" + v.price + " €)" : ""
+                            v.price > 0
+                                ? " (+" + Number(v.price).toFixed(2) + " €)"
+                                : ""
                         }`
                     );
+
                 valuesContainer.insertAdjacentHTML("beforeend", html);
             });
+
+            if (isSingle) {
+                valuesContainer.addEventListener("change", (e) => {
+                    if (e.target.matches('input[type="radio"]')) {
+                        container
+                            .querySelectorAll(
+                                `input[name="lines[${lineIndex}][selected_options][]"][data-group="${optIndex}"]`
+                            )
+                            .forEach((el) => el.remove());
+
+                        const hiddenInput = document.createElement("input");
+                        hiddenInput.type = "hidden";
+                        hiddenInput.name = `lines[${lineIndex}][selected_options][]`;
+                        hiddenInput.value = e.target.value;
+                        hiddenInput.dataset.group = optIndex;
+                        container.appendChild(hiddenInput);
+                    }
+                });
+            }
 
             gridWrapper.appendChild(fieldset);
         });
 
         container.appendChild(gridWrapper);
-    }
-
-    // Cas 2 : produit standard → champ description
-    else {
+    } else {
         const desc = document.createElement("textarea");
-        desc.name = "lines[][description]";
+        desc.name = `lines[${lineIndex}][description]`;
         desc.rows = 3;
         desc.placeholder = "Description du produit...";
         desc.className =

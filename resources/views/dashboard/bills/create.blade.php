@@ -16,7 +16,7 @@
     <h1 class="text-3xl font-bold text-center">Créer un devis</h1>
   </div>
 
-  <form action="#" method="POST" class="mx-auto max-w-6xl space-y-10 bg-gradient-to-br from-gray-900/60 to-gray-800/60 
+  <form id="bill-form" action="{{ route('dashboard.bills.store')}}" method="POST" class="mx-auto max-w-6xl space-y-10 bg-gradient-to-br from-gray-900/60 to-gray-800/60 
          rounded-2xl p-10 shadow-2xl backdrop-blur-md border border-white/10
          transition-all duration-300 hover:border-primary/30" id="quote-form">
     @csrf

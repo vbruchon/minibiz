@@ -7,7 +7,13 @@
 
 <template id="bill-option-value-template">
   <label class="flex items-center gap-2 text-sm text-gray-200 mb-1" data-option-value>
-    <input type="{type}" name="{name}" value="{value}" data-price="{price}" class="accent-primary" {checked}>
+    <input
+      type="{type}"
+      name="{name}"
+      value="{value}"
+      data-price="{price}"
+      class="accent-primary"
+      {checked}>
     <span>{label}</span>
   </label>
 </template>

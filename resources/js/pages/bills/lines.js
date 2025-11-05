@@ -24,16 +24,22 @@ export function initQuoteLineEvents(
 }
 
 export function addQuoteLine() {
-    const tpl = document
-        .getElementById("bill-line-template")
-        .content.cloneNode(true);
-    document.getElementById("quote-lines").appendChild(tpl);
+    const container = document.getElementById("quote-lines");
+    const tpl = document.getElementById("bill-line-template").innerHTML;
+    const index = container.querySelectorAll("[data-line]").length;
+
+    const html = tpl.replaceAll("{lineIndex}", index);
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = html.trim();
+    container.appendChild(wrapper.firstElementChild);
+
     initQuoteLineEvents(
         window.productPrices,
         window.productOptions,
         window.hasVAT,
         window.vatRate
     );
+    updateTotals(window.hasVAT, window.vatRate);
 }
 
 function onProductChange(e, productPrices, productOptions, hasVAT, vatRate) {
@@ -47,9 +53,7 @@ function onProductChange(e, productPrices, productOptions, hasVAT, vatRate) {
     const optionsContainer = lineWrapper.querySelector(
         "[data-options-container]"
     );
-    console.debug("GRID FOUND?", grid);
-    console.debug("PRICE INPUT?", priceInput);
-    console.debug("QTY INPUT?", qtyInput);
+    const lineIndex = lineWrapper.dataset.lineIndex;
 
     if (priceInput) priceInput.value = productPrices[productId] ?? 0;
     if (qtyInput) qtyInput.value = 1;
@@ -57,6 +61,6 @@ function onProductChange(e, productPrices, productOptions, hasVAT, vatRate) {
     const product = productOptions[productId];
     if (!product) return;
 
-    renderProductOptions(optionsContainer, product, productId);
+    renderProductOptions(optionsContainer, product, productId, lineIndex);
     updateTotals(hasVAT, vatRate);
 }
