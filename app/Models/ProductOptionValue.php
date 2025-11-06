@@ -18,11 +18,8 @@ class ProductOptionValue extends Model
         return $this->belongsTo(ProductOption::class, 'product_option_id');
     }
 
-    public function billLines()
+    public function billLineOptions()
     {
-        return $this->belongsToMany(
-            BillLine::class,
-            'bill_line_option_values'
-        );
+        return $this->hasMany(BillLineOptionValue::class);
     }
 }
