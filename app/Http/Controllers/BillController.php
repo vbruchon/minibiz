@@ -123,8 +123,21 @@ class BillController extends Controller
     }
 
 
-    public function destroy(string $id)
+    public function destroy(Bill $bill)
     {
-        //
+        if (!$bill->isQuote() || $bill->status->value !== 'draft') {
+            abort(403, 'Seuls les devis en brouillon peuvent être supprimés.');
+        }
+
+        foreach ($bill->lines as $line) {
+            $line->selectedOptions()->detach();
+            $line->delete();
+        }
+
+        $bill->delete();
+
+        return redirect()
+            ->route('dashboard.bills.index')
+            ->with('success', 'Devis supprimé avec succès !');
     }
 }

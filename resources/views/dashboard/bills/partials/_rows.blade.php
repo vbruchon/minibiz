@@ -53,7 +53,7 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
     <x-confirmation-delete-dialog
       :modelId="$bill->id"
       modelName="bill"
-      route="dashboard.bills.index"
+      route="dashboard.bills.delete"
       variant="ghost">
       <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
     </x-confirmation-delete-dialog>
