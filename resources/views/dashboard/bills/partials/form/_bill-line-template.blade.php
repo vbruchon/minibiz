@@ -14,9 +14,11 @@
       </div>
 
       <button type="button"
-        class="mt-6 text-destructive hover:text-destructive/70 text-3xl leading-none pb-[2px]"
-        onclick="this.closest('[data-line]').remove(); updateTotals();">×</button>
+        class="remove-line mt-6 text-destructive hover:text-destructive/70 text-3xl leading-none pb-[2px] hover:!cursor-pointer">
+        ×
+      </button>
     </div>
+
     <div class="mt-3 pl-1" data-options-container></div>
   </div>
 </template>

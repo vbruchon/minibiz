@@ -10,6 +10,7 @@
 @endsection
 
 @section('content')
+
 <div class="mx-auto space-y-6">
   <div class="flex items-center justify-center gap-2 relative">
     <x-back-button class="absolute left-0" />
@@ -18,7 +19,7 @@
 
   <form id="bill-form" action="{{ route('dashboard.bills.store')}}" method="POST" class="mx-auto max-w-6xl space-y-10 bg-gradient-to-br from-gray-900/60 to-gray-800/60 
          rounded-2xl p-10 shadow-2xl backdrop-blur-md border border-white/10
-         transition-all duration-300 hover:border-primary/30" id="quote-form">
+         transition-all duration-300 hover:border-primary/30">
     @csrf
 
     @include('dashboard.bills.partials.form._customer')

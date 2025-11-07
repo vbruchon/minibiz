@@ -1,5 +1,10 @@
 import { addQuoteLine, initQuoteLineEvents } from "./lines";
-import { updateTotals } from "./totals";
+import {
+    calculateTotals,
+    initTotalsRecalculation,
+    updateTotalsDisplay,
+} from "./totals";
+import { renderProductOptions } from "./options";
 
 document.addEventListener("DOMContentLoaded", () => {
     const metaPrices = document.querySelector('meta[name="prices"]');
@@ -21,15 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addQuoteLine = addQuoteLine;
 
     initQuoteLineEvents(productPrices, productOptions, hasVAT, vatRate);
-    updateTotals(hasVAT, vatRate);
 
-    document.addEventListener("input", (e) => {
-        if (
-            e.target.matches(
-                '[name$="[unit_price]"], [name$="[quantity]"], [name="discount_percentage"], input[type="checkbox"], input[type="radio"]'
-            )
-        ) {
-            updateTotals(hasVAT, vatRate);
-        }
-    });
+    const totals = calculateTotals(hasVAT, vatRate);
+    updateTotalsDisplay(totals, hasVAT);
+
+    initTotalsRecalculation(hasVAT, vatRate);
 });

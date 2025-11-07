@@ -1,5 +1,5 @@
 import { renderProductOptions } from "./options";
-import { updateTotals } from "./totals";
+import { calculateTotals, updateTotalsDisplay } from "./totals";
 
 export function initQuoteLineEvents(
     productPrices,
@@ -23,6 +23,22 @@ export function initQuoteLineEvents(
         });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    const addProduct = document.querySelector("#addProduct");
+
+    addProduct.addEventListener("click", () => addQuoteLine());
+
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-line")) {
+            const line = e.target.closest("[data-line]");
+            if (line) line.remove();
+
+            const totals = calculateTotals(window.hasVAT, window.vatRate);
+            updateTotalsDisplay(totals, window.hasVAT);
+        }
+    });
+});
+
 export function addQuoteLine() {
     const container = document.getElementById("quote-lines");
     const tpl = document.getElementById("bill-line-template").innerHTML;
@@ -39,7 +55,9 @@ export function addQuoteLine() {
         window.hasVAT,
         window.vatRate
     );
-    updateTotals(window.hasVAT, window.vatRate);
+
+    const totals = calculateTotals(window.hasVAT, window.vatRate);
+    updateTotalsDisplay(totals, window.hasVAT);
 }
 
 function onProductChange(e, productPrices, productOptions, hasVAT, vatRate) {
@@ -62,5 +80,7 @@ function onProductChange(e, productPrices, productOptions, hasVAT, vatRate) {
     if (!product) return;
 
     renderProductOptions(optionsContainer, product, productId, lineIndex);
-    updateTotals(hasVAT, vatRate);
+
+    const totals = calculateTotals(hasVAT, vatRate);
+    updateTotalsDisplay(totals, hasVAT);
 }

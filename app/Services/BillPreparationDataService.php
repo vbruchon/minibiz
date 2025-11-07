@@ -21,6 +21,7 @@ class BillPreparationDataService
       'productOptions' => $this->mapProductOptions($products),
       'hasVAT' => $companySettings && $companySettings->vat_number,
       'vatRate' => $companySettings->default_tax_rate ?? 0,
+      'bill' => null
     ];
   }
 
