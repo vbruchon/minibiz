@@ -45,9 +45,10 @@ class BillController extends Controller
         //
     }
 
-    public function edit(string $id)
+    public function edit(Bill $bill, BillPreparationDataService $service)
     {
-        //
+        $data = $service->prepareData($bill);
+        return view('dashboard.bills.edit', $data);
     }
 
     public function update(Request $request, string $id)

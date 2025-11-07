@@ -1,4 +1,4 @@
-<div id="bill-option-model" class="block">
+<div id="bill-option-model" class="hidden">
   <fieldset class="border border-gray-700 rounded-lg p-4 bg-gray-800/40 backdrop-blur-sm">
     <legend class="text-sm font-semibold text-gray-300 mb-2" data-option-name>Nom option</legend>
     <div data-option-values>

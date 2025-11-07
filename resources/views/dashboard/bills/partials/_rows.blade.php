@@ -46,7 +46,7 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
     </x-button>
 
     @if($bill->status->value === 'draft')
-    <x-button :href="route('dashboard.bills.index', $bill->id)" variant="ghost" size="sm">
+    <x-button :href="route('dashboard.bills.edit', $bill->id)" variant="ghost" size="sm">
       <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
     </x-button>
 

@@ -2,17 +2,33 @@
 
 namespace App\Services;
 
+use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\CompanySetting;
 
 class BillPreparationDataService
 {
-  public function prepareData()
+  public function prepareData(?Bill $bill = null)
   {
     $customers = Customer::all();
     $products = Product::with('options.values')->get();
     $companySettings = CompanySetting::first();
+
+    if ($bill) {
+      $bill->load('lines.selectedOptions');
+
+      $bill->formatted_lines = $bill->lines->map(function ($line) {
+        return [
+          'id' => $line->id,
+          'product_id' => $line->product_id,
+          'quantity' => $line->quantity,
+          'unit_price' => $line->unit_price,
+          'selected_options' => $line->selectedOptions->pluck('id'),
+        ];
+      })->values();
+    }
+
 
     return [
       'customers' => $customers,
@@ -21,7 +37,7 @@ class BillPreparationDataService
       'productOptions' => $this->mapProductOptions($products),
       'hasVAT' => $companySettings && $companySettings->vat_number,
       'vatRate' => $companySettings->default_tax_rate ?? 0,
-      'bill' => null
+      'bill' => $bill
     ];
   }
 
