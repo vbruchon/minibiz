@@ -16,6 +16,7 @@ class BillRequest extends FormRequest
         return [
             'customer_id' => ['required', 'exists:customers,id'],
             'discount_percentage' => ['nullable', 'numeric', 'min:0', 'max:100'],
+            'due_date' => ['nullable'],
             'lines' => ['required', 'array', 'min:1'],
             'lines.*.product_id' => ['required', 'exists:products,id'],
             'lines.*.quantity' => ['required', 'numeric', 'min:1'],

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\ArrayHelper;
 use App\Models\Bill;
 use App\Models\CompanySetting;
 use App\Models\ProductOptionValue;
@@ -29,7 +30,9 @@ class BillCreatorService
       'discount_percentage' => $data['discount_percentage'] ?? 0,
       'issue_date' => now(),
       'due_date' => isset($data['due_date'])
-        ? Carbon::parse($data['due_date'])
+        ? (is_numeric($data['due_date'])
+          ? now()->addDays((int) $data['due_date'])
+          : Carbon::parse($data['due_date']))
         : now()->addDays(30),
       'footer_note' => $data['footer_note'] ?? null,
     ]);
@@ -65,9 +68,15 @@ class BillCreatorService
 
   protected function attachOptions($billLine, array $optionIds, float $lineTotal): void
   {
-    $optionsTotal = ProductOptionValue::whereIn('id', $optionIds)->sum('price');
+    $flatIds = ArrayHelper::flattenOptions($optionIds);
 
-    $billLine->selectedOptions()->attach($optionIds);
+    if (empty($flatIds)) {
+      return;
+    }
+
+    $optionsTotal = ProductOptionValue::whereIn('id', $flatIds)->sum('price');
+
+    $billLine->selectedOptions()->attach($flatIds);
 
     $billLine->update([
       'total' => $lineTotal + $optionsTotal,

@@ -31,10 +31,24 @@ class ArrayHelper
     $lines = $request->input('lines', []);
 
     foreach ($lines as &$line) {
-      $line['selected_options'] = self::flattenOptions($line['selected_options'] ?? []);
-    }
-    unset($line);
+      $groups = collect($line)
+        ->filter(fn($value, $key) => str_starts_with($key, 'selected_group_'))
+        ->values()
+        ->flatten()
+        ->all();
 
+      $selected = collect($line['selected_options'] ?? [])
+        ->merge($groups)
+        ->flatten()
+        ->filter(fn($v) => is_numeric($v))
+        ->unique()
+        ->values()
+        ->all();
+
+      $line['selected_options'] = $selected;
+    }
+
+    unset($line);
     $request->merge(['lines' => $lines]);
   }
 }
