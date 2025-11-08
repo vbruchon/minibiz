@@ -30,25 +30,24 @@ class ArrayHelper
   {
     $lines = $request->input('lines', []);
 
-    foreach ($lines as &$line) {
-      $groups = collect($line)
-        ->filter(fn($value, $key) => str_starts_with($key, 'selected_group_'))
-        ->values()
-        ->flatten()
-        ->all();
+    foreach ($lines as $i => &$line) {
+      if (!isset($line['selected_options'])) continue;
 
-      $selected = collect($line['selected_options'] ?? [])
-        ->merge($groups)
-        ->flatten()
-        ->filter(fn($v) => is_numeric($v))
-        ->unique()
-        ->values()
-        ->all();
+      $flat = [];
 
-      $line['selected_options'] = $selected;
+      foreach ($line['selected_options'] as $group) {
+        if (is_array($group)) {
+          foreach ($group as $id) {
+            $flat[] = $id;
+          }
+        } else {
+          $flat[] = $group;
+        }
+      }
+
+      $line['selected_options'] = $flat;
     }
 
-    unset($line);
     $request->merge(['lines' => $lines]);
   }
 }

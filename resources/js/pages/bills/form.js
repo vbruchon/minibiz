@@ -84,6 +84,17 @@ function populateEditForm(context) {
     });
 }
 
+function renderExistingLines(context) {
+    const container = document.getElementById("quote-lines");
+
+    container.innerHTML = "";
+
+    addQuoteLine();
+
+    const totals = calculateTotals(context.hasVAT, context.vatRate);
+    updateTotalsDisplay(totals, context.hasVAT);
+}
+
 function fillLineData(lineElement, line, index, productOptions) {
     lineElement.dataset.lineId = line.id;
 

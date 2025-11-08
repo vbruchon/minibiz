@@ -14,7 +14,7 @@
   </div>
 
   @include('dashboard.bills.partials.form._form', [
-  'formAction' => route('dashboard.bills.store', $bill),
+  'formAction' => route('dashboard.bills.update', $bill),
   'submitLabel' => 'Mettre à jour le devis',
   'bill' => $bill,
   ])

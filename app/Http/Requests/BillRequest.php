@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ArrayHelper;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BillRequest extends FormRequest
@@ -9,6 +10,11 @@ class BillRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        ArrayHelper::mergeFlattenedLines($this);
     }
 
     public function rules(): array
@@ -23,7 +29,8 @@ class BillRequest extends FormRequest
             'lines.*.unit_price' => ['required', 'numeric', 'min:0'],
             'lines.*.description' => ['nullable', 'string', 'max:255'],
             'lines.*.selected_options' => ['nullable', 'array'],
-            'lines.*.selected_options.*' => ['exists:product_option_values,id'],
+            'lines.*.selected_options.*' => ['integer', 'exists:product_option_values,id'],
+
             'footer_note' => ['nullable', 'string'],
         ];
     }

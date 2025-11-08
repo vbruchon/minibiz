@@ -17,6 +17,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/create', [BillController::class, 'create'])->name('create');
         Route::post('/store', [BillController::class, 'store'])->name('store');
         Route::get('/{bill}/edit', [BillController::class, 'edit'])->name('edit');
+        Route::put('/{bill}', [BillController::class, 'update'])->name('update');
         Route::patch('/{bill}/status', [BillController::class, 'updateStatus'])
             ->name('update-status');
         Route::delete('/{bill}', [BillController::class, 'destroy'])->name('delete');

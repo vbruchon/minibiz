@@ -29,8 +29,6 @@ class BillController extends Controller
 
     public function store(BillRequest $request, BillCreatorService $creator)
     {
-        ArrayHelper::mergeFlattenedLines($request);
-
         $data = $request->validated();
 
         $creator->create($data);
@@ -51,9 +49,16 @@ class BillController extends Controller
         return view('dashboard.bills.edit', $data);
     }
 
-    public function update(Request $request, string $id)
+    public function update(BillRequest $request, BillCreatorService $creator, Bill $bill)
     {
-        //
+
+        $data = $request->validated();
+
+        $creator->update($bill, $data);
+
+        return redirect()
+            ->route('dashboard.bills.index')
+            ->with('success', 'Devis modifier avec succès !');
     }
 
     public function updateStatus(Request $request, Bill $bill, BillStatusService $service)
