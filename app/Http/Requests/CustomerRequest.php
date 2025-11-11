@@ -7,9 +7,6 @@ use Illuminate\Validation\Rule;
 
 class CustomerRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -22,7 +19,6 @@ class CustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        // Récupère l'ID du client depuis la route (update) ou null pour create
         $customerId = $this->route('customer')?->id;
 
         return [
@@ -33,11 +29,15 @@ class CustomerRequest extends FormRequest
                 Rule::unique('customers', 'company_email')->ignore($customerId),
             ],
             'company_phone' => 'nullable|string|max:20',
+            'website' => 'nullable|url|max:255',
             'address_line1' => 'nullable|string|max:255',
             'address_line2' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:20',
             'city' => 'nullable|string|max:100',
-            'website' => 'nullable|url|max:255',
+            'country' => ['required', 'string', 'max:255'],
+            'siren' => ['nullable', 'digits:9'],
+            'siret' => ['required', 'digits:14'],
+            'ape_code' => ['nullable', 'string', 'max:10'],
             'vat_number' => 'nullable|string|max:20',
             'contact_name' => 'nullable|string|max:255',
             'contact_email' => [

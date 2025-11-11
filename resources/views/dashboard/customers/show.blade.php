@@ -38,14 +38,21 @@
           <x-detail-field label="Email" :value="$customer->company_email" />
           <x-detail-field label="Phone" :value="$customer->company_phone" />
           <x-detail-field label="Website" :value="$customer->website" />
-          <x-detail-field label="Address Line 1" :value="$customer->address_line_1" />
-          <x-detail-field label="Address Line 2" :value="$customer->address_line_2" />
+          <x-detail-field label="Address Line 1" :value="$customer->address_line1" />
+          <x-detail-field label="Address Line 2" :value="$customer->address_line2" />
           <x-detail-field label="City" :value="$customer->city" />
           <x-detail-field label="Postal Code" :value="$customer->postal_code" />
+          <x-detail-field label="Country" :value="$customer->country" />
+
+          <x-detail-field label="SIREN" :value="$customer->siren" />
+          <x-detail-field label="SIRET" :value="$customer->siret" />
+          <x-detail-field label="Code APE" :value="$customer->ape_code" />
+
           <x-detail-field label="VAT Number" :value="$customer->vat_number" />
         </div>
       </x-show-info>
     </div>
+
 
     <div class="space-y-6">
       <x-show-info title="Contact Info">
