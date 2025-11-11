@@ -30,6 +30,7 @@ class CompanySettingController extends Controller
             'country'           => 'required|string|max:100',
             'siren'             => 'nullable|string|size:9',
             'siret'             => 'required|string|size:14',
+            'ape_code'          => 'nullable|string|max:10',
             'vat_number'        => 'nullable|string|max:50',
             'website'           => 'nullable|string|max:255',
             'logo_file'         => 'nullable|image|max:2048',

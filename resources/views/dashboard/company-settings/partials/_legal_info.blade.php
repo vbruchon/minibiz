@@ -2,7 +2,6 @@
 
 <x-form.section title="Informations légales" :separator="false">
   <div class="grid grid-cols-2 gap-6">
-    {{-- Type d’activité --}}
     <x-form.select
       label="Type d’activité"
       name="business_type"
@@ -16,17 +15,21 @@
     <x-form.input label="Numéro SIRET" name="siret" required
       :value="old('siret', $company->siret ?? '')" />
 
-    {{-- TVA --}}
+    <x-form.input
+      label="Code APE"
+      name="ape_code"
+      placeholder="5610A"
+      optional
+      :value="old('ape_code', $company->ape_code ?? '')" />
+
     <div id="vat" class="block">
       <x-form.input label="Numéro de TVA intracommunautaire" name="vat_number" optional
         :value="old('vat_number', $company->vat_number ?? '')" />
     </div>
 
-    {{-- Devise --}}
     <x-form.input label="Devise" name="currency" placeholder="EUR"
       :value="old('currency', $company->currency ?? 'EUR')" />
 
-    {{-- Taux de TVA par défaut --}}
     <div id="tax-rate" class="block">
       <x-form.input
         label="Taux de TVA par défaut (%)"
@@ -37,7 +40,6 @@
     </div>
   </div>
 
-  {{-- Footer note --}}
   <x-form.textarea
     label="Mention de bas de page (affichée sur les devis et factures)"
     name="footer_note"

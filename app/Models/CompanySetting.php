@@ -10,9 +10,11 @@ class CompanySetting extends Model
     use HasFactory;
 
     protected $fillable = [
+        'logo_path',
         'company_name',
         'company_email',
         'company_phone',
+        'website',
         'address_line1',
         'address_line2',
         'postal_code',
@@ -20,9 +22,8 @@ class CompanySetting extends Model
         'country',
         'siren',
         'siret',
+        'ape_code',
         'vat_number',
-        'website',
-        'logo_path',
         'currency',
         'default_tax_rate',
         'footer_note',
@@ -38,7 +39,7 @@ class CompanySetting extends Model
     }
 
 
-    public function getFullAddressAttribute(): string
+    public function getFullAddressAttribute(): ?string
     {
         $parts = array_filter([
             $this->address_line1,
@@ -47,6 +48,6 @@ class CompanySetting extends Model
             $this->country,
         ]);
 
-        return implode(', ', $parts);
+        return $parts ? implode("\n", $parts) : null;
     }
 }
