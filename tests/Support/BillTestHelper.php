@@ -2,6 +2,9 @@
 
 namespace Tests\Support;
 
+use App\Enums\BillStatus;
+use App\Enums\InterestRateEnum;
+use App\Enums\PaymentTermsEnum;
 use App\Models\Bill;
 use App\Models\BillLine;
 use App\Models\Product;
@@ -21,20 +24,26 @@ trait BillTestHelper
     preg_match('/D(\d{4})-/', $number, $matches);
     $year = $matches[1] ?? now()->year;
 
-    $issueDate = ($year == now()->year)
-      ? now()
-      : now()->copy()->setDate($year, 6, 15);
+    $issueDate = ($year == now()->year) ? now() : now()->copy()->setDate($year, 6, 15);
 
     return Bill::create([
       'type' => 'quote',
       'number' => $number,
-      'status' => 'draft',
-      'subtotal' => 0,
-      'tax_total' => 0,
-      'total' => 0,
+      'status' => BillStatus::Draft,
       'issue_date' => $issueDate,
       'customer_id' => $customer->id,
       'company_setting_id' => $company->id,
+
+      // 🆕 champs hybrides (valeurs par défaut safe)
+      'payment_terms' => $company->default_payment_terms
+        ?? PaymentTermsEnum::NET_30->value,
+      'interest_rate' => (float)($company->default_interest_rate
+        ?? (float) InterestRateEnum::FIVE->value),
+
+      // Totaux init
+      'subtotal' => 0,
+      'tax_total' => 0,
+      'total' => 0,
     ]);
   }
 
