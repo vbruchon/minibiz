@@ -182,14 +182,17 @@ class BillCalculationServiceTest extends TestCase
 
         $result = $this->service->calculate($bill);
 
-        $expectedSubtotal = 400 - (400 * 0.10);
-        $expectedTax = $expectedSubtotal * ($this->company->default_tax_rate / 100);
-        $expectedTotal = $expectedSubtotal + $expectedTax;
+        $expectedSubtotal = 400;
+        $expectedDiscount = $expectedSubtotal * 0.10;
+        $expectedTax = ($expectedSubtotal - $expectedDiscount) * ($this->company->default_tax_rate / 100);
+        $expectedTotal = ($expectedSubtotal - $expectedDiscount) + $expectedTax;
 
         $this->assertEquals(round($expectedSubtotal, 2), $result['subtotal']);
+        $this->assertEquals(round($expectedDiscount, 2), $result['discount_amount']);
         $this->assertEquals(round($expectedTax, 2), $result['tax_total']);
         $this->assertEquals(round($expectedTotal, 2), $result['total']);
     }
+
 
     #[Test]
     public function it_applies_discount_and_tax_on_package_product_combination(): void
@@ -201,14 +204,17 @@ class BillCalculationServiceTest extends TestCase
 
         $result = $this->service->calculate($bill);
 
-        $expectedSubtotal = 2900 - (2900 * 0.10);
-        $expectedTax = $expectedSubtotal * 0.20;
-        $expectedTotal = $expectedSubtotal + $expectedTax;
+        $expectedSubtotal = 2900;
+        $expectedDiscount = $expectedSubtotal * 0.10;
+        $expectedTax = ($expectedSubtotal - $expectedDiscount) * 0.20;
+        $expectedTotal = ($expectedSubtotal - $expectedDiscount) + $expectedTax;
 
         $this->assertEquals(round($expectedSubtotal, 2), $result['subtotal']);
+        $this->assertEquals(round($expectedDiscount, 2), $result['discount_amount']);
         $this->assertEquals(round($expectedTax, 2), $result['tax_total']);
         $this->assertEquals(round($expectedTotal, 2), $result['total']);
     }
+
 
 
     #[Test]

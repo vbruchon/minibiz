@@ -13,6 +13,7 @@ class BillCalculationService
     if ($lines->isEmpty()) {
       return [
         'subtotal' => 0,
+        'discount_amount' => 0,
         'tax_total' => 0,
         'total' => 0,
       ];
@@ -23,7 +24,7 @@ class BillCalculationService
     foreach ($lines as $line) {
       $lineTotal = $line->quantity * $line->unit_price;
 
-      if ($line->product && $line->product->type === 'package' && $line->selectedOptions->isNotEmpty()) {
+      if ($line->selectedOptions->isNotEmpty()) {
         $optionsTotal = $line->selectedOptions->sum('price');
         $lineTotal += $optionsTotal;
       }
@@ -31,17 +32,22 @@ class BillCalculationService
       $subtotal += $lineTotal;
     }
 
+    $discountAmount = 0;
     if ($bill->discount_percentage > 0) {
-      $subtotal -= $subtotal * ($bill->discount_percentage / 100);
+      $discountAmount = round($subtotal * ($bill->discount_percentage / 100), 2);
     }
+
+    $subtotalAfterDiscount = $subtotal - $discountAmount;
 
     $company = $bill->company;
     $hasVAT = !empty($company->vat_number) && $company->default_tax_rate > 0;
-    $taxTotal = $hasVAT ? round($subtotal * ($company->default_tax_rate / 100), 2) : 0;
-    $total = round($subtotal + $taxTotal, 2);
+    $taxTotal = $hasVAT ? round($subtotalAfterDiscount * ($company->default_tax_rate / 100), 2) : 0;
+
+    $total = round($subtotalAfterDiscount + $taxTotal, 2);
 
     return [
       'subtotal' => round($subtotal, 2),
+      'discount_amount' => $discountAmount,
       'tax_total' => $taxTotal,
       'total' => $total,
     ];
