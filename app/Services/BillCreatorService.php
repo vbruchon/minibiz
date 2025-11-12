@@ -29,6 +29,8 @@ class BillCreatorService
       'issue_date' => now(),
       'due_date' => $this->resolveDueDate($data),
       'footer_note' => $data['footer_note'] ?? null,
+      'payment_terms' => $data['payment_terms'] ?? null,
+      'interest_rate' => $data['interest_rate'] ?? 0,
     ]);
 
     $this->syncLines($bill, $data['lines']);
@@ -47,6 +49,8 @@ class BillCreatorService
       'discount_percentage' => $data['discount_percentage'] ?? 0,
       'due_date' => $this->resolveDueDate($data),
       'footer_note' => $data['footer_note'] ?? null,
+      'payment_terms' => $data['payment_terms'] ?? null,
+      'interest_rate' => $data['interest_rate'] ?? 0,
     ]);
 
     $bill->lines()->each(function ($line) {

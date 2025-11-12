@@ -30,6 +30,41 @@ document.addEventListener("DOMContentLoaded", () => {
     updateAllTotals(context);
 });
 
+// === Gestion des champs "Autre" / "Personnalisé" ===
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("✅ Script 'Autre/personnalisé' chargé !");
+
+    const paymentSelect = document.getElementById("payment_terms");
+    const paymentCustom = document.getElementById("payment_terms_custom");
+    const interestSelect = document.getElementById("interest_rate");
+    const interestCustom = document.getElementById("interest_rate_custom");
+    console.log({
+        paymentSelect,
+        paymentCustom,
+        interestSelect,
+        interestCustom,
+    });
+
+    const toggleCustomField = (select, input) => {
+        if (!select || !input) return;
+        const show = select.value === "other";
+        input.classList.toggle("hidden", !show);
+        if (!show) input.value = "";
+    };
+
+    // Initialisation (utile en mode édition)
+    toggleCustomField(paymentSelect, paymentCustom);
+    toggleCustomField(interestSelect, interestCustom);
+
+    // Listener de changement
+    paymentSelect?.addEventListener("change", () =>
+        toggleCustomField(paymentSelect, paymentCustom)
+    );
+    interestSelect?.addEventListener("change", () =>
+        toggleCustomField(interestSelect, interestCustom)
+    );
+});
+
 function loadMetaData() {
     const meta = (name) => document.querySelector(`meta[name="${name}"]`);
     const required = ["prices", "options"];

@@ -6,6 +6,8 @@ use App\Models\Bill;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\CompanySetting;
+use App\Enums\PaymentTermsEnum;
+use App\Enums\InterestRateEnum;
 
 class BillPreparationDataService
 {
@@ -29,15 +31,21 @@ class BillPreparationDataService
       })->values();
     }
 
-
     return [
       'customers' => $customers,
       'products' => $products,
       'prices' => $products->pluck('base_price', 'id'),
       'productOptions' => $this->mapProductOptions($products),
+
       'hasVAT' => $companySettings && $companySettings->vat_number,
       'vatRate' => $companySettings->default_tax_rate ?? 0,
-      'bill' => $bill
+
+      'paymentTermsOptions' => PaymentTermsEnum::cases(),
+      'interestRateOptions' => InterestRateEnum::cases(),
+      'defaultPaymentTerms' => $companySettings->default_payment_terms ?? PaymentTermsEnum::UPON_RECEIPT->value,
+      'defaultInterestRate' => $companySettings->default_interest_rate ?? InterestRateEnum::FIVE->value,
+
+      'bill' => $bill,
     ];
   }
 
