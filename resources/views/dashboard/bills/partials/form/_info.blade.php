@@ -1,6 +1,5 @@
 <x-form.section title="Informations">
   <div class="grid grid-cols-2 gap-8">
-    {{-- Durée de validité --}}
     <x-form.input
       label="Durée de validité (jours)"
       name="due_date"
@@ -8,7 +7,6 @@
       min="1"
       :value="old('due_date', $bill?->issue_date && $bill?->due_date ? $bill->issue_date->diffInDays($bill->due_date) : 30)" />
 
-    {{-- Remise globale --}}
     <x-form.input
       label="Remise globale (%)"
       name="discount_percentage"
@@ -32,7 +30,7 @@
       <x-form.input
         label="Conditions personnalisées"
         class="mt-3 hidden"
-        parentId="payment_terms_custom"
+        containerId="payment_terms_custom"
         name="payment_terms_custom"
         type="text"
         placeholder="Ex: 50% à la commande, 50% à la livraison"
@@ -56,7 +54,7 @@
       <x-form.input
         label="Taux personnalisé (%)"
         class="mt-3 hidden"
-        parentId="interest_rate_custom"
+        containerId="interest_rate_custom"
         name="interest_rate_custom"
         type="number"
         step="0.01"

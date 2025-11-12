@@ -16,6 +16,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [BillController::class, 'index'])->name('index');
         Route::get('/create', [BillController::class, 'create'])->name('create');
         Route::post('/store', [BillController::class, 'store'])->name('store');
+        Route::get('/{bill}', [BillController::class, 'show'])->name('show');
         Route::get('/{bill}/edit', [BillController::class, 'edit'])->name('edit');
         Route::put('/{bill}', [BillController::class, 'update'])->name('update');
         Route::patch('/{bill}/status', [BillController::class, 'updateStatus'])

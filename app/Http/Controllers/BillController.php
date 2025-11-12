@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\ArrayHelper;
 use App\Http\Requests\BillRequest;
 use App\Models\Bill;
 use App\Services\BillCreatorService;
@@ -34,17 +33,47 @@ class BillController extends Controller
         $creator->create($data);
 
         return redirect()
-            ->route('dashboard.bills.index')
+            ->route('dashboard.bills.show')
             ->with('success', 'Devis créé avec succès !');
     }
 
-    public function show(string $id)
+    public function show(Bill $bill)
     {
-        //
+        $bill->load([
+            'company',
+            'customer',
+            'lines.product',
+            'lines.selectedOptions',
+        ]);
+
+        if ($path = $bill->company->logo_path) {
+            $bill->company->logo_path = str_starts_with($path, 'http')
+                ? $path
+                : asset($path);
+        }
+
+        $hasPackages = $bill->lines->contains(fn($line) => $line->product->type === 'package');
+        $hasNonPackages = $bill->lines->contains(fn($line) => $line->product->type !== 'package');
+
+        if ($hasPackages && $hasNonPackages) {
+            $optionsHeader = 'Description / Options';
+        } elseif ($hasPackages) {
+            $optionsHeader = 'Options';
+        } else {
+            $optionsHeader = 'Description';
+        }
+
+        return view('dashboard.bills.show', [
+            'bill' => $bill,
+            'optionsHeader' => $optionsHeader,
+        ]);
     }
+
 
     public function edit(Bill $bill, BillPreparationDataService $service)
     {
+        $this->ensureEditableQuote($bill);
+
         $data = $service->prepareData($bill);
         return view('dashboard.bills.edit', $data);
     }
@@ -57,7 +86,7 @@ class BillController extends Controller
         $creator->update($bill, $data);
 
         return redirect()
-            ->route('dashboard.bills.index')
+            ->route('dashboard.bills.show')
             ->with('success', 'Devis modifier avec succès !');
     }
 
@@ -79,9 +108,7 @@ class BillController extends Controller
 
     public function destroy(Bill $bill)
     {
-        if (!$bill->isQuote() || $bill->status->value !== 'draft') {
-            abort(403, 'Seuls les devis en brouillon peuvent être supprimés.');
-        }
+        $this->ensureEditableQuote($bill);
 
         foreach ($bill->lines as $line) {
             $line->selectedOptions()->detach();
@@ -93,5 +120,12 @@ class BillController extends Controller
         return redirect()
             ->route('dashboard.bills.index')
             ->with('success', 'Devis supprimé avec succès !');
+    }
+
+    private function ensureEditableQuote(Bill $bill): void
+    {
+        if ($bill->type !== 'quote' || $bill->status->value !== 'draft') {
+            abort(403, 'Seuls les devis en brouillon peuvent être modifiés ou supprimés.');
+        }
     }
 }

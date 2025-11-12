@@ -24,7 +24,7 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
   </td>
 
   <td class="px-6 py-3 relative">
-    <x-bill-status-badge :bill="$bill" />
+    <x-bill.status-badge :bill="$bill" />
 
   </td>
 
@@ -41,7 +41,7 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
   </td>
 
   <td class="px-6 py-3 flex items-center">
-    <x-button :href="route('dashboard.bills.index', $bill->id)" variant="ghost" size="sm">
+    <x-button :href="route('dashboard.bills.show', $bill->id)" variant="ghost" size="sm">
       <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
     </x-button>
 

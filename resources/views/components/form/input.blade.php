@@ -6,10 +6,12 @@
 'required' => false,
 'optional' => false,
 'placeholder' => null,
-'id' => null
+'id' => null,
+'containerId' => null,
 ])
 
-<div {{ $attributes->merge(['class' => '']) }}>
+<div {{ $attributes->merge(['class' => '']) }}
+  @if($containerId) id="{{$containerId}}" @endif>
   <label class="block mb-2 font-semibold text-gray-200">
     {{ $label }}
     @if($optional)
@@ -21,9 +23,8 @@
     type="{{ $type }}"
     name="{{ $name }}"
     value="{{ old($name, $value) }}"
-    @if($required) required @endif
     @if($id) id="{{$id}}" @endif
-
+    @if($required) required @endif
     @if($placeholder) placeholder="{{$placeholder}}" @endif
 
     class="w-full px-4 py-2 text-foreground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">
