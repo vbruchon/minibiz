@@ -25,6 +25,7 @@
       'company' => $company,
       'initialType' => $initialType
       ])
+      @include('dashboard.company-settings.partials._payment_settings', ['company' => $company])
 
       <div class="flex justify-end pt-4">
         <x-button type="submit" variant="primary" size="md">

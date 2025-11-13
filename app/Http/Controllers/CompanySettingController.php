@@ -39,8 +39,20 @@ class CompanySettingController extends Controller
             'default_tax_rate'  => 'nullable|numeric|min:0|max:100',
             'footer_note'       => 'nullable|string',
             'business_type'     => 'required|in:company,auto',
+            'payment_methods'   => 'nullable|array',
+            'payment_methods.*' => 'in:bank_transfer,cash,cheque',
+            'bank_iban'         => 'nullable|string|max:50',
+            'bank_bic'          => 'nullable|string|max:20',
         ]);
 
+        $methods = $request->input('payment_methods', []);
+
+        if (in_array('bank_transfer', $methods)) {
+            $request->validate([
+                'bank_iban' => 'required|string|max:50',
+                'bank_bic'  => 'required|string|max:20',
+            ]);
+        }
         $company = CompanySetting::first();
         $data['logo_path'] = $this->handleLogoUpload($request, $company);
 

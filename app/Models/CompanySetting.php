@@ -27,17 +27,20 @@ class CompanySetting extends Model
         'currency',
         'default_tax_rate',
         'footer_note',
+        'payment_methods',
+        'bank_iban',
+        'bank_bic',
     ];
 
     protected $casts = [
         'default_tax_rate' => 'float',
+        'payment_methods' => 'array',
     ];
 
     public function bills()
     {
         return $this->hasMany(Bill::class);
     }
-
 
     public function getFullAddressAttribute(): ?string
     {
