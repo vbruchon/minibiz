@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BillRequest;
 use App\Models\Bill;
-use App\Services\BillCreatorService;
+use App\Services\BillLifecycleService;
 use App\Services\BillPreparationDataService;
 use App\Services\BillSearchFilterService;
 use App\Services\BillStatusService;
@@ -26,14 +26,14 @@ class BillController extends Controller
         return view('dashboard.bills.create', $data);
     }
 
-    public function store(BillRequest $request, BillCreatorService $creator)
+    public function store(BillRequest $request, BillLifecycleService $lifecycle)
     {
         $data = $request->validated();
 
-        $creator->create($data);
+        $bill = $lifecycle->create($data);
 
         return redirect()
-            ->route('dashboard.bills.show')
+            ->route('dashboard.bills.show', $bill->id)
             ->with('success', 'Devis créé avec succès !');
     }
 
@@ -63,30 +63,39 @@ class BillController extends Controller
             $optionsHeader = 'Description';
         }
 
+        $type = $bill->type === "quote" ? "Devis" : "Facture";
+
+        $paymentLabels = [
+            'bank_transfer' => 'Virement bancaire',
+            'cash' => 'Espèces',
+            'cheque' => 'Chèque',
+        ];
+
         return view('dashboard.bills.show', [
             'bill' => $bill,
             'optionsHeader' => $optionsHeader,
+            'type' => $type,
+            'paymentLabels' => $paymentLabels,
         ]);
     }
 
 
     public function edit(Bill $bill, BillPreparationDataService $service)
     {
-        $this->ensureEditableQuote($bill);
-
         $data = $service->prepareData($bill);
         return view('dashboard.bills.edit', $data);
     }
 
-    public function update(BillRequest $request, BillCreatorService $creator, Bill $bill)
+    public function update(BillRequest $request, BillLifecycleService $lifecycle, Bill $bill)
     {
+        $this->ensureEditableQuote($bill);
 
         $data = $request->validated();
 
-        $creator->update($bill, $data);
+        $bill = $lifecycle->update($bill, $data);
 
         return redirect()
-            ->route('dashboard.bills.show')
+            ->route('dashboard.bills.show', $bill->id)
             ->with('success', 'Devis modifier avec succès !');
     }
 
@@ -127,5 +136,27 @@ class BillController extends Controller
         if ($bill->type !== 'quote' || $bill->status->value !== 'draft') {
             abort(403, 'Seuls les devis en brouillon peuvent être modifiés ou supprimés.');
         }
+    }
+
+    public function convertQuoteToInvoice(Request $request, Bill $bill, BillLifecycleService $lifecycle)
+    {
+        if (!$bill->isQuote()) {
+            abort(403, 'Seuls les devis peuvent être convertis.');
+        }
+
+        $data = $request->validate([
+            'payment_method' => 'required|in:bank_transfer,cash,cheque',
+            'conversion_note' => 'nullable|string|max:1000',
+        ]);
+
+        $invoice = $lifecycle->convert(
+            $bill,
+            $data['payment_method'],
+            $data['conversion_note'] ?? null
+        );
+
+        return redirect()
+            ->route('dashboard.bills.show', $invoice->id)
+            ->with('success', 'Devis converti en facture avec succès !');
     }
 }

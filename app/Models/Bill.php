@@ -29,8 +29,9 @@ class Bill extends Model
         'footer_note',
         'signature_path',
         'converted_from_id',
+        'payment_method',
+        'payment_details',
     ];
-
 
     protected $casts = [
         'status' => BillStatus::class,
@@ -42,6 +43,7 @@ class Bill extends Model
         'total' => 'decimal:2',
         'discount_amount' => 'decimal:2',
         'discount_percentage' => 'decimal:2',
+        'payment_details' => 'array',
     ];
 
     public function customer()
@@ -119,5 +121,26 @@ class Bill extends Model
         return $this->isQuote() && in_array($this->status, [
             BillStatus::Draft,
         ]);
+    }
+
+    public function getPaymentLabelAttribute()
+    {
+        return [
+            'bank_transfer' => 'Virement bancaire',
+            'cash' => 'Espèces',
+            'cheque' => 'Chèque',
+        ][$this->payment_method] ?? ucfirst($this->payment_method);
+    }
+
+    public function convertedInvoice()
+    {
+        return $this->hasOne(Bill::class, 'converted_from_id');
+    }
+
+    public function canBeConverted(): bool
+    {
+        return $this->isQuote()
+            && !$this->isRejected()
+            && !$this->convertedInvoice;
     }
 }
