@@ -2,11 +2,12 @@
 'modelId',
 'modelName' => 'item',
 'route',
-'variant' => 'destructive'
+'variant' => 'destructive',
+'customClass' => null
 ])
 
 <div class="inline" id="deleteWrapper-{{ $modelId }}">
-    <x-button id="deleteBtn-{{ $modelId }}" variant="{{ $variant }}" size="sm">
+    <x-button id="deleteBtn-{{ $modelId }}" variant="{{ $variant }}" size="sm" class="{{$customClass}}">
         {{ $slot }}
     </x-button>
 
@@ -27,6 +28,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     (function() {
         const wrapperId = "{{ $modelId }}";
@@ -54,3 +56,4 @@
         });
     })();
 </script>
+@endpush
