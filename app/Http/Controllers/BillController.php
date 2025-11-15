@@ -142,7 +142,7 @@ class BillController extends Controller
 
     private function ensureEditableQuote(Bill $bill): void
     {
-        if ($bill->type !== 'quote' || $bill->status->value !== 'draft') {
+        if ($bill->status->value !== 'draft') {
             abort(403, 'Seuls les devis en brouillon peuvent être modifiés ou supprimés.');
         }
     }

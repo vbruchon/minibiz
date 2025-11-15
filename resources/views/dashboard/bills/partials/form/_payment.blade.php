@@ -13,9 +13,9 @@
           name="payment_method"
           value="{{ $method }}"
           class="h-4 w-4 text-primary border-gray-400"
-          {{ old('payment_method') === $method ? 'checked' : '' }}>
-        <span class="text-gray-200">
-          {{ $paymentLabels[$method] ?? ucfirst($method) }}
+          {{ old('payment_method', $bill->payment_method ?? null) === $method ? 'checked' : '' }}
+          <span class="text-gray-200">
+        {{ $paymentLabels[$method] ?? ucfirst($method) }}
         </span>
       </label>
       @endforeach
