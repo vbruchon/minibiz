@@ -45,6 +45,22 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
       <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
     </x-button>
 
+    <x-button
+      href="{{ route('dashboard.bills.pdf', $bill) }}"
+      variant="ghost"
+      size="sm">
+      <x-heroicon-o-document-arrow-down class="size-5 text-primary hover:text-primary/80 transition opacity-0 group-hover:opacity-100" />
+    </x-button>
+
+    @if($bill->canBeConverted())
+    <x-button
+      data-modal-target="convert-modal"
+      variant="ghost"
+      size="sm">
+      <x-heroicon-o-document-arrow-down class="size-5 text-warning hover:text-warning/80 transition opacity-0 group-hover:opacity-100" />
+    </x-button>
+    @endif
+
     @if($bill->status->value === 'draft')
     <x-button :href="route('dashboard.bills.edit', $bill->id)" variant="ghost" size="sm">
       <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />

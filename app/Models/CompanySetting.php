@@ -53,4 +53,23 @@ class CompanySetting extends Model
 
         return $parts ? implode("\n", $parts) : null;
     }
+
+    public function logoPathForPdf()
+    {
+        if (!$this->logo_path) {
+            return null;
+        }
+
+        $relative = str_replace('storage/', '', $this->logo_path);
+        $path = public_path('storage/' . $relative);
+
+        if (!file_exists($path)) {
+            return null;
+        }
+
+        $data = base64_encode(file_get_contents($path));
+        $mime = mime_content_type($path);
+
+        return "data:$mime;base64,$data";
+    }
 }

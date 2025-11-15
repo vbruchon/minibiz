@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BillStatus;
 use App\Http\Requests\BillRequest;
 use App\Models\Bill;
 use App\Services\BillLifecycleService;
@@ -10,6 +11,7 @@ use App\Services\BillSearchFilterService;
 use App\Services\BillStatusService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Spatie\Browsershot\Browsershot;
 
 class BillController extends Controller
 {
@@ -88,7 +90,6 @@ class BillController extends Controller
         ]);
     }
 
-
     public function edit(Bill $bill, BillPreparationDataService $service)
     {
         $data = $service->prepareData($bill);
@@ -122,7 +123,6 @@ class BillController extends Controller
 
         return back()->with('success', 'Bill status updated successfully.');
     }
-
 
     public function destroy(Bill $bill)
     {
@@ -167,5 +167,57 @@ class BillController extends Controller
         return redirect()
             ->route('dashboard.bills.show', $invoice->id)
             ->with('success', 'Devis converti en facture avec succès !');
+    }
+
+
+    public function exportToPDF(Bill $bill)
+    {
+        $bill->load([
+            'company',
+            'customer',
+            'lines.product',
+            'lines.selectedOptions',
+        ]);
+
+        if ($bill->status === BillStatus::Draft) {
+            $bill->update([
+                'status' => BillStatus::Sent,
+            ]);
+
+            $bill->refresh();
+        }
+
+        $bill->company->logo_path = $bill->company->logoPathForPdf();
+
+        $hasPackages = $bill->lines->contains(fn($line) => $line->product->type === 'package');
+        $hasNonPackages = $bill->lines->contains(fn($line) => $line->product->type !== 'package');
+
+        if ($hasPackages && $hasNonPackages) {
+            $optionsHeader = 'Description / Options';
+        } elseif ($hasPackages) {
+            $optionsHeader = 'Options';
+        } else {
+            $optionsHeader = 'Description';
+        }
+
+        $html = view('dashboard.bills.pdf', [
+            'bill' => $bill,
+            'type' => $bill->type === 'quote' ? 'Devis' : 'Facture',
+            'optionsHeader' => $optionsHeader,
+        ])->render();
+
+        $filename = ($bill->type === 'quote' ? 'Devis' : 'Facture') . "-{$bill->number}.pdf";
+        $pdfPath = storage_path("app/public/{$filename}");
+
+        Browsershot::html($html)
+            ->setNodeBinary(config('browsershot.node_binary'))
+            ->setNpmBinary(config('browsershot.npm_binary'))
+            ->showBackground()
+            ->format('A4')
+            ->margins(10, 10, 10, 10)
+            ->timeout(90)
+            ->save($pdfPath);
+
+        return response()->download($pdfPath)->deleteFileAfterSend(true);
     }
 }

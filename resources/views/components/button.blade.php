@@ -12,7 +12,7 @@ $base = 'inline-flex items-center justify-center transition-colors font-semibold
 
 $variants = [
 'default' => 'text-indigo-400 hover:text-indigo-300 hover:underline',
-'primary' => 'bg-primary text-white shadow hover:bg-primary/90',
+'primary' => 'bg-primary/80 text-white shadow hover:bg-primary/90',
 'outline' => 'border border-gray-600 text-white hover:bg-gray-700/40',
 'secondary' => 'bg-gray-700 text-white hover:bg-gray-600',
 'ghost' => 'bg-transparent text-gray-300 hover:text-white',

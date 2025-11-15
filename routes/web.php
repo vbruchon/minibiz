@@ -23,6 +23,8 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
             ->name('update-status');
         Route::post('/{bill}/convert', [BillController::class, 'convertQuoteToInvoice'])
             ->name('convert');
+        Route::get('/bills/{bill}/pdf', [BillController::class, 'exportToPDF'])
+            ->name('pdf');
         Route::delete('/{bill}', [BillController::class, 'destroy'])->name('delete');
     });
 

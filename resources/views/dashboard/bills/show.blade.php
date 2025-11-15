@@ -4,11 +4,24 @@
 
 @section('content')
 <div class="mx-auto">
-  {{-- Bouton retour + actions --}}
-  <div class="flex items-center justify-between mt-2 mb-6">
+
+  <div class="flex items-center justify-between mt-2 mb-6 ">
     <x-back-button />
 
+
+
+
     <div class="flex items-center gap-3">
+      <x-button
+        href="{{ route('dashboard.bills.pdf', $bill) }}"
+        variant="primary"
+        size="sm"
+        class="gap-2">
+        <x-heroicon-o-document-arrow-down class="size-5" />
+        Télécharger PDF
+      </x-button>
+
+
       @if($bill->canBeConverted())
       <x-button
         data-modal-target="convert-modal"
@@ -41,10 +54,13 @@
   </div>
 
   @if($bill->isQuote() && $bill->convertedInvoice)
-  @include('dashboard.bills.partials.show._converted_banner')
+  <div class="">
+    @include('dashboard.bills.partials.show._converted_banner')
+  </div>
   @endif
 
   <div class="flex flex-col gap-8 bg-white shadow-md rounded-lg p-10 border border-gray-200 mx-auto my-6 w-[210mm] min-h-[297mm] text-gray-800 print:shadow-none print:border-none print:p-0">
+
     @include('dashboard.bills.partials.show._header', ['bill' => $bill, 'type' => $type])
     @include('dashboard.bills.partials.show._entities', $bill)
     @include('dashboard.bills.partials.show._products_table', ['bill' => $bill, 'optionsHeader' => $optionsHeader])
@@ -67,6 +83,8 @@
   </div>
 </div>
 
-@include('dashboard.bills.partials.show._convert_modal', $paymentLabels)
+<div class="">
+  @include('dashboard.bills.partials.show._convert_modal', $paymentLabels)
+</div>
 
 @endsection

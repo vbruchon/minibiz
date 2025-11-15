@@ -78,7 +78,6 @@ class BillLifecycleService
     if ($bill->type === 'invoice') {
       $bill->update([
         'payment_method' => $data['payment_method'] ?? $bill->payment_method,
-        'payment_details' => null,
       ]);
     }
 
@@ -90,14 +89,6 @@ class BillLifecycleService
     $quote->update(['status' => BillStatus::Accepted]);
 
     $company = $quote->company;
-
-    $paymentDetails = null;
-    if ($paymentMethod === 'bank_transfer') {
-      $paymentDetails = [
-        'iban' => $company->bank_iban,
-        'bic'  => $company->bank_bic,
-      ];
-    }
 
     $issueDate = now();
     $dueDate = $this->resolveDueDateFromTerms($quote->payment_terms, $issueDate);
@@ -122,7 +113,6 @@ class BillLifecycleService
       'total' => $quote->total,
 
       'payment_method' => $paymentMethod,
-      'payment_details' => $paymentDetails,
 
       'footer_note' => $quote->footer_note,
       'notes' => $note ?? $quote->notes,
