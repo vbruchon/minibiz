@@ -1,23 +1,35 @@
 <div class="relative inline-block">
-    {{-- 🔹 Bouton principal --}}
-    <button type="button"
-        class="relative flex items-center justify-center border {{ $statusColor }}
-           hover:brightness-110 hover:shadow-sm transition focus:outline-none focus:ring-2 focus:ring-primary/40
-           {{ count($allowedStatuses) > 0 ? 'cursor-pointer' : 'cursor-default' }}
-           {{ $isShow ? 'px-3.5 py-0.5 pr-5 rounded-full text-xs font-medium capitalize' : 'w-28 rounded-md px-3 py-1.5 text-sm pr-6' }}"
-        @if(count($allowedStatuses)> 0)
+    <button
+        type="button"
+        class="relative flex items-center border {{ $statusColor }} {{ $hoverColor }}
+        hover:shadow-sm transition focus:outline-none hover:ring-1 focus:ring-2 focus:ring-primary/40
+        {{ count($allowedStatuses) > 0 ? 'cursor-pointer' : 'cursor-default' }}
+        {{ $isShow ? 'px-3 py-1 rounded-full text-xs font-medium capitalize gap-1' : 'w-28 justify-center rounded-md px-3 py-1.5 text-sm pr-6' }}"
+        @if (count($allowedStatuses)> 0)
         onclick="toggleStatusMenu({{ $bill->id }})"
-        @endif>
+        @endif
+        >
 
-        <span class="mx-auto">{{ $bill->status->label() }}</span>
+        @if ($isShow)
+        <span class="whitespace-nowrap">
+            {{ $bill->status->label() }}
+        </span>
+
+        @if (count($allowedStatuses) > 0)
+        <x-heroicon-o-chevron-down class="size-3 text-current" />
+        @endif
+        @else
+        <span class="mx-auto">
+            {{ $bill->status->label() }}
+        </span>
 
         @if (count($allowedStatuses) > 0)
         <x-heroicon-o-chevron-down
             class="absolute right-2 top-1/2 -translate-y-1/2 size-3 text-gray-400 pointer-events-none" />
         @endif
+        @endif
     </button>
 
-    {{-- 🔹 Menu déroulant --}}
     @if (count($allowedStatuses) > 0)
     <div id="status-menu-{{ $bill->id }}"
         class="hidden absolute left-0 mt-2 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-50 overflow-hidden">

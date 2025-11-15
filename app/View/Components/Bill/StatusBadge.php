@@ -30,6 +30,20 @@ class StatusBadge extends Component
 
     private function resolveStatusColor(string $status): string
     {
+        if ($this->isShow) {
+            return match ($status) {
+                'draft'     => 'bg-gray-200 text-gray-800 border-gray-300',
+                'sent'      => 'bg-blue-100 text-blue-700 border-blue-300',
+                'accepted'  => 'bg-green-100 text-green-700 border-green-300',
+                'rejected'  => 'bg-red-100 text-red-700 border-red-300',
+                'converted' => 'bg-amber-100 text-amber-700 border-amber-300',
+                'paid'      => 'bg-emerald-100 text-emerald-700 border-emerald-300',
+                'overdue'   => 'bg-orange-100 text-orange-700 border-orange-300',
+                'cancelled' => 'bg-red-200 text-red-800 border-red-400',
+                default     => 'bg-gray-200 text-gray-800 border-gray-300',
+            };
+        }
+
         return match ($status) {
             'draft'     => 'bg-gray-600/10 text-gray-400 border-gray-500/30',
             'sent'      => 'bg-blue-600/10 text-blue-400 border-blue-500/30',
@@ -43,20 +57,23 @@ class StatusBadge extends Component
         };
     }
 
+
     private function resolveHoverColor(string $status): string
     {
         return match ($status) {
-            'draft'     => 'hover:bg-gray-700',
-            'sent'      => 'hover:bg-blue-700/40',
-            'accepted'  => 'hover:bg-green-700/40',
-            'rejected'  => 'hover:bg-red-700/40',
-            'converted' => 'hover:bg-yellow-700/40',
-            'paid'      => 'hover:bg-emerald-700/40',
-            'overdue'   => 'hover:bg-orange-700/40',
-            'cancelled' => 'hover:bg-red-700/40',
-            default     => 'hover:bg-gray-700',
+            'draft'     => 'hover:bg-gray-300/60',
+            'sent'      => 'hover:bg-blue-200/60',
+            'accepted'  => 'hover:bg-green-200/60',
+            'rejected'  => 'hover:bg-red-200/60',
+            'converted' => 'hover:bg-amber-200/60',
+            'paid'      => 'hover:bg-emerald-200/60',
+            'overdue'   => 'hover:bg-orange-200/60',
+            'cancelled' => 'hover:bg-red-300/60',
+            default     => 'hover:bg-gray-300/60',
         };
     }
+
+
 
     public function render()
     {
