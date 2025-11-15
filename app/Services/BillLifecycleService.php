@@ -17,22 +17,30 @@ class BillLifecycleService
     protected BillCalculationService $calcService
   ) {}
 
-  public function create(array $data): Bill
+  public function create(array $data, string $type = 'quote'): Bill
   {
-    $number = $this->numberService->generate('quote');
+    $number = $this->numberService->generate($type);
 
     $bill = Bill::create([
-      'type' => 'quote',
+      'type' => $type,
       'number' => $number,
-      'status' => 'draft',
+      'status' => BillStatus::Draft,
+
       'customer_id' => $data['customer_id'],
       'company_setting_id' => CompanySetting::first()->id,
+
       'discount_percentage' => $data['discount_percentage'] ?? 0,
       'issue_date' => now(),
       'due_date' => $this->resolveDueDate($data),
+
       'footer_note' => $data['footer_note'] ?? null,
       'payment_terms' => $data['payment_terms'] ?? null,
       'interest_rate' => $data['interest_rate'] ?? 0,
+
+      'payment_method' =>
+      $type === 'invoice'
+        ? ($data['payment_method'] ?? null)
+        : null,
     ]);
 
     $this->syncLines($bill, $data['lines']);
@@ -43,6 +51,7 @@ class BillLifecycleService
 
     return $bill;
   }
+
 
   public function update(Bill $bill, array $data): Bill
   {

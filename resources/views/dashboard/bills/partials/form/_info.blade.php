@@ -1,7 +1,18 @@
-<x-form.section title="Informations">
+@php
+$dueDateLabel = $type === 'invoice'
+? 'Délai de paiement (jours)'
+: 'Durée de validité (jours)';
+
+$infoTitle = $type === 'invoice'
+? 'Informations de facturation'
+: 'Informations du devis';
+@endphp
+
+<x-form.section :title="$infoTitle">
+
   <div class="grid grid-cols-2 gap-8">
     <x-form.input
-      label="Durée de validité (jours)"
+      :label="$dueDateLabel"
       name="due_date"
       type="number"
       min="1"
@@ -23,7 +34,9 @@
         label="Conditions de règlement"
         name="payment_terms"
         id="payment_terms"
-        :options="collect($paymentTermsOptions)->mapWithKeys(fn($term) => [$term->value => $term->value === 'other' ? 'Autre' : $term->value])->toArray()"
+        :options="collect($paymentTermsOptions)->mapWithKeys(
+          fn($term) => [$term->value => $term->value === 'other' ? 'Autre' : $term->value]
+        )->toArray()"
         :selected="old('payment_terms', $bill?->payment_terms ?? $defaultPaymentTerms)"
         placeholder="Sélectionner une option" />
 
@@ -47,7 +60,9 @@
         label="Intérêts de retard"
         name="interest_rate"
         id="interest_rate"
-        :options="collect($interestRateOptions)->mapWithKeys(fn($rate) => [$rate->value => $rate->value === 'other' ? 'Autre' : ($rate->value . '%')])->toArray()"
+        :options="collect($interestRateOptions)->mapWithKeys(
+          fn($rate) => [$rate->value => $rate->value === 'other' ? 'Autre' : ($rate->value . '%')]
+        )->toArray()"
         :selected="old('interest_rate', (string) ($bill?->interest_rate ?? $defaultInterestRate))"
         placeholder="Sélectionner un taux" />
 
@@ -61,7 +76,9 @@
         placeholder="Taux personnalisé"
         :value="old(
           'interest_rate_custom',
-          !in_array((float) ($bill?->interest_rate ?? 0), collect($interestRateOptions)->pluck('value')->map(fn($v) => (float) $v)->toArray())
+          !in_array((float) ($bill?->interest_rate ?? 0),
+            collect($interestRateOptions)->pluck('value')->map(fn($v) => (float) $v)->toArray()
+          )
             ? $bill?->interest_rate
             : ''
         )" />

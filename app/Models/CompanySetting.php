@@ -46,7 +46,7 @@ class CompanySetting extends Model
     {
         $parts = array_filter([
             $this->address_line1,
-            $this->address_line2,
+            $this->address_line2 . ', ',
             trim(($this->postal_code ?? '') . ' ' . ($this->city ?? '')),
             $this->country,
         ]);

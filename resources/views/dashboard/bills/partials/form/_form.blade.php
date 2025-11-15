@@ -13,6 +13,7 @@
   @include('dashboard.bills.partials.form._customer')
   @include('dashboard.bills.partials.form._products')
   @include('dashboard.bills.partials.form._info')
+  @include('dashboard.bills.partials.form._payment')
   @include('dashboard.bills.partials.form._summary')
   @include('dashboard.bills.partials.form._note')
 

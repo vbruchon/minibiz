@@ -93,6 +93,12 @@ class BillRequest extends FormRequest
                     }
                 },
             ],
+
+            'payment_method' => [
+                $this->input('type', 'quote') === 'invoice' ? 'required' : 'nullable',
+                'in:bank_transfer,cash,cheque',
+            ],
+
         ];
     }
 }

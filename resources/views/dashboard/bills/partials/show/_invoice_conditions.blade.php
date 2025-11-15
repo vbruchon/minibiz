@@ -28,13 +28,15 @@
     </div>
   </div>
 
-  @if($bill->payment_method !== 'cash')
+  @if($bill->payment_method === 'cash')
+  <p class="text-gray-700">Le paiement doit être remis en main propre.</p>
+  @endif
   <div class="space-y-2">
     <h4 class="text-lg font-medium mb-4">Informations paiements</h4>
-    @if($bill->payment_method === 'bank_transfer' && $bill->payment_details)
+    @if($bill->payment_method === 'bank_transfer')
     <div class="mt-2 space-y-1 text-gray-700">
-      <p><span class="font-semibold">IBAN :</span> {{ $bill->payment_details['iban'] }}</p>
-      <p><span class="font-semibold">BIC :</span> {{ $bill->payment_details['bic'] }}</p>
+      <p><span class="font-semibold">IBAN :</span> {{ $bill->company->bank_iban }}</p>
+      <p><span class="font-semibold">BIC :</span> {{ $bill->company->bank_bic }}</p>
     </div>
     @endif
 
@@ -45,6 +47,5 @@
     </div>
     @endif
   </div>
-  @endif
 
 </div>

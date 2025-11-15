@@ -4,15 +4,19 @@
 
 @section('content')
 
-
 <div class="mx-auto">
   <div class="flex items-center justify-between mb-8">
     <h1 class="text-3xl font-bold text-foreground">Facturation</h1>
-
-    <x-button :href="route('dashboard.bills.create')" variant="primary" size="sm" class="flex items-center gap-2">
-      <x-heroicon-o-plus class="size-4" />
-      Créer un devis
-    </x-button>
+    <div class="flex items-center gap-2">
+      <x-button :href="route('dashboard.bills.create', ['type' => 'quote'])" variant="primary" size="sm" class="flex items-center gap-2">
+        <x-heroicon-o-plus class="size-4" />
+        Créer un devis
+      </x-button>
+      <x-button :href="route('dashboard.bills.create', ['type' => 'invoice'])" variant="outline" size="sm" class="flex items-center gap-2">
+        <x-heroicon-o-plus class="size-4" />
+        Créer une facture
+      </x-button>
+    </div>
   </div>
 
   <div class="flex items-center mb-3 gap-3">

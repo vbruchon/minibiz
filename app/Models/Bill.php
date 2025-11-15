@@ -118,7 +118,7 @@ class Bill extends Model
 
     public function canBeEdited(): bool
     {
-        return $this->isQuote() && in_array($this->status, [
+        return in_array($this->status, [
             BillStatus::Draft,
         ]);
     }
@@ -142,5 +142,10 @@ class Bill extends Model
         return $this->isQuote()
             && !$this->isRejected()
             && !$this->convertedInvoice;
+    }
+
+    public function type(): string
+    {
+        return $this->input('type', 'quote');
     }
 }

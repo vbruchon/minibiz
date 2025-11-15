@@ -11,7 +11,7 @@ use App\Enums\InterestRateEnum;
 
 class BillPreparationDataService
 {
-  public function prepareData(?Bill $bill = null)
+  public function prepareData(?Bill $bill = null, string $type = 'quote')
   {
     $customers = Customer::all();
     $products = Product::with('options.values')->get();
@@ -32,11 +32,12 @@ class BillPreparationDataService
     }
 
     return [
+      'type' => $type,
       'customers' => $customers,
       'products' => $products,
       'prices' => $products->pluck('base_price', 'id'),
       'productOptions' => $this->mapProductOptions($products),
-
+      'company' => $companySettings,
       'hasVAT' => $companySettings && $companySettings->vat_number,
       'vatRate' => $companySettings->default_tax_rate ?? 0,
 

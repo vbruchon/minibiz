@@ -20,17 +20,26 @@ class BillController extends Controller
         return view('dashboard.bills.list', ['bills' => $bills]);
     }
 
-    public function create(BillPreparationDataService $service)
+    public function create(Request $request, BillPreparationDataService $service)
     {
-        $data = $service->prepareData();
+        $type = $request->get('type');
+
+        if (!$type || !in_array($type, ['quote', 'invoice'])) {
+            abort(404);
+        }
+
+        $data = $service->prepareData(type: $type);
+
         return view('dashboard.bills.create', $data);
     }
 
     public function store(BillRequest $request, BillLifecycleService $lifecycle)
     {
+        $type = $request->get('type', 'quote');
+
         $data = $request->validated();
 
-        $bill = $lifecycle->create($data);
+        $bill = $lifecycle->create($data, $type);
 
         return redirect()
             ->route('dashboard.bills.show', $bill->id)
