@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'MiniBiz - Customer Details')
+@section('title', 'MiniBiz - Détail Client')
 
 @section('content')
 <div class="mx-auto">
@@ -8,11 +8,11 @@
   <x-back-button />
 
   <div class=" mx-auto mt-2 p-8 flex items-center justify-between">
-    <h1 class="text-3xl font-bold text-foreground">Customer Details</h1>
+    <h1 class="text-3xl font-bold text-foreground">Détail Client</h1>
     <div class="flex items-center gap-3">
-      <x-button :href="route('dashboard.customers.edit', $customer->id)" variant="info" size="sm" class="gap-2 py-0.5 w-22">
+      <x-button :href="route('dashboard.customers.edit', $customer->id)" variant="info" size="sm" class="gap-2 py-0.5 w-fit">
         <x-heroicon-o-pencil-square class="size-5" />
-        Edit
+        Modifier
       </x-button>
 
       <x-confirmation-delete-dialog
@@ -22,7 +22,7 @@
         variant="destructive">
         <div class="flex items-center gap-2 py-0.5">
           <x-heroicon-o-trash class="size-5" />
-          <span>Delete</span>
+          <span>Supprimer</span>
         </div>
       </x-confirmation-delete-dialog>
 
@@ -73,12 +73,33 @@
   </div>
   <div class="mt-8">
     <x-show-info title="Activity">
-      @if($customer->notes)
-      <p class="text-gray-300 leading-relaxed whitespace-pre-line">{{ $customer->notes }}</p>
+      @if($customer->bills->isNotEmpty())
+      <div class="space-y-4">
+        @foreach($customer->bills as $bill)
+        <div class="p-4 border border-gray-700 rounded-lg flex items-center justify-between">
+          <div>
+            <p class="text-gray-200 font-medium">
+              {{ ucfirst($bill->type) }} #{{ $bill->number }}
+            </p>
+            <p class="text-gray-400 text-sm">
+              {{ $bill->created_at->format('d M Y') }}
+            </p>
+          </div>
+
+          <x-bill.status-badge :bill="$bill" />
+
+
+          <x-button :href="route('dashboard.bills.show', $bill->id)" variant="ghost" size="sm">
+            Voir
+          </x-button>
+        </div>
+        @endforeach
+      </div>
       @else
       <p class="text-gray-500 italic">No activity yet.</p>
       @endif
     </x-show-info>
+
   </div>
 
 </div>
