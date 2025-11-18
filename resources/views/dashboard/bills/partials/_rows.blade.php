@@ -41,38 +41,44 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
   </td>
 
   <td class="px-6 py-3 flex items-center">
-    <x-button :href="route('dashboard.bills.show', $bill->id)" variant="ghost" size="sm">
-      <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
-    </x-button>
+    <x-tooltip-button label="Voir">
+      <x-button :href="route('dashboard.bills.show', $bill->id)" variant="ghost" size="sm">
+        <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
+      </x-button>
+    </x-tooltip-button>
 
-    <x-button
-      href="{{ route('dashboard.bills.pdf', $bill) }}"
-      variant="ghost"
-      size="sm">
-      <x-heroicon-o-document-arrow-down class="size-5 text-primary hover:text-primary/80 transition opacity-0 group-hover:opacity-100" />
-    </x-button>
-
-    @if($bill->canBeConverted())
-    <x-button
-      data-modal-target="convert-modal"
-      variant="ghost"
-      size="sm">
-      <x-heroicon-o-document-arrow-down class="size-5 text-warning hover:text-warning/80 transition opacity-0 group-hover:opacity-100" />
-    </x-button>
+    @if($bill->canBeEdited())
+    <x-tooltip-button label="Modifier">
+      <x-button :href="route('dashboard.bills.edit', $bill->id)" variant="ghost" size="sm">
+        <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
+      </x-button>
+    </x-tooltip-button>
     @endif
 
-    @if($bill->status->value === 'draft')
-    <x-button :href="route('dashboard.bills.edit', $bill->id)" variant="ghost" size="sm">
-      <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
-    </x-button>
+    @if($bill->canBeConverted())
+    <x-tooltip-button label="Convertir">
+      <x-button data-modal-target="convert-modal" variant="ghost" size="sm">
+        <x-heroicon-o-document-arrow-down class="size-5 text-warning hover:text-warning/80 transition opacity-0 group-hover:opacity-100" />
+      </x-button>
+    </x-tooltip-button>
+    @endif
 
-    <x-confirmation-delete-dialog
-      :modelId="$bill->id"
-      modelName="bill"
-      route="dashboard.bills.delete"
-      variant="ghost">
-      <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
-    </x-confirmation-delete-dialog>
+    <x-tooltip-button label="Exporter PDF">
+      <x-button href="{{ route('dashboard.bills.pdf', $bill) }}" variant="ghost" size="sm">
+        <x-heroicon-o-arrow-down-tray class="size-5 text-primary hover:text-primary/80 transition opacity-0 group-hover:opacity-100" />
+      </x-button>
+    </x-tooltip-button>
+
+    @if($bill->canBeEdited())
+    <x-tooltip-button label="Supprimer">
+      <x-confirmation-delete-dialog
+        :modelId="$bill->id"
+        modelName="bill"
+        route="dashboard.bills.delete"
+        variant="ghost">
+        <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
+      </x-confirmation-delete-dialog>
+    </x-tooltip-button>
     @endif
   </td>
 </tr>
