@@ -132,6 +132,15 @@ class Bill extends Model
         ][$this->payment_method] ?? ucfirst($this->payment_method);
     }
 
+    public function typeLabel(): string
+    {
+        return match ($this->type) {
+            'quote'   => 'Devis',
+            'invoice' => 'Facture',
+            default   => ucfirst($this->type),
+        };
+    }
+
     public function convertedInvoice()
     {
         return $this->hasOne(Bill::class, 'converted_from_id');

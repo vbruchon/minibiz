@@ -29,4 +29,9 @@ class Product extends Model
     {
         return $this->options()->wherePivot('is_default_attached', true);
     }
+
+    public function lines()
+    {
+        return $this->hasMany(BillLine::class);
+    }
 }
