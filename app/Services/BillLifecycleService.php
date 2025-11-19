@@ -96,7 +96,7 @@ class BillLifecycleService
     $invoice = Bill::create([
       'type' => 'invoice',
       'number' => $this->numberService->generate("invoice"),
-      'status' => BillStatus::Sent,
+      'status' => BillStatus::Draft,
       'customer_id' => $quote->customer_id,
       'company_setting_id' => $quote->company_setting_id,
 
