@@ -8,9 +8,6 @@
   <div class="flex items-center justify-between mt-2 mb-6 ">
     <x-back-button />
 
-
-
-
     <div class="flex items-center gap-3">
       <x-button
         href="{{ route('dashboard.bills.pdf', $bill) }}"
@@ -84,7 +81,10 @@
 </div>
 
 <div class="">
-  @include('dashboard.bills.partials.show._convert_modal', $paymentLabels)
+  @include('dashboard.bills.partials.show._convert_modal', [
+  'paymentLabels' => $paymentLabels,
+  'billId' => $bill->id
+  ])
 </div>
 
 @endsection

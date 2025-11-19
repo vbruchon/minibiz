@@ -1,29 +1,29 @@
+@props([
+'paymentLabels' => [],
+'billId' => null, // null = mode dynamique (index)
+])
+
 <x-modal id="convert-modal" size="max-w-md">
-  <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-    Convertir en facture
-  </h2>
+  <h2 class="text-2xl font-bold mb-6">Convertir en facture</h2>
 
   <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">
-    Choisissez le mode de paiement à utiliser pour cette facture.
+    Choisissez le mode de paiement à utiliser.
   </p>
 
   <form id="convert-form"
     method="POST"
-    action="{{ route('dashboard.bills.convert', $bill->id) }}"
+    @if($billId)
+    action="{{ route('dashboard.bills.convert', $billId) }}"
+    @endif
     class="space-y-6">
+
     @csrf
 
     <div class="space-y-2">
-      @foreach($bill->company->payment_methods ?? [] as $method)
+      @foreach($paymentLabels as $method => $label)
       <label class="flex items-center gap-2 cursor-pointer">
-        <input
-          type="radio"
-          name="payment_method"
-          value="{{ $method }}"
-          class="h-4 w-4 text-primary border-gray-400">
-        <span class="text-gray-800 dark:text-gray-200">
-          {{ $paymentLabels[$method] ?? ucfirst($method) }}
-        </span>
+        <input type="radio" name="payment_method" value="{{ $method }}">
+        <span>{{ $label }}</span>
       </label>
       @endforeach
     </div>
@@ -36,20 +36,16 @@
       <textarea
         name="conversion_note"
         rows="3"
-        class="w-full rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-2 border border-gray-300 dark:border-gray-600 focus:ring-primary focus:border-primary resize-none"
+        class="w-full rounded-lg bg-gray-100 dark:bg-gray-700 p-2 border border-gray-300 dark:border-gray-600"
         placeholder="Merci pour votre confiance..."></textarea>
-
-      <p class="text-xs text-gray-500 mt-1">
-        Cette note apparaîtra en bas de la facture.
-      </p>
     </div>
 
-    <x-button type="submit" variant="warning" class="w-full justify-center">
-      Convertir en facture
+    <x-button type="submit" variant="warning" class="w-full">
+      Convertir
     </x-button>
   </form>
-
 </x-modal>
+
 
 @push('scripts')
 <script>

@@ -57,7 +57,11 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
 
     @if($bill->canBeConverted())
     <x-tooltip-button label="Convertir">
-      <x-button data-modal-target="convert-modal" variant="ghost" size="sm">
+      <x-button
+        data-modal-target="convert-modal"
+        data-bill-id="{{ $bill->id }}"
+        variant="ghost"
+        size="sm">
         <x-heroicon-o-document-arrow-down class="size-5 text-warning hover:text-warning/80 transition opacity-0 group-hover:opacity-100" />
       </x-button>
     </x-tooltip-button>

@@ -18,8 +18,13 @@ class BillController extends Controller
     public function index(Request $request, BillSearchFilterService $service)
     {
         $bills = $service->handle($request);
+        $paymentLabels = [
+            'cash' => 'Espèces',
+            'bank_transfer' => 'Virement bancaire',
+            'cheque' => 'Chèque',
+        ];
 
-        return view('dashboard.bills.list', ['bills' => $bills]);
+        return view('dashboard.bills.list', ['bills' => $bills, 'paymentLabels' => $paymentLabels]);
     }
 
     public function create(Request $request, BillPreparationDataService $service)

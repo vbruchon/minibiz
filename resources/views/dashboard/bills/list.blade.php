@@ -57,4 +57,22 @@
   </div>
 
 </div>
+
+@include('dashboard.bills.partials.show._convert_modal', [
+'paymentLabels' => $paymentLabels,
+'billId' => null
+])
 @endsection
+
+@push('scripts')
+<script>
+  document.querySelectorAll('[data-modal-target="convert-modal"]').forEach(button => {
+    button.addEventListener('click', () => {
+      const id = button.dataset.billId;
+      const form = document.getElementById("convert-form");
+
+      form.action = `/dashboard/bills/${id}/convert`;
+    });
+  });
+</script>
+@endpush
