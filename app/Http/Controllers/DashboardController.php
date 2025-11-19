@@ -98,9 +98,7 @@ class DashboardController extends Controller
             'rejectedQuotes'      => Bill::where('type', 'quote')
                 ->where('status', BillStatus::Rejected)
                 ->count(),
-            'convertedQuotes'     => Bill::where('type', 'quote')
-                ->where('status', BillStatus::Converted)
-                ->count(),
+            'convertedQuotes' => Bill::whereNotNull('converted_from_id')->count(),
             'paidInvoices'        => Bill::where('type', 'invoice')
                 ->where('status', BillStatus::Paid)
                 ->count(),
