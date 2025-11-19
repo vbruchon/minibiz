@@ -25,7 +25,9 @@ class StatusBadge extends Component
         $this->allowedStatuses = app(BillStatusService::class)->allowedNextStatuses($bill);
 
         $this->statusColor = $this->resolveStatusColor($this->status);
-        $this->hoverColor = $this->resolveHoverColor($this->status);
+        $this->hoverColor = count($this->allowedStatuses) > 0
+            ? $this->resolveHoverColor($this->status)
+            : '';
     }
 
     private function resolveStatusColor(string $status): string
@@ -60,18 +62,33 @@ class StatusBadge extends Component
 
     private function resolveHoverColor(string $status): string
     {
+        if ($this->isShow) {
+            return match ($status) {
+                'draft'     => 'hover:bg-gray-300/60 hover:ring-1',
+                'sent'      => 'hover:bg-blue-200/60 hover:ring-1',
+                'accepted'  => 'hover:bg-green-200/60 hover:ring-1',
+                'rejected'  => 'hover:bg-red-200/60 hover:ring-1',
+                'converted' => 'hover:bg-amber-200/60 hover:ring-1',
+                'paid'      => 'hover:bg-emerald-200/60 hover:ring-1',
+                'overdue'   => 'hover:bg-orange-200/60 hover:ring-1',
+                'cancelled' => 'hover:bg-red-300/60 hover:ring-1',
+                default     => 'hover:bg-gray-300/60 hover:ring-1',
+            };
+        }
+
         return match ($status) {
-            'draft'     => 'hover:bg-gray-300/60',
-            'sent'      => 'hover:bg-blue-200/60',
-            'accepted'  => 'hover:bg-green-200/60',
-            'rejected'  => 'hover:bg-red-200/60',
-            'converted' => 'hover:bg-amber-200/60',
-            'paid'      => 'hover:bg-emerald-200/60',
-            'overdue'   => 'hover:bg-orange-200/60',
-            'cancelled' => 'hover:bg-red-300/60',
-            default     => 'hover:bg-gray-300/60',
+            'draft'     => 'hover:bg-gray-700/30 hover:ring-1',
+            'sent'      => 'hover:bg-blue-700/30 hover:ring-1',
+            'accepted'  => 'hover:bg-green-900/30 hover:ring-1',
+            'rejected'  => 'hover:bg-red-700/30 hover:ring-1',
+            'converted' => 'hover:bg-amber-700/30 hover:ring-1',
+            'paid'      => 'hover:bg-emerald-700/30 hover:ring-1',
+            'overdue'   => 'hover:bg-orange-700/30 hover:ring-1',
+            'cancelled' => 'hover:bg-red-800/30 hover:ring-1',
+            default     => 'hover:bg-gray-700/30 hover:ring-1',
         };
     }
+
 
 
 

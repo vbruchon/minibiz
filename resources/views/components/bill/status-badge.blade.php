@@ -1,15 +1,17 @@
 <div class="relative inline-block">
     <button
         type="button"
-        class="relative flex items-center border {{ $statusColor }} {{ $hoverColor }}
-        hover:shadow-sm transition focus:outline-none hover:ring-1 focus:ring-2 focus:ring-primary/40
-        {{ count($allowedStatuses) > 0 ? 'cursor-pointer' : 'cursor-default' }}
-        {{ $isShow ? 'px-3 py-1 rounded-full text-xs font-medium capitalize gap-1' : 'w-28 justify-center rounded-md px-3 py-1.5 text-sm pr-6' }}"
-        @if (count($allowedStatuses)> 0)
-        onclick="toggleStatusMenu({{ $bill->id }})"
-        @endif
-        >
-
+        class="
+    relative flex items-center border
+    {{ $statusColor }}
+    {{ $hoverColor }}
+    hover:shadow-sm transition focus:outline-none focus:ring-2 focus:ring-primary/40
+    {{ count($allowedStatuses) > 0 ? 'cursor-pointer' : 'cursor-default' }}
+    {{ $isShow
+        ? 'px-3 py-1 rounded-full text-xs font-medium capitalize gap-1'
+        : 'w-28 justify-center rounded-md px-3 py-1.5 text-sm pr-6'
+    }}
+">
         @if ($isShow)
         <span class="whitespace-nowrap">
             {{ $bill->status->label() }}
