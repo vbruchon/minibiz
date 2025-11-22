@@ -29,37 +29,149 @@
 @source "../**/*.blade.php";
 @source "../**/*.js";
 
-/* === BASE FONT === */
-@theme {
-    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --color-primary: #11a667;
-    --color-destructive: #f61500;
-    --color-warning: #ffab21;
-    --color-muted: #8d95a4;
+:root {
+    --radius: 0.65rem;
+    --background: oklch(0.97 0.01 260);
+    --foreground: oklch(0.23 0.02 260);
+    --card: oklch(0.985 0.005 260);
+    --card-foreground: oklch(0.23 0.02 260);
+    --popover: oklch(0.985 0.005 260);
+    --popover-foreground: oklch(0.23 0.02 260);
+    --primary: oklch(0.64 0.148 157.3);
+    --primary-foreground: oklch(0.985 0.004 120);
+    --secondary: oklch(0.92 0.01 260);
+    --secondary-foreground: oklch(0.23 0.02 260);
+    --muted: oklch(0.9 0.01 260);
+    --muted-foreground: oklch(0.45 0.02 260);
+    --accent: oklch(0.88 0.01 260);
+    --accent-foreground: oklch(0.23 0.02 260);
+    --destructive: oklch(0.616 0.247 30.1);
+    --destructive-foreground: oklch(0.98 0.02 20);
+    --warning: oklch(0.68 0.18 72.2);
+    --warning-foreground: oklch(0.23 0.02 72);
+    --success: oklch(0.68 0.14 157.3);
+    --success-foreground: oklch(0.98 0.02 120);
+    --info: oklch(0.63 0.14 245);
+    --info-foreground: oklch(0.98 0.01 245);
+    --orange: oklch(0.72 0.16 70);
+    --orange-foreground: oklch(0.22 0.02 70);
+    --border: oklch(0.86 0.01 260);
+    --input: oklch(0.92 0.01 260);
+    --ring: oklch(0.64 0.148 157.3);
+    --sidebar: oklch(0.95 0.01 260);
+    --sidebar-foreground: oklch(0.23 0.02 260);
+    --sidebar-primary: oklch(0.64 0.148 157.3);
+    --sidebar-primary-foreground: oklch(0.98 0.02 120);
+    --sidebar-accent: oklch(0.88 0.01 260);
+    --sidebar-accent-foreground: oklch(0.23 0.02 260);
+    --sidebar-border: oklch(0.86 0.01 260);
+    --sidebar-ring: oklch(0.64 0.148 157.3);
 }
 
-/* === DARK THEME === */
-/* @theme dark {
-    --color-primary: #11a667;
-    --color-background: #1f2429;
-    --color-bg-card: #252930;
-    --color-foreground: #ffffff;
-    --color-muted: #a0a0a0;
-    --color-accent: #369061;
-    --color-destructive: #a12c2c;
-    --color-warning: #b17f2c;
-} */
+.dark {
+    --background: oklch(0.278 0.03 256.8);
+    --foreground: oklch(0.928 0.006 264.5);
+    --card: oklch(0.21 0.032 264.7);
+    --card-foreground: oklch(0.95 0.005 260);
+    --popover: oklch(0.21 0.032 264.7);
+    --popover-foreground: oklch(0.928 0.006 264.5);
+    --primary: oklch(0.64 0.148 157.3);
+    --primary-foreground: oklch(0.985 0.004 120);
+    --secondary: oklch(0.33 0.025 260);
+    --secondary-foreground: oklch(0.928 0.006 264.5);
+    --muted: oklch(0.668 0.024 263.1);
+    --muted-foreground: oklch(0.85 0.01 264);
+    --accent: oklch(0.42 0.028 260);
+    --accent-foreground: oklch(0.928 0.006 264.5);
+    --destructive: oklch(0.616 0.247 30.1);
+    --destructive-foreground: oklch(0.985 0.004 80);
+    --warning: oklch(0.68 0.18 72.2);
+    --warning-foreground: oklch(0.22 0.02 72);
+    --success: oklch(0.68 0.14 157.3);
+    --success-foreground: oklch(0.985 0.003 120);
+    --info: oklch(0.63 0.14 245);
+    --info-foreground: oklch(0.98 0.01 245);
+    --orange: oklch(0.72 0.16 70);
+    --orange-foreground: oklch(0.22 0.02 70);
+    --border: oklch(0.373 0.031 259.7);
+    --input: oklch(0.373 0.031 259.7);
+    --ring: oklch(0.64 0.148 157.3);
+    --sidebar: oklch(0.21 0.032 264.7);
+    --sidebar-foreground: oklch(0.928 0.006 264.5);
+    --sidebar-primary: oklch(0.64 0.148 157.3);
+    --sidebar-primary-foreground: oklch(0.985 0.003 120);
+    --sidebar-accent: oklch(0.278 0.03 256.8);
+    --sidebar-accent-foreground: oklch(0.928 0.006 264.5);
+    --sidebar-border: oklch(0.373 0.031 259.7);
+    --sidebar-ring: var(--ring);
+}
 
-/* === LIGHT THEME === */
-/* @theme light {
-    --color-primary: #11a667;
-    --color-background: #f5f5f5;
-    --color-bg-card: #ffffff;
-    --color-foreground: #1f2429;
-    --color-muted: #252930;
-    --color-accent: #369061;
-    --color-destructive: #a12c2c;
-    --color-warning: #b17f2c;
-} */
+@theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+
+    --color-orange: var(--orange);
+    --color-orange-foreground: var(--orange-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+    * {
+        @apply border-[var(--border)];
+    }
+
+    body {
+        @apply bg-[var(--background)] text-[var(--foreground)] antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply text-[var(--foreground)];
+    }
+}

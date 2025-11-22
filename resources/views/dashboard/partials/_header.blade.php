@@ -2,8 +2,6 @@
   <h1 class="text-3xl font-bold text-foreground">Tableau de bord</h1>
 
   <div class="flex items-center gap-3">
-
-    {{-- Créer un devis (action principale) --}}
     <x-button
       :href="route('dashboard.bills.create', ['type' => 'quote'])"
       variant="primary"
@@ -13,7 +11,6 @@
       Créer un devis
     </x-button>
 
-    {{-- Créer une facture (action importante mais secondaire) --}}
     <x-button
       :href="route('dashboard.bills.create', ['type' => 'invoice'])"
       variant="warning"
@@ -23,7 +20,6 @@
       Créer une facture
     </x-button>
 
-    {{-- Ajouter un client (neutre positif / bleu = info) --}}
     <x-button
       :href="route('dashboard.customers.create')"
       variant="info"
@@ -33,7 +29,6 @@
       Ajouter un client
     </x-button>
 
-    {{-- Ajouter un produit (action tertiaire → outline) --}}
     <x-button
       :href="route('dashboard.products.create')"
       variant="outline"
@@ -42,6 +37,5 @@
       <x-heroicon-o-plus class="size-4" />
       Ajouter un produit
     </x-button>
-
   </div>
 </div>

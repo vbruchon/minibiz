@@ -1,6 +1,6 @@
 @props([
 'route',
-'types' => ['quote' => 'Quote', 'invoice' => 'Invoice'],
+'types' => ['quote' => 'Devis', 'invoice' => 'Facture'],
 'currentType' => null,
 'statuses' => [],
 'currentStatus' => null,
@@ -10,17 +10,16 @@
 $hasFilter = $currentType || $currentStatus;
 @endphp
 
-<div class="flex items-center gap-3">
-  {{-- Filter: Type --}}
-  <div class="relative mb-4">
+<div class="flex items-center gap-3 mb-3">
+  <div class="relative">
     <button id="typeDropdownBtn" type="button"
-      class="flex items-center justify-between gap-3 px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
-      <span id="typeDropdownLabel">{{ $types[$currentType] ?? 'Type' }}</span>
-      <x-heroicon-o-chevron-down id="typeDropdownChevron" class="size-4 ml-2 transition-transform" />
+      class="flex items-center justify-between gap-3 px-3 py-1.5 bg-card border border-border text-foreground rounded-lg hover:bg-muted/10 transition">
+      <span>{{ $types[$currentType] ?? 'Type' }}</span>
+      <x-heroicon-o-chevron-down class="size-4 transition" id="typeDropdownChevron" />
     </button>
 
     <div id="typeDropdownMenu"
-      class="absolute z-20 mt-2 min-w-[180px] bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden hidden">
+      class="absolute hidden z-20 min-w-[180px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
       <form action="{{ $route }}" method="GET">
         @if($currentStatus)
         <input type="hidden" name="status" value="{{ $currentStatus }}">
@@ -29,15 +28,17 @@ $hasFilter = $currentType || $currentStatus;
         <input type="hidden" name="s" value="{{ request('s') }}">
         @endif
 
-        <ul class="text-gray-200">
+        <ul class="text-foreground">
           <li>
-            <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-700"
-              onclick="clearFilter('type')">All</button>
+            <button type="button"
+              class="block w-full text-left px-4 py-2 hover:bg-muted/10"
+              onclick="clearFilter('type')">Tous</button>
           </li>
+
           @foreach ($types as $key => $label)
           <li>
             <button type="submit" name="type" value="{{ $key }}"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-700 {{ $currentType === $key ? 'bg-gray-700 text-primary font-bold' : '' }}">
+              class="block w-full text-left px-4 py-2 hover:bg-muted/10 {{ $currentType === $key ? 'bg-muted/10 text-primary font-semibold' : '' }}">
               {{ $label }}
             </button>
           </li>
@@ -47,16 +48,15 @@ $hasFilter = $currentType || $currentStatus;
     </div>
   </div>
 
-  {{-- Filter: Status --}}
-  <div class="relative mb-4">
+  <div class="relative">
     <button id="statusDropdownBtn" type="button"
-      class="flex items-center justify-between gap-3 px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
-      <span id="statusDropdownLabel">{{ $currentStatus ? ucfirst($currentStatus) : 'Status' }}</span>
-      <x-heroicon-o-chevron-down id="statusDropdownChevron" class="size-4 ml-2 transition-transform" />
+      class="flex items-center justify-between gap-3 px-3 py-1.5 bg-card border border-border text-foreground rounded-lg hover:bg-muted/10 transition">
+      <span>{{ $currentStatus ? ucfirst($currentStatus) : 'Statut' }}</span>
+      <x-heroicon-o-chevron-down class="size-4 transition" id="statusDropdownChevron" />
     </button>
 
     <div id="statusDropdownMenu"
-      class="absolute z-20 mt-2 min-w-[180px] bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden hidden">
+      class="absolute hidden z-20 min-w-[180px] bg-card border border-border rounded-lg shadow-lg overflow-hidden">
       <form action="{{ $route }}" method="GET">
         @if($currentType)
         <input type="hidden" name="type" value="{{ $currentType }}">
@@ -65,15 +65,16 @@ $hasFilter = $currentType || $currentStatus;
         <input type="hidden" name="s" value="{{ request('s') }}">
         @endif
 
-        <ul class="text-gray-200">
+        <ul class="text-foreground">
           <li>
-            <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-700"
-              onclick="clearFilter('status')">All</button>
+            <button type="button" class="block w-full text-left px-4 py-2 hover:bg-muted/10"
+              onclick="clearFilter('status')">Tous</button>
           </li>
+
           @foreach ($statuses as $status)
           <li>
             <button type="submit" name="status" value="{{ $status->value }}"
-              class="block w-full text-left px-4 py-2 hover:bg-gray-700 {{ $currentStatus === $status->value ? 'bg-gray-700 text-primary font-bold' : '' }}">
+              class="block w-full text-left px-4 py-2 hover:bg-muted/10 {{ $currentStatus === $status->value ? 'bg-muted/10 text-primary font-semibold' : '' }}">
               {{ ucfirst($status->value) }}
             </button>
           </li>
@@ -84,16 +85,15 @@ $hasFilter = $currentType || $currentStatus;
   </div>
 
   @if($hasFilter)
-  <div class="-translate-y-1/5">
-    <button type="button"
-      class="px-3 py-1 border-2 border-gray-600 text-gray-200 rounded-lg hover:bg-gray-500 transition"
-      onclick="resetAllFilters()">
-      Reset filters
-    </button>
-  </div>
+  <button type="button"
+    class="px-3 py-1 border border-border text-foreground rounded-lg hover:bg-muted/20 transition -translate-y-1/5"
+    onclick="resetAllFilters()">
+    Réinitialiser
+  </button>
   @endif
 </div>
 
+@push('scripts')
 <script>
   const dropdowns = [{
       btn: 'typeDropdownBtn',
@@ -112,21 +112,20 @@ $hasFilter = $currentType || $currentStatus;
     const menu = document.getElementById(d.menu);
     const chevron = document.getElementById(d.chevron);
 
-    if (btn && menu && chevron) {
-      btn.addEventListener('click', () => {
-        const isOpen = !menu.classList.contains('hidden');
-        menu.classList.toggle('hidden', isOpen);
-        chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
-      });
-    }
+    btn.addEventListener('click', () => {
+      const open = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden', open);
+      chevron.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
   });
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', e => {
     dropdowns.forEach(d => {
       const btn = document.getElementById(d.btn);
       const menu = document.getElementById(d.menu);
       const chevron = document.getElementById(d.chevron);
-      if (btn && menu && chevron && !btn.contains(e.target) && !menu.contains(e.target)) {
+
+      if (!btn.contains(e.target) && !menu.contains(e.target)) {
         menu.classList.add('hidden');
         chevron.style.transform = 'rotate(0deg)';
       }
@@ -137,12 +136,15 @@ $hasFilter = $currentType || $currentStatus;
     const url = new URL("{{ $route }}", window.location.origin);
     const params = new URLSearchParams(window.location.search);
     params.delete(name);
-    window.location.href = params.toString() ? url.pathname + '?' + params.toString() : url.pathname;
+    window.location.href = params.toString() ?
+      url.pathname + '?' + params.toString() :
+      url.pathname;
   }
 
   function resetAllFilters() {
     const url = new URL("{{ $route }}", window.location.origin);
     const params = new URLSearchParams(window.location.search);
+
     const search = params.get('s');
 
     const newParams = new URLSearchParams();
@@ -153,3 +155,4 @@ $hasFilter = $currentType || $currentStatus;
       url.pathname;
   }
 </script>
+@endpush

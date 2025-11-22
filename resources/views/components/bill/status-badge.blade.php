@@ -27,7 +27,7 @@
 
         @if (count($allowedStatuses) > 0)
         <x-heroicon-o-chevron-down
-            class="absolute right-2 top-1/2 -translate-y-1/2 size-3 text-gray-400 pointer-events-none" />
+            class="absolute right-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground pointer-events-none" />
         @endif
         @endif
     </button>

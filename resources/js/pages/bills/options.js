@@ -24,7 +24,7 @@ function renderSimpleProduct(container, lineIndex) {
     desc.rows = 3;
     desc.placeholder = "Description du produit...";
     desc.className =
-        "w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition";
+        "w-full px-4 py-2 bg-input text-foreground border border-border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring transition";
     container.appendChild(desc);
 }
 

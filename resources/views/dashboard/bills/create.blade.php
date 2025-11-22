@@ -7,17 +7,20 @@
 @endsection
 
 @section('content')
-<div class="mx-auto space-y-6">
-  <div class="flex items-center justify-center gap-2 relative">
-    <x-back-button class="absolute left-0" />
-    <h1 class="text-3xl font-bold text-center">
+<div class="mx-auto">
+  <x-back-button />
+
+  <div class="mx-auto  p-8 space-y-6">
+    <h1 class="text-3xl font-bold text-foreground">
       {{ $type === 'invoice' ? 'Créer une facture' : 'Créer un devis' }}
     </h1>
-  </div>
 
-  @include('dashboard.bills.partials.form._form', [
-  'formAction' => route('dashboard.bills.store', ['type' => $type]),
-  'submitLabel' => $type === 'invoice' ? 'Créer la facture' : 'Enregistrer le devis',
-  ])
+    <div class="bg-card border border-border rounded-xl shadow-sm p-6 mx-auto">
+      @include('dashboard.bills.partials.form._form', [
+      'formAction' => route('dashboard.bills.store', ['type' => $type]),
+      'submitLabel' => $type === 'invoice' ? 'Créer la facture' : 'Enregistrer le devis',
+      ])
+    </div>
+  </div>
 </div>
 @endsection

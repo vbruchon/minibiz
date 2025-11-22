@@ -1,5 +1,3 @@
-@props(['company' => null])
-
 <x-form.section title="Informations de l’entreprise">
   <div class="grid grid-cols-2 gap-6">
     <x-form.input label="Nom de l’entreprise" name="company_name" required

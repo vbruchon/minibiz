@@ -13,7 +13,6 @@
     <x-form.section title="Status">
         <x-form.select
             name="status"
-            label="Status"
             required
             :value="old('status', $customer?->status)"
             :options="array_merge(
@@ -44,6 +43,7 @@
                 placeholder="contact@entreprise.fr"
                 required
                 class="flex-1" />
+
             <x-form.input
                 label="Company Phone"
                 name="company_phone"

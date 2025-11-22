@@ -6,27 +6,27 @@
 
 <div class="mb-4">
     <form id="searchForm" action="{{ route($route) }}" method="GET">
-        <div class="relative w-[90%]">
+        <div class="relative w-full">
             <input
                 id="searchInput"
                 type="text"
                 name="{{ $name }}"
                 value="{{ request($name) }}"
                 placeholder="{{ $placeholder }}"
-                class="border border-muted rounded-lg px-3 py-1.5 pr-8 w-full">
+                class="bg-muted/20 border border-muted rounded-lg px-3 py-1.5 pr-8 w-full">
 
             <button
                 id="delete-search-btn"
                 type="button"
                 onclick="document.getElementById('searchInput').value=''; toggleClearButton(); document.getElementById('searchForm').submit();"
-                class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hover:cursor-pointer">
+                class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-muted-foreground hover:cursor-pointer">
                 <x-heroicon-o-x-mark class="size-4" />
             </button>
         </div>
     </form>
 </div>
 
-@section('scripts')
+@push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const input = document.getElementById('searchInput');
@@ -63,4 +63,4 @@
         toggleClearButton();
     });
 </script>
-@endsection
+@endpush

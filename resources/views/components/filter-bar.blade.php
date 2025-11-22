@@ -6,35 +6,34 @@
 
 <div class="relative mb-4">
     <button id="statusDropdownBtn"
-        type="button"
-        class="flex items-center justify-between gap-3 w-fit px-3 py-1.5 bg-gray-700 border border-gray-600 text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary transition">
+        class="flex items-center justify-between gap-3 px-3 py-1.5 bg-input border border-border text-foreground rounded-lg focus:ring-2 focus:ring-primary transition hover:cursor-pointer">
         <span id="statusDropdownLabel">{{ $options[$currentStatus] ?? 'Status' }}</span>
         <x-heroicon-o-chevron-down id="statusDropdownChevron" class="size-4 ml-2 transition-transform" />
     </button>
 
     <div id="statusDropdownMenu"
-        class="absolute z-20 mt-2 w-40 bg-gray-800 border border-gray-700 rounded-lg shadow-lg overflow-hidden hidden">
-        <form action="{{ $route }}" method="GET" id="filterBarDropdown">
-            <ul class="text-gray-200">
-                <li>
-                    <button type="button" class="block w-full text-left px-4 py-2 hover:bg-gray-700 transition hover:cursor-pointer"
-                        onclick="clearStatus()">
-                        All
-                    </button>
-                </li>
-                @foreach ($options as $value => $label)
-                <li>
-                    <button type="submit" name="status" value="{{ $value }}"
-                        class="block w-full text-left px-4 py-2 hover:bg-gray-700 hover:cursor-pointer transition {{ $currentStatus === $value ? 'bg-gray-700 text-primary font-bold' : '' }}">
-                        {{ $label }}
-                    </button>
-                </li>
-                @endforeach
-            </ul>
-        </form>
-    </div>
-</div>
+        class="absolute z-20 mt-2 w-40 bg-card border border-border rounded-lg shadow-lg hidden">
+        <ul class="text-foreground">
+            <li>
+                <button type="button"
+                    class="block w-full text-left px-4 py-2 hover:bg-muted/20">
+                    Tous
+                </button>
+            </li>
 
+            @foreach ($options as $value => $label)
+            <li>
+                <button type="submit" name="status" value="{{ $value }}"
+                    class="block w-full text-left px-4 py-2 hover:bg-muted/20 {{ $currentStatus === $value ? 'text-primary font-semibold' : '' }}">
+                    {{ $label }}
+                </button>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+
+</div>
+@section('scripts')
 <script>
     const dropdownBtn = document.getElementById('statusDropdownBtn');
     const dropdownMenu = document.getElementById('statusDropdownMenu');
@@ -61,3 +60,4 @@
         window.location.href = params.toString() ? url.pathname + '?' + params.toString() : url.pathname;
     }
 </script>
+@endsection

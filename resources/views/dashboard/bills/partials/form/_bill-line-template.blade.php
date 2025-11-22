@@ -5,11 +5,12 @@
         <x-form.select
           label="Produit"
           name="lines[{lineIndex}][product_id]"
-          :options="$products->pluck('name', 'id')"
+          :options="$products->pluck('name','id')"
           placeholder="Sélectionner un produit"
           required />
 
         <x-form.input label="Qté" name="lines[{lineIndex}][quantity]" type="number" min="1" value="1" required />
+
         <x-form.input label="Prix unitaire" name="lines[{lineIndex}][unit_price]" type="number" step="0.01" required />
       </div>
 

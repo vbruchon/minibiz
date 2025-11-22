@@ -1,7 +1,7 @@
 <div class="flex justify-between">
   <div>
     <div class="flex items-center gap-3">
-      <h2 class="text-2xl font-bold">
+      <h2 class="text-2xl font-bold text-black">
         {{ $type}} #{{ $bill->number }}
       </h2>
       <x-bill.status-badge :bill="$bill" isShow />

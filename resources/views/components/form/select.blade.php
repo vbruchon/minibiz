@@ -10,20 +10,21 @@
 
 <div>
   @if($label)
-  <label class="block mb-2 font-semibold text-gray-200">
+  <label class="block mb-2 font-semibold text-foreground">
     {{ $label }}
     @if($optional)
-    <span class="text-sm font-normal text-gray-400">(optionnel)</span>
+    <span class="text-sm font-normal text-muted-foreground">(optionnel)</span>
     @endif
   </label>
   @endif
 
   <select
     name="{{ $name }}"
-    @if($required) required @endif
     {{ $attributes->merge([
-        'class' => 'w-full px-4 py-2.5 bg-gray-700 text-white border border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition'
-    ]) }}>
+      'class' =>
+        'w-full px-4 py-2.5 bg-input text-foreground border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition'
+  ]) }}>
+
 
     <option value="" disabled {{ old($name, $selected) ? '' : 'selected' }}>
       {{ $placeholder }}

@@ -4,18 +4,16 @@
 'product' => null
 ])
 
-<form method="POST" action="{{ $action }}" id="productForm" class="space-y-10 p-8 rounded-2xl bg-gray-900/50">
+<form method="POST" action="{{ $action }}" id="productForm" class="space-y-10">
     @csrf
     @if(in_array($method, ['PUT', 'PATCH']))
     @method($method)
     @endif
 
-    {{-- Status uniquement pour update --}}
     @if(in_array($method, ['PUT', 'PATCH']))
     <x-form.section title="Status" class="mb-6">
         <x-form.select
             name="status"
-            label="Status"
             required
             :value="old('status', $product?->status)"
             :options="['active' => 'Active', 'inactive' => 'Inactive']"
@@ -32,7 +30,6 @@
             required
             class="w-full" />
 
-        {{-- Type & Unit --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <x-form.select
                 label="Type"
@@ -50,7 +47,6 @@
                 class="w-full" />
         </div>
 
-        {{-- Base Price --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <x-form.input
                 label="Base Price (€)"
@@ -63,9 +59,8 @@
         </div>
     </x-form.section>
 
-    {{-- Submit Button --}}
     <div class="flex justify-end mt-8">
-        <x-button type="submit" variant="primary" class="px-6 py-3 text-lg">
+        <x-button type="submit" variant="primary" size="sm" class="px-6 py-3 text-lg">
             {{ $product ? 'Update Product' : 'Create Product' }}
         </x-button>
     </div>

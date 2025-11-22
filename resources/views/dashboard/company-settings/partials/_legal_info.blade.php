@@ -1,6 +1,6 @@
 @props(['company' => null, 'initialType' => 'Société'])
 
-<x-form.section title="Informations légales" :separator="false">
+<x-form.section title="Informations légales" :separator="true">
   <div class="grid grid-cols-2 gap-6">
     <x-form.select
       label="Type d’activité"

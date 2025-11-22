@@ -1,6 +1,6 @@
-<div class="grid grid-cols-2 text-sm text-gray-700 leading-relaxed gap-8">
+<div class="grid grid-cols-2 text-sm leading-relaxed gap-8">
   <div class="space-y-2">
-    <h4 class="text-lg font-medium mb-4">Conditions</h4>
+    <h4 class="text-lg font-medium mb-4 text-gray-900">Conditions</h4>
 
     <div class="flex items-center gap-4">
       <p class="font-semibold text-gray-900">Conditions de règlement :</p>
@@ -32,7 +32,7 @@
   <p class="text-gray-700">Le paiement doit être remis en main propre.</p>
   @endif
   <div class="space-y-2">
-    <h4 class="text-lg font-medium mb-4">Informations paiements</h4>
+    <h4 class="text-lg font-medium mb-4 text-gray-900">Informations paiements</h4>
     @if($bill->payment_method === 'bank_transfer')
     <div class="mt-2 space-y-1 text-gray-700">
       <p><span class="font-semibold">IBAN :</span> {{ $bill->company->bank_iban }}</p>

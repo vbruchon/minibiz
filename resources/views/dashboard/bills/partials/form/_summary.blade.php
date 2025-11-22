@@ -1,17 +1,17 @@
 <x-form.section :title="$type === 'invoice' ? 'Résumé de la facture' : 'Résumé du devis'">
-  <div class="p-4 border border-gray-700 rounded-lg bg-gray-800/50 text-right space-y-1">
-    <p class="text-sm text-gray-400">Sous-total :
-      <span id="subtotal" class="text-white font-semibold">0.00 €</span>
+  <div class="p-4 border rounded-lg bg-muted/10 text-right space-y-1">
+    <p class="text-sm text-muted-foreground">Sous-total :
+      <span id="subtotal" class="text-foreground font-semibold">0.00 €</span>
     </p>
-    <p class="text-sm text-gray-400">
+    <p class="text-sm text-muted-foreground">
       Remise globale :
-      <span id="discount-value" class="text-white font-semibold">0.00 €</span>
+      <span id="discount-value" class="text-foreground font-semibold">0.00 €</span>
     </p>
 
     @if($hasVAT)
-    <p class="text-sm text-gray-400">
+    <p class="text-sm text-muted-foreground">
       TVA ({{ $vatRate }}%) :
-      <span id="vat" class="text-white font-semibold">0.00 €</span>
+      <span id="vat" class="text-foreground font-semibold">0.00 €</span>
     </p>
     @endif
 

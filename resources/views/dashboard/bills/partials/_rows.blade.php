@@ -1,60 +1,73 @@
 @props(['bill'])
 
 @php
-$statusColor = match($bill->status->value) {
-'draft' => 'bg-gray-600/10 text-gray-400 border-gray-500/30',
-'sent' => 'bg-blue-600/10 text-blue-400 border-blue-500/30',
-'accepted' => 'bg-green-600/10 text-green-400 border-green-500/30',
-'rejected' => 'bg-red-600/10 text-red-400 border-red-500/30',
-'converted' => 'bg-yellow-600/10 text-yellow-400 border-yellow-500/30',
-'paid' => 'bg-emerald-600/10 text-emerald-400 border-emerald-500/30',
-'overdue' => 'bg-orange-600/10 text-orange-400 border-orange-500/30',
-'cancelled' => 'bg-red-600/10 text-red-400 border-red-500/30',
-default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
-};
+$status = $bill->status->value;
+
+$colors = [
+'draft' => 'bg-muted/15 text-muted-foreground border-muted/40',
+'sent' => 'bg-blue-500/15 text-blue-600 border-blue-500/30',
+'accepted' => 'bg-green-500/15 text-green-600 border-green-500/30',
+'rejected' => 'bg-red-500/15 text-red-600 border-red-500/30',
+'converted' => 'bg-yellow-500/15 text-yellow-600 border-yellow-500/30',
+'paid' => 'bg-emerald-500/15 text-emerald-600 border-emerald-500/30',
+'overdue' => 'bg-orange-500/15 text-orange-600 border-orange-500/30',
+'cancelled' => 'bg-red-700/15 text-red-700 border-red-700/30',
+];
 @endphp
 
-<tr class="hover:bg-gray-700/40 transition-colors group">
-  <td class="px-6 py-3 text-gray-200 font-medium">
+<tr class="hover:bg-muted/10 transition-colors group">
+
+  {{-- Numéro --}}
+  <td class="px-6 py-3 text-foreground font-medium">
     {{ $bill->number }}
   </td>
 
-  <td class="px-6 py-3 text-gray-300">
+  {{-- Type --}}
+  <td class="px-6 py-3 text-muted-foreground">
     <x-bill-type-badge :type="$bill->type" />
   </td>
 
+  {{-- Status --}}
   <td class="px-6 py-3 relative">
     <x-bill.status-badge :bill="$bill" />
-
   </td>
 
-  <td class="px-6 py-3 text-gray-300">
+  {{-- Customer --}}
+  <td class="px-6 py-3 text-muted-foreground">
     {{ $bill->customer?->company_name ?? '—' }}
   </td>
 
-  <td class="px-6 py-3 text-gray-200 font-medium">
+  {{-- Total --}}
+  <td class="px-6 py-3 text-foreground font-medium">
     {{ number_format($bill->total, 2, ',', ' ') }} €
   </td>
 
-  <td class="px-6 py-3 text-gray-300">
+  {{-- Issue date --}}
+  <td class="px-6 py-3 text-muted-foreground">
     {{ $bill->issue_date?->format('d/m/Y') ?? '—' }}
   </td>
 
-  <td class="px-6 py-3 flex items-center">
+
+  {{-- Actions --}}
+  <td class="px-6 py-3 flex items-center gap-1">
+
+    {{-- Voir --}}
     <x-tooltip-button label="Voir">
       <x-button :href="route('dashboard.bills.show', $bill->id)" variant="ghost" size="sm">
         <x-heroicon-o-eye class="size-5 transition opacity-0 group-hover:opacity-100" />
       </x-button>
     </x-tooltip-button>
 
+    {{-- Modifier --}}
     @if($bill->canBeEdited())
     <x-tooltip-button label="Modifier">
       <x-button :href="route('dashboard.bills.edit', $bill->id)" variant="ghost" size="sm">
-        <x-heroicon-o-pencil-square class="size-5 text-blue-400 hover:text-blue-500 transition opacity-0 group-hover:opacity-100" />
+        <x-heroicon-o-pencil-square class="size-5 text-primary transition opacity-0 group-hover:opacity-100" />
       </x-button>
     </x-tooltip-button>
     @endif
 
+    {{-- Convertir --}}
     @if($bill->canBeConverted())
     <x-tooltip-button label="Convertir">
       <x-button
@@ -62,17 +75,19 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
         data-bill-id="{{ $bill->id }}"
         variant="ghost"
         size="sm">
-        <x-heroicon-o-document-arrow-down class="size-5 text-warning hover:text-warning/80 transition opacity-0 group-hover:opacity-100" />
+        <x-heroicon-o-document-arrow-down class="size-5 text-warning transition opacity-0 group-hover:opacity-100" />
       </x-button>
     </x-tooltip-button>
     @endif
 
+    {{-- Exporter PDF --}}
     <x-tooltip-button label="Exporter PDF">
       <x-button href="{{ route('dashboard.bills.pdf', $bill) }}" variant="ghost" size="sm">
-        <x-heroicon-o-arrow-down-tray class="size-5 text-primary hover:text-primary/80 transition opacity-0 group-hover:opacity-100" />
+        <x-heroicon-o-arrow-down-tray class="size-5 text-primary transition opacity-0 group-hover:opacity-100" />
       </x-button>
     </x-tooltip-button>
 
+    {{-- Supprimer --}}
     @if($bill->canBeEdited())
     <x-tooltip-button label="Supprimer">
       <x-confirmation-delete-dialog
@@ -80,9 +95,11 @@ default => 'bg-gray-600/10 text-gray-400 border-gray-500/30'
         modelName="bill"
         route="dashboard.bills.delete"
         variant="ghost">
-        <x-heroicon-o-trash class="size-5 text-destructive mt-1 hover:text-destructive/70 hover:cursor-pointer transition opacity-0 group-hover:opacity-100" />
+        <x-heroicon-o-trash
+          class="size-5 text-destructive transition opacity-0 group-hover:opacity-100" />
       </x-confirmation-delete-dialog>
     </x-tooltip-button>
     @endif
+
   </td>
 </tr>

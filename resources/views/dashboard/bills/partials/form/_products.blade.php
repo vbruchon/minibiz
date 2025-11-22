@@ -6,7 +6,7 @@
           <x-form.select
             label="Produit"
             name="lines[0][product_id]"
-            :options="$products->pluck('name', 'id')"
+            :options="$products->pluck('name','id')"
             placeholder="Sélectionner un produit"
             :selected="old('lines.0.product_id', $bill->lines[0]->product_id ?? null)"
             required />

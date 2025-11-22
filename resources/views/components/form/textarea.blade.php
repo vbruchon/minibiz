@@ -8,18 +8,18 @@
 ])
 
 <div {{ $attributes->merge(['class' => '']) }}>
-  <label class="block mb-2 font-semibold text-gray-200">
+  <label class="block mb-2 font-semibold text-foreground">
     {{ $label }}
     @if($optional)
-    <span class="text-sm font-normal text-gray-400">(optionnel)</span>
+    <span class="text-sm font-normal text-muted-foreground">(optionnel)</span>
     @endif
   </label>
 
   <textarea
     name="{{ $name }}"
     rows="{{ $rows }}"
-    @if($required) required @endif
-    class="w-full px-4 py-2 text-foreground bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition">{{ old($name, $value) }}</textarea>
+    class="w-full px-4 py-2 bg-input text-foreground border border-border rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition"
+    @if($required) required @endif>{{ old($name, $value) }}</textarea>
 
   @error($name)
   <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
