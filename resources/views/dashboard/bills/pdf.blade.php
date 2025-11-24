@@ -19,7 +19,6 @@
     }
   </script>
 
-  {{-- Format A4 --}}
   <style>
     @page {
       size: A4;

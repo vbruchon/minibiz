@@ -75,7 +75,7 @@ class BillLifecycleService
     $totals = $this->calcService->calculate($bill);
     $bill->update($totals);
 
-    if ($bill->type === 'invoice') {
+    if ($bill->isInvoice()) {
       $bill->update([
         'payment_method' => $data['payment_method'] ?? $bill->payment_method,
       ]);

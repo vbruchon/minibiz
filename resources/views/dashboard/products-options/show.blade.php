@@ -3,14 +3,13 @@
 @section('title', 'MiniBiz - Détails option produit')
 
 @section('content')
-<div class="mx-auto">
+<div class="mx-auto space-y-6">
 
   <x-back-button />
 
-  <div class="mx-auto mt-4 px-8 py-4 flex items-center justify-between">
-    <h1 class="text-3xl font-bold text-foreground">Détails de l'option produit</h1>
-
-    <div class="flex items-center gap-3">
+  <x-header
+    title="Détails de l'option">
+    <x-slot name="actions">
       <x-button :href="route('dashboard.products-options.edit', $productOption->id)"
         variant="info" size="sm" class="gap-2">
         <x-heroicon-o-pencil-square class="size-5" />
@@ -27,8 +26,8 @@
           <span>Supprimer</span>
         </div>
       </x-confirmation-delete-dialog>
-    </div>
-  </div>
+    </x-slot>
+  </x-header>
 
   <div class="space-y-8 px-8">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">

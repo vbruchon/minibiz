@@ -16,7 +16,6 @@ class BillSeeder extends Seeder
             return;
         }
 
-        // 5 quotes
         Bill::factory()
             ->count(5)
             ->create()
@@ -37,7 +36,6 @@ class BillSeeder extends Seeder
                 ]);
             });
 
-        // 3 invoices
         Bill::factory()
             ->count(3)
             ->invoice()

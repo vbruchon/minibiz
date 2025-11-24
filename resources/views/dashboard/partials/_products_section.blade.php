@@ -1,52 +1,30 @@
 <div>
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
-    <div class="flex items-center gap-4 p-6 bg-card border border-border rounded-xl shadow-sm">
-      <div class="p-3 rounded-full bg-muted/20 border border-border">
-        <x-heroicon-o-cube class="size-6 text-muted-foreground" />
-      </div>
+    <x-kpi-card
+      icon="heroicon-o-cube"
+      icon-bg="bg-muted/20"
+      icon-color="text-muted-foreground"
+      label="Total produits"
+      value="{{ $productCount }}" />
 
-      <div>
-        <p class="text-sm text-muted-foreground">Total produits</p>
-        <p class="text-3xl font-bold text-foreground leading-tight">
-          {{ $productCount }}
-        </p>
-      </div>
-    </div>
+    <x-kpi-card
+      icon="heroicon-o-chart-bar"
+      icon-bg="bg-primary/10"
+      icon-color="text-primary"
+      label="Produit le plus vendu"
+      value="{{ $bestProduct ? $bestProduct->product->name : '—' }}"
+      value-size="text-xl" />
 
-    <div class="flex items-center gap-4 p-6 bg-card border border-border rounded-xl shadow-sm">
-      <div class="p-3 rounded-full bg-primary/10 border border-border">
-        <x-heroicon-o-chart-bar class="size-6 text-primary" />
-      </div>
-
-      <div>
-        <p class="text-sm text-muted-foreground">Produit le plus vendu</p>
-        <p class="text-xl font-semibold text-foreground leading-tight mt-1">
-          {{ $bestProduct ? $bestProduct->product->name : '—' }}
-        </p>
-      </div>
-    </div>
-
-    <div class="flex items-center gap-4 p-6 bg-card border border-border rounded-xl shadow-sm">
-      <div class="p-3 rounded-full bg-warning/10 border border-border">
-        <x-heroicon-o-exclamation-circle class="size-6 text-warning" />
-      </div>
-
-      <div>
-        <p class="text-sm text-muted-foreground">Produits jamais vendus</p>
-        <p class="text-3xl font-bold text-foreground leading-tight">
-          {{ $unusedProducts }}
-        </p>
-      </div>
-    </div>
+    <x-kpi-card
+      icon="heroicon-o-exclamation-circle"
+      icon-bg="bg-warning/10"
+      icon-color="text-warning"
+      label="Produits jamais vendus"
+      value="{{ $unusedProducts }}" />
   </div>
 
   <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-    <div class="bg-card border border-border rounded-xl p-6 space-y-6">
-      <h2 class="text-lg font-semibold text-foreground flex items-center gap-6">
-        Top Produits les Plus Vendus
-        <x-heroicon-o-chart-bar class="size-5 text-primary" />
-      </h2>
-
+    <x-card title="Top Produits les Plus Vendus">
       <div class="grid grid-cols-2 gap-4">
         @forelse ($topProducts as $row)
         <div class="p-4 border border-border bg-muted/10 rounded-lg transition flex items-center justify-between">
@@ -61,11 +39,10 @@
         <p class="text-muted-foreground italic">Aucun produit vendu pour le moment.</p>
         @endforelse
       </div>
-    </div>
+    </x-card>
 
-    <div class="bg-card border border-border rounded-xl p-6 space-y-8">
+    <x-card title="Top Options Produits">
       <div class="space-y-4">
-        <h2 class="text-lg font-semibold text-foreground">Top Options Produits</h2>
         @if ($topOptions->isNotEmpty())
         @foreach($topOptions as $topOption)
         <div class="flex items-center justify-between bg-muted/10 p-4 border border-border rounded-lg">
@@ -87,6 +64,6 @@
         <p class="text-muted-foreground italic">Aucune option sélectionnée.</p>
         @endif
       </div>
-    </div>
+    </x-card>
   </div>
 </div>

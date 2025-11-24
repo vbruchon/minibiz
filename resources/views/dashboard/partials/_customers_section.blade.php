@@ -1,40 +1,22 @@
-<div>
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+    <x-kpi-card
+      icon="heroicon-o-user-plus"
+      label="Nouveaux en {{ now()->year }}"
+      :value="$customerCountYear"
+      iconBg="bg-primary/10"
+      iconColor="text-primary" />
 
-    <div class="flex items-center gap-4 p-6 bg-card border border-border rounded-xl shadow-sm">
-      <div class="p-3 rounded-full bg-primary/10 border border-border">
-        <x-heroicon-o-user-plus class="size-6 text-primary" />
-      </div>
+    <x-kpi-card
+      icon="heroicon-o-bolt"
+      label="Actifs (12 derniers mois)"
+      :value="$activeCustomerCount"
+      iconBg="bg-warning/10"
+      iconColor="text-warning" />
 
-      <div>
-        <p class="text-sm text-muted-foreground">Nouveaux en {{ now()->year }}</p>
-        <p class="text-2xl font-bold text-foreground leading-tight">
-          {{ $customerCountYear }}
-        </p>
-      </div>
-    </div>
-
-    <div class="flex items-center gap-4 p-6 bg-card border border-border rounded-xl shadow-sm">
-      <div class="p-3 rounded-full bg-warning/10 border border-border">
-        <x-heroicon-o-bolt class="size-6 text-warning" />
-      </div>
-
-      <div>
-        <p class="text-sm text-muted-foreground">Actifs (12 derniers mois)</p>
-        <p class="text-2xl font-bold text-foreground leading-tight">
-          {{ $activeCustomerCount }}
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
-    <div class="bg-card border border-border rounded-xl p-6 space-y-6">
-      <h2 class="text-lg font-semibold text-foreground">Top Clients par Chiffre d’affaires</h2>
-
+    <x-card title="Top Clients par Chiffre d’affaires">
       @forelse ($topCustomers as $row)
       <div class="p-4 border border-border bg-muted/10 rounded-lg flex items-center justify-between">
-        <div>
+        <div class="flex flex-col gap-1">
           <p class="text-foreground font-medium">
             {{ $row->customer->company_name }}
           </p>
@@ -49,15 +31,13 @@
       @empty
       <p class="text-muted-foreground italic">Aucune donnée disponible.</p>
       @endforelse
-    </div>
+    </x-card>
 
-    <div class="bg-card border border-border rounded-xl p-6 space-y-6">
-      <h2 class="text-lg font-semibold text-foreground">Derniers Clients Ajoutés</h2>
-
+    <x-card title="Derniers Clients Ajoutés">
       @forelse ($latestCustomers as $customer)
       <a href="{{ route('dashboard.customers.show', $customer->id) }}"
         class="flex items-center justify-between p-4 border border-border bg-muted/10 rounded-lg transition group">
-        <div>
+        <div class="flex flex-col gap-1">
           <p class="text-foreground font-medium">
             {{ $customer->company_name }}
           </p>
@@ -70,6 +50,5 @@
       @empty
       <p class="text-muted-foreground italic">Aucun client enregistré.</p>
       @endforelse
-    </div>
+    </x-card>
   </div>
-</div>

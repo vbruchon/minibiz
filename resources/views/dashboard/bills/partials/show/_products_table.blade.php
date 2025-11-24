@@ -12,7 +12,6 @@
   <tbody>
     @foreach($bill->lines as $line)
     <tr class="border-b border-gray-200 text-gray-800 align-top">
-      {{-- Produit --}}
       <td class="py-2 px-3 font-medium whitespace-nowrap">
         {{ $line->product->name }}
       </td>
@@ -23,7 +22,6 @@
           @foreach($line->selectedOptions as $option)
           <li class="text-gray-700">
             <div class="flex flex-wrap">
-              {{-- Nom de l'option (ex: Maintenance annuelle :) --}}
               <span class="font-medium shrink-0">
                 {{ $option->option?->name ?? 'Option' }} :
               </span>

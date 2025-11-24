@@ -4,33 +4,32 @@
 
 @section('content')
 
-<div class="flex items-center justify-between mb-8">
-  <h2 class="text-3xl font-bold text-foreground">Customers</h2>
-  <x-button :href="route('dashboard.customers.create')" variant="primary" size="sm">
-    + Add Customer
-  </x-button>
-</div>
+<x-header
+  title="Clients">
+  <x-slot name="actions">
+    <x-button :href="route('dashboard.customers.create')" variant="primary" size="sm">
+      + Ajouter Client
+    </x-button>
+  </x-slot>
+</x-header>
 
-<div class="flex items-center gap-6 w-1/3 mb-3">
-  <div class="flex-1">
-    <x-search-bar
-      route="dashboard.customers.index"
-      placeholder="Search in customers..."
-      name="s" />
-  </div>
-
-  <div class="w-fit">
-    <x-filter-bar
-      :route="route('dashboard.customers.index')"
-      :currentStatus="request('status')"
-      :options="[
+<div class="w-1/3">
+  <x-list-controls
+    route="dashboard.customers.index"
+    searchPlaceholder="Search in customers..."
+    searchName="s"
+    :filters="[
+        [
+            'name' => 'status',   
+            'label' => 'Status',
+            'options' => [
                 'active' => 'Active',
                 'prospect' => 'Prospect',
-                'inactive' => 'Inactive'
-            ]" />
-  </div>
+                'inactive' => 'Inactive',
+            ],
+        ]
+    ]" />
 </div>
-
 
 <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
   <x-table
@@ -64,19 +63,7 @@
       </td>
 
       <td class="px-6 py-3">
-        @php
-        $status = strtolower(trim($customer->status ?? ''));
-        $colors = [
-        'active' => 'bg-success/15 text-success border-success/30',
-        'inactive' => 'bg-muted/15 text-muted-foreground border-muted/40',
-        'prospect' => 'bg-warning/15 text-warning border-warning/30',
-        ];
-        @endphp
-
-        <span class="block w-24 text-center px-3 py-1.5 text-sm rounded-md border 
-        {{ $colors[$status] ?? $colors['inactive'] }}">
-          {{ ucfirst($status) ?: '—' }}
-        </span>
+        <x-customer.status-badge :status="$customer->status" />
       </td>
 
 

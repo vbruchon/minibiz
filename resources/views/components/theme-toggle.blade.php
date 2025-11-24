@@ -1,7 +1,4 @@
-<x-button
-  variant="outline"
-  size="icon"
-  id="theme-toggle-button">
+<x-button variant="outline" size="icon" id="theme-toggle-button">
   <x-heroicon-s-sun id="theme-icon-sun" class="size-4 text-muted-foreground hidden" />
   <x-heroicon-s-moon id="theme-icon-moon" class="size-4 text-muted hidden" />
 </x-button>
@@ -25,10 +22,7 @@
 
     btn?.addEventListener('click', () => {
       html.classList.toggle('dark');
-      localStorage.setItem(
-        'theme',
-        html.classList.contains('dark') ? 'dark' : 'light'
-      );
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
       updateIcons();
     });
   });

@@ -18,7 +18,6 @@
         Télécharger PDF
       </x-button>
 
-
       @if($bill->canBeConverted())
       <x-button
         data-modal-target="convert-modal"
@@ -46,12 +45,11 @@
         <span>Supprimer</span>
       </x-confirmation-delete-dialog>
       @endif
-
     </div>
   </div>
 
   @if($bill->isQuote() && $bill->convertedInvoice)
-  <div class="">
+  <div>
     @include('dashboard.bills.partials.show._converted_banner')
   </div>
   @endif

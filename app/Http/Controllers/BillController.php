@@ -79,7 +79,7 @@ class BillController extends Controller
             $optionsHeader = 'Description';
         }
 
-        $type = $bill->type === "quote" ? "Devis" : "Facture";
+        $type = $bill->isQuote() ? "Devis" : "Facture";
 
         $paymentLabels = [
             'bank_transfer' => 'Virement bancaire',
@@ -207,11 +207,11 @@ class BillController extends Controller
 
         $html = view('dashboard.bills.pdf', [
             'bill' => $bill,
-            'type' => $bill->type === 'quote' ? 'Devis' : 'Facture',
+            'type' => $bill->isQuote() ? 'Devis' : 'Facture',
             'optionsHeader' => $optionsHeader,
         ])->render();
 
-        $filename = ($bill->type === 'quote' ? 'Devis' : 'Facture') . "-{$bill->number}.pdf";
+        $filename = ($bill->isQuote() ? 'Devis' : 'Facture') . "-{$bill->number}.pdf";
         $pdfPath = storage_path("app/public/{$filename}");
 
         Browsershot::html($html)

@@ -1,9 +1,6 @@
 <x-form.section title="Identité visuelle" description="Ajoutez le logo de votre entreprise.">
   <div class="grid grid-cols-2 gap-8 items-start">
-
-    {{-- Zone Drag & Drop --}}
     <div class="space-y-6">
-
       <div
         id="logo-dropzone"
         class="relative border-2 border-dashed border-muted-foreground/40 rounded-xl p-6 text-center cursor-pointer hover:border-primary transition">
@@ -21,7 +18,6 @@
         :value="old('logo_path', $company->logo_path ?? '')" />
     </div>
 
-    {{-- Preview --}}
     <div id="logo-preview"
       class="bg-muted/20 border border-border rounded-xl p-4 flex items-center justify-center h-48">
       @if(!empty($company?->logo_path))

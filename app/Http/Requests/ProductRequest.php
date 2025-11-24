@@ -20,7 +20,6 @@ class ProductRequest extends FormRequest
    */
   public function rules(): array
   {
-    // Récupère l'ID du produit depuis la route (update) ou null pour create
     $productId = $this->route('product')?->id;
 
     return [

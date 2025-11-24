@@ -23,21 +23,21 @@ export function initQuoteLineEvents(
         });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+export function setupLineActions() {
     const addProduct = document.querySelector("#addProduct");
-
-    addProduct.addEventListener("click", () => addQuoteLine());
+    if (addProduct) {
+        addProduct.addEventListener("click", () => addQuoteLine());
+    }
 
     document.addEventListener("click", (e) => {
         if (e.target.classList.contains("remove-line")) {
             const line = e.target.closest("[data-line]");
             if (line) line.remove();
-
             const totals = calculateTotals(window.hasVAT, window.vatRate);
             updateTotalsDisplay(totals, window.hasVAT);
         }
     });
-});
+}
 
 export function addQuoteLine() {
     const container = document.getElementById("quote-lines");

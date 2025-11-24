@@ -3,34 +3,37 @@
 @section('title', 'MiniBiz - Product Options')
 
 @section('content')
+<x-header
+  title="Options Produits">
+  <x-slot name="actions">
+    <x-button :href="route('dashboard.products-options.create')" variant="primary" size="sm">
+      + Créer une Option
+    </x-button>
+  </x-slot>
+</x-header>
 
-<div class="flex items-center justify-between mb-8">
-  <h1 class="text-3xl font-bold text-foreground">
-    Product Options
-  </h1>
-
-  <x-button :href="route('dashboard.products-options.create')" variant="primary" size="sm">
-    + Add Option
-  </x-button>
+<div class="w-[40%]">
+  <x-list-controls
+    route="dashboard.products-options.index"
+    searchPlaceholder="Search in options..."
+    searchName="s"
+    :filters="[
+        [
+            'name' => 'product_id',
+            'label' => 'Produit',
+            'options' => $products,
+        ],
+        [
+            'name' => 'type',
+            'label' => 'Type',
+            'options' => array_combine(
+                $types->toArray(),
+                collect($types)->map(fn($t) => ucfirst($t))->toArray()
+            ),
+        ],
+    ]" />
 </div>
 
-<div class="flex items-center gap-6 w-2/3 mb-3">
-  <div class="flex-1">
-    <x-search-bar
-      route="dashboard.products-options.index"
-      placeholder="Search in options..."
-      name="s" />
-  </div>
-
-  <div class="w-fit">
-    <x-product-options-filter-bar
-      :route="$route"
-      :products="$products"
-      :currentProduct="$currentProduct"
-      :types="$types"
-      :currentType="$currentType" />
-  </div>
-</div>
 
 <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
   <x-table

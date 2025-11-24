@@ -10,17 +10,12 @@
 <div class="mx-auto">
   <x-back-button />
 
-  <div class="mx-auto  p-8 space-y-6">
-    <h1 class="text-3xl font-bold text-foreground">
-      {{ $type === 'invoice' ? 'Créer une facture' : 'Créer un devis' }}
-    </h1>
-
-    <div class="bg-card border border-border rounded-xl shadow-sm p-6 mx-auto">
-      @include('dashboard.bills.partials.form._form', [
-      'formAction' => route('dashboard.bills.store', ['type' => $type]),
-      'submitLabel' => $type === 'invoice' ? 'Créer la facture' : 'Enregistrer le devis',
-      ])
-    </div>
+  <div class="mt-8 space-y-6">
+    <x-header title="{{ $type === 'invoice' ? 'Créer une facture' : 'Créer un devis' }}" />
+    @include('dashboard.bills.partials.form._form', [
+    'formAction' => route('dashboard.bills.store', ['type' => $type]),
+    'submitLabel' => $type === 'invoice' ? 'Créer la facture' : 'Enregistrer le devis',
+    ])
   </div>
 </div>
 @endsection

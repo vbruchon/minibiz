@@ -1,4 +1,4 @@
-import { addQuoteLine, initQuoteLineEvents } from "./lines";
+import { addQuoteLine, initQuoteLineEvents, setupLineActions } from "./lines";
 import {
     calculateTotals,
     initTotalsRecalculation,
@@ -52,11 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!show) input.value = "";
     };
 
-    // Initialisation (utile en mode édition)
+    // Initialisation (utile pour édition)
     toggleCustomField(paymentSelect, paymentCustom);
     toggleCustomField(interestSelect, interestCustom);
 
-    // Listener de changement
     paymentSelect?.addEventListener("change", () =>
         toggleCustomField(paymentSelect, paymentCustom)
     );
@@ -153,22 +152,6 @@ function fillLineData(lineElement, line, index, productOptions) {
     line.selected_options.forEach((optId) => {
         const input = container.querySelector(`input[value="${optId}"]`);
         if (input) input.checked = true;
-    });
-}
-
-function setupLineActions() {
-    const addProduct = document.querySelector("#addProduct");
-    if (addProduct) {
-        addProduct.addEventListener("click", () => addQuoteLine());
-    }
-
-    document.addEventListener("click", (e) => {
-        if (e.target.classList.contains("remove-line")) {
-            const line = e.target.closest("[data-line]");
-            if (line) line.remove();
-            const totals = calculateTotals(window.hasVAT, window.vatRate);
-            updateTotalsDisplay(totals, window.hasVAT);
-        }
     });
 }
 

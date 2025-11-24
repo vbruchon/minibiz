@@ -10,14 +10,12 @@ $isDesc = request('sort') === $column && request('dir') === 'desc';
 @endphp
 
 <div class="flex flex-col">
-    {{-- ASC --}}
     <a
         href="{{ route($route, array_merge(request()->except(['page']), ['sort' => $column, 'dir' => 'asc'])) }}"
         class="{{ $isAsc ? 'text-primary' : 'text-muted-foreground' }} hover:text-primary transition">
         <x-heroicon-s-chevron-up class="size-3" />
     </a>
 
-    {{-- DESC --}}
     <a
         href="{{ route($route, array_merge(request()->except(['page']), ['sort' => $column, 'dir' => 'desc'])) }}"
         class="{{ $isDesc ? 'text-primary' : 'text-muted-foreground' }} hover:text-primary transition">

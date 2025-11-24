@@ -4,12 +4,9 @@
 
 @section('content')
 <div class="mx-auto">
-
-  {{-- Header --}}
-  <div class="flex items-center justify-between mb-8">
-    <h1 class="text-3xl font-bold text-foreground">Facturation</h1>
-
-    <div class="flex items-center gap-2">
+  <x-header
+    title="Facturation">
+    <x-slot name="actions">
       <x-button
         :href="route('dashboard.bills.create', ['type' => 'quote'])"
         variant="primary"
@@ -27,25 +24,31 @@
         <x-heroicon-o-plus class="size-4" />
         Créer une facture
       </x-button>
-    </div>
-  </div>
+    </x-slot>
+  </x-header>
 
-  <div class="flex items-center gap-6 w-1/3 mb-3">
-    <div class="flex-1">
-      <x-search-bar
-        route="dashboard.customers.index"
-        placeholder="Search in facture/devis..."
-        name="s" />
-    </div>
-
-    <div class="w-fit">
-      <x-bills-filter-bar
-        :route="route('dashboard.bills.index')"
-        :types="['quote' => 'Devis', 'invoice' => 'Facture']"
-        :currentType="request('type')"
-        :statuses="\App\Enums\BillStatus::cases()"
-        :currentStatus="request('status')" />
-    </div>
+  <div class="w-1/3">
+    <x-list-controls
+      route="dashboard.bills.index"
+      searchPlaceholder="Search in facture/devis..."
+      searchName="s"
+      :filters="[
+        [
+          'name' => 'type',
+          'label' => 'Type',
+          'options' => [
+              'quote' => 'Devis',
+              'invoice' => 'Facture',
+          ],
+        ],
+        [
+          'name' => 'status',
+          'label' => 'Statut',
+          'options' => collect(\App\Enums\BillStatus::cases())
+              ->mapWithKeys(fn($s) => [$s->value => $s->label()])
+              ->toArray(),
+        ]
+      ]" />
   </div>
 
   <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">

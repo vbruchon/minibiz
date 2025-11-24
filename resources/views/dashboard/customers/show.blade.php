@@ -8,10 +8,9 @@
   <x-back-button />
 
   <div class="mx-auto mt-4 p-8 space-y-8">
-    <div class="flex items-center justify-between">
-      <h1 class="text-3xl font-bold text-foreground">Détail Client</h1>
-
-      <div class="flex items-center gap-3">
+    <x-header
+      title="Détail Client">
+      <x-slot name="actions">
         <x-button :href="route('dashboard.customers.edit', $customer->id)" variant="info" size="sm" class="gap-2">
           <x-heroicon-o-pencil-square class="size-5" />
           Modifier
@@ -27,8 +26,8 @@
             <span>Supprimer</span>
           </div>
         </x-confirmation-delete-dialog>
-      </div>
-    </div>
+      </x-slot>
+    </x-header>
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
       <div class="xl:col-span-2 space-y-8">
