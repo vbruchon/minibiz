@@ -79,7 +79,7 @@ class ProductOptionController extends Controller
         $redirectTo = $request->input('redirect_to', route('dashboard.products-options.index'));
 
         return redirect($redirectTo)
-            ->with('success', 'Product option successfully added!');
+            ->with('success', 'Option ajouté avec succès !');
     }
 
 
@@ -149,7 +149,7 @@ class ProductOptionController extends Controller
         $redirectTo = $request->input('redirect_to', route('dashboard.products-options.index'));
 
         return redirect($redirectTo)
-            ->with('success', 'Product option successfully added!');
+            ->with('success', 'Option modifié avec succès !');
     }
 
 
@@ -168,7 +168,7 @@ class ProductOptionController extends Controller
 
         return redirect()
             ->route('dashboard.products-options.index')
-            ->with('success', 'Product option successfully deleted!');
+            ->with('success', 'Option supprimé avec succès !');
     }
 
     public function syncOptions(Request $request, Product $product)
@@ -177,6 +177,6 @@ class ProductOptionController extends Controller
 
         $product->options()->sync($optionIds);
 
-        return redirect()->back()->with('success', 'Options updated successfully!');
+        return redirect()->back()->with('success', 'Option synchronisé avec succès !');
     }
 }

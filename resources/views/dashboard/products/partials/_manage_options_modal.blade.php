@@ -1,6 +1,6 @@
 <x-modal id="manageOptionsModal">
   <div class="p-6 space-y-6 text-foreground">
-    <h2 class="text-xl font-bold">Manage Product Options</h2>
+    <h2 class="text-xl font-bold">Gérer les options du produits</h2>
 
     <form method="POST" action="{{ route('dashboard.products-options.sync', $product->id) }}">
       @csrf
@@ -22,11 +22,11 @@
 
       <div class="flex justify-end gap-2 mt-8">
         <x-button type="button" variant="secondary" size="sm" data-modal-close>
-          Cancel
+          Retour
         </x-button>
 
         <x-button type="submit" variant="primary" size="sm">
-          Save
+          Sauvegarder
         </x-button>
       </div>
     </form>

@@ -16,15 +16,15 @@
 <div class="w-1/3">
   <x-list-controls
     route="dashboard.products.index"
-    searchPlaceholder="Search in products..."
+    searchPlaceholder="Rechercher dans les produits..."
     searchName="s"
     :filters="[
         [
             'name' => 'status',
             'label' => 'Status',
             'options' => [
-                'active' => 'Active',
-                'inactive' => 'Inactive',
+                'active' => 'Actif',
+                'inactive' => 'Inactif',
             ],
         ]
     ]" />
@@ -33,10 +33,10 @@
 <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
   <x-table
     :headers="[
-            ['label' => 'Name', 'sortable' => true, 'column' => 'name'],
+            ['label' => 'Nom', 'sortable' => true, 'column' => 'name'],
             ['label' => 'Type', 'sortable' => true, 'column' => 'type'],
-            ['label' => 'Unit'],
-            ['label' => 'Base Price', 'sortable' => true, 'column' => 'base_price'],
+            ['label' => 'Unité'],
+            ['label' => 'Prix de base', 'sortable' => true, 'column' => 'base_price'],
             ['label' => 'Status', 'sortable' => true, 'column' => 'status'],
             ['label' => 'Actions'],
         ]"
@@ -50,7 +50,7 @@
       </td>
 
       <td class="px-6 py-3 text-muted-foreground capitalize">
-        {{ $product->type === 'time_unit' ? 'Time Unit' : 'Package' }}
+        {{ $product->type === 'time_unit' ? 'Temps' : 'Package' }}
       </td>
 
       <td class="px-6 py-3 text-muted-foreground">

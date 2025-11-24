@@ -29,7 +29,7 @@ class ProductController extends Controller
         Product::create($data);
 
         return redirect()->route('dashboard.products.index')
-            ->with('success', 'Product successfully added!');
+            ->with('success', 'Produit ajouté avec succès !');
     }
 
 
@@ -68,7 +68,7 @@ class ProductController extends Controller
         $product->update($data);
 
         return redirect()->route('dashboard.products.index')
-            ->with('success', 'Product updated successfully !');
+            ->with('success', 'Produit modifié avec succès !');
     }
 
     public function destroy(Product $product)
@@ -76,6 +76,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('dashboard.products.index')
-            ->with('success', 'Product deleted successfully !');
+            ->with('success', 'Produit supprimer avec succès !');
     }
 }

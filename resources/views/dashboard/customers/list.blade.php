@@ -16,16 +16,16 @@
 <div class="w-1/3">
   <x-list-controls
     route="dashboard.customers.index"
-    searchPlaceholder="Search in customers..."
+    searchPlaceholder="Rechercher dans les clients..."
     searchName="s"
     :filters="[
         [
             'name' => 'status',   
             'label' => 'Status',
             'options' => [
-                'active' => 'Active',
+                'active' => 'Actif',
                 'prospect' => 'Prospect',
-                'inactive' => 'Inactive',
+                'inactive' => 'Inactif',
             ],
         ]
     ]" />
@@ -34,10 +34,10 @@
 <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
   <x-table
     :headers="[
-      ['label' => 'Company', 'sortable' => true, 'column' => 'company_name'],
+      ['label' => 'Entreprise', 'sortable' => true, 'column' => 'company_name'],
       ['label' => 'Email', 'sortable' => true, 'column' => 'company_email'],
-      ['label' => 'Phone'],
-      ['label' => 'City', 'sortable' => true, 'column' => 'city'],
+      ['label' => 'Téléphone'],
+      ['label' => 'Ville', 'sortable' => true, 'column' => 'city'],
       ['label' => 'Status'],
       ['label' => 'Actions'],
     ]"

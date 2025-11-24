@@ -1,15 +1,15 @@
-<x-show-info title="Linked Options">
+<x-show-info title="Options liée(s)">
   <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
     <x-table
       :headers="[
-                ['label' => 'Option Name'],
-                ['label' => 'Type'],
-                ['label' => 'Default Value'],
-                ['label' => 'Default Price (€)'],
-                ['label' => 'Actions'],
-            ]"
+          ['label' => 'Nom de l’option'],
+          ['label' => 'Type'],
+          ['label' => 'Valeur par défaut'],
+          ['label' => 'Prix par défaut (€)'],
+          ['label' => 'Actions'],
+      ]"
       :rowsCount="$productOptions->count()"
-      empty="No options linked to this product yet.">
+      empty="Aucune option n’est encore liée à ce produit.">
 
       @foreach ($productOptions as $option)
       <tr class="hover:bg-muted/10 transition-colors group">
@@ -42,7 +42,7 @@
         size="sm"
         data-modal-target="manageOptionsModal">
         <x-heroicon-o-cog class="size-5" />
-        Manage Options
+        Gérer les Options
       </x-button>
 
       <x-button
@@ -51,7 +51,7 @@
         size="sm"
         class="!text-primary hover:!text-primary/70"
         data-modal-target="addOptionModal">
-        + Add Option
+        + Ajouter une Option
       </x-button>
     </div>
 

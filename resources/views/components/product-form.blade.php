@@ -22,9 +22,9 @@
         </x-form.section>
         @endif
 
-        <x-form.section title="Product Info" :separator="false" class="space-y-6">
+        <x-form.section title="Info Produit" :separator="false" class="space-y-6">
             <x-form.input
-                label="Product Name"
+                label="Nom"
                 name="name"
                 :value="$product?->name"
                 required
@@ -40,7 +40,7 @@
                     class="w-full" />
 
                 <x-form.input
-                    label="Unit"
+                    label="Unité"
                     name="unit"
                     :value="$product?->unit"
                     optional
@@ -49,7 +49,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <x-form.input
-                    label="Base Price (€)"
+                    label="Prix de base (€)"
                     name="base_price"
                     type="number"
                     step="0.01"
@@ -61,7 +61,7 @@
 
         <div class="flex justify-end mt-8">
             <x-button type="submit" variant="primary" size="sm">
-                {{ $product ? 'Update Product' : 'Create Product' }}
+                {{ $product ? 'Mettre à jour le produit' : 'Créer le produit' }}
             </x-button>
         </div>
     </form>

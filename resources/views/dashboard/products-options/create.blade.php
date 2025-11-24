@@ -8,7 +8,10 @@
 
   <div class="mt-8 space-y-6">
     <x-header title="Ajouter une option à un produit" />
-    <x-product-options-form :products="$products" />
+
+    <x-card>
+      <x-product-options-form :products="$products" />
+    </x-card>
   </div>
 </div>
 @endsection

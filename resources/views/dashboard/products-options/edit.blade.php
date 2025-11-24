@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Edit Product Options')
+@section('title', 'Modifier Option Produit')
 
 @section('content')
 <div>
@@ -8,11 +8,14 @@
 
   <div class="mt-8 space-y-6">
     <x-header title="Modifier {{$productOption->name}}" />
-    <x-product-options-form
-      :action="route('dashboard.products-options.update', $productOption->id)"
-      method="PUT"
-      :products="$products"
-      :option="$productOption" />
+
+    <x-card>
+      <x-product-options-form
+        :action="route('dashboard.products-options.update', $productOption->id)"
+        method="PUT"
+        :products="$products"
+        :option="$productOption" />
+    </x-card>
   </div>
 </div>
 </div>

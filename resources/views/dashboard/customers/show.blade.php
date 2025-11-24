@@ -31,33 +31,33 @@
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
       <div class="xl:col-span-2 space-y-8">
-        <x-show-info title="Company Info" :status="$customer->status">
+        <x-show-info title="Info Entreprise" :status="$customer->status">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <x-detail-field label="Company Name" :value="$customer->company_name" />
+            <x-detail-field label="Nom" :value="$customer->company_name" />
             <x-detail-field label="Email" :value="$customer->company_email" />
-            <x-detail-field label="Phone" :value="$customer->company_phone" />
-            <x-detail-field label="Website" :value="$customer->website" />
+            <x-detail-field label="Téléphone" :value="$customer->company_phone" />
+            <x-detail-field label="Site Web" :value="$customer->website" />
 
-            <x-detail-field label="Address Line 1" :value="$customer->address_line1" />
-            <x-detail-field label="Address Line 2" :value="$customer->address_line2" />
-            <x-detail-field label="City" :value="$customer->city" />
-            <x-detail-field label="Postal Code" :value="$customer->postal_code" />
-            <x-detail-field label="Country" :value="$customer->country" />
+            <x-detail-field label="Addresse ligne 1" :value="$customer->address_line1" />
+            <x-detail-field label="Addresse ligne 2" :value="$customer->address_line2" />
+            <x-detail-field label="Ville" :value="$customer->city" />
+            <x-detail-field label="Code postal" :value="$customer->postal_code" />
+            <x-detail-field label="Pays" :value="$customer->country" />
 
             <x-detail-field label="SIREN" :value="$customer->siren" />
             <x-detail-field label="SIRET" :value="$customer->siret" />
             <x-detail-field label="Code APE" :value="$customer->ape_code" />
-            <x-detail-field label="VAT Number" :value="$customer->vat_number" />
+            <x-detail-field label="N° TVA" :value="$customer->vat_number" />
           </div>
         </x-show-info>
       </div>
 
       <div class="space-y-6">
-        <x-show-info title="Contact Info">
+        <x-show-info title="Info Contact">
           <div class="space-y-4">
-            <x-detail-field label="Contact Name" :value="$customer->contact_name" />
-            <x-detail-field label="Contact Email" :value="$customer->contact_email" />
-            <x-detail-field label="Contact Phone" :value="$customer->contact_phone" />
+            <x-detail-field label="Nom" :value="$customer->contact_name" />
+            <x-detail-field label="Email" :value="$customer->contact_email" />
+            <x-detail-field label="Téléphone" :value="$customer->contact_phone" />
           </div>
         </x-show-info>
 
@@ -75,7 +75,7 @@
     </div>
 
     <div class="mt-8">
-      <x-show-info title="Activity">
+      <x-show-info title="Activitée(s)">
         @if($customer->bills->isNotEmpty())
         <div class="space-y-4">
           @foreach($customer->bills as $bill)

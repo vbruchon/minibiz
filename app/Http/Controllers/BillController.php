@@ -113,7 +113,6 @@ class BillController extends Controller
             ->route('dashboard.bills.show', $bill->id)
             ->with('success', 'Devis modifier avec succès !');
     }
-
     public function updateStatus(Request $request, Bill $bill, BillStatusService $service)
     {
         $validated = $request->validate([
@@ -123,11 +122,14 @@ class BillController extends Controller
         try {
             $service->updateStatus($bill, $validated['status']);
         } catch (ValidationException $e) {
-            return back()->with('error', $e->errors()['status'][0] ?? 'Invalid transition.');
+            return back()->with('error', $e->errors()['status'][0] ?? 'Transition invalide.');
         }
 
-        return back()->with('success', 'Bill status updated successfully.');
+        $label = $bill->isQuote() ? 'Devis' : 'Facture';
+
+        return back()->with('success', $label . ' mis à jour avec succès.');
     }
+
 
     public function destroy(Bill $bill)
     {
@@ -140,9 +142,11 @@ class BillController extends Controller
 
         $bill->delete();
 
+        $label = $bill->isQuote() ? 'Devis' : 'Facture';
+
         return redirect()
             ->route('dashboard.bills.index')
-            ->with('success', 'Devis supprimé avec succès !');
+            ->with('success', $label . ' supprimé avec succès !');
     }
 
     private function ensureEditableQuote(Bill $bill): void

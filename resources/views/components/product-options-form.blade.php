@@ -54,166 +54,163 @@ break;
 }
 @endphp
 
-<x-card>
-    <form method="POST" action="{{ $action }}" data-form="product-option" class="space-y-6">
-        @csrf
-        @if(in_array($method, ['PUT', 'PATCH']))
-        @method($method)
-        @endif
+<form method="POST" action="{{ $action }}" data-form="product-option" class="space-y-6">
+    @csrf
+    @if(in_array($method, ['PUT', 'PATCH']))
+    @method($method)
+    @endif
 
-        <x-form.section title="Product Option Details" :separator="false" class="space-y-6">
+    <x-form.section title="Détails Options" :separator="false" class="space-y-6">
 
-            <div class="space-y-2">
-                <label class="block font-semibold text-foreground">Associated Products</label>
+        <div class="space-y-2">
+            <label class="block font-semibold text-foreground">Produit associé(s)</label>
 
-                <div class="flex items-center flex-wrap gap-4 ml-2">
-                    @foreach($products as $id => $name)
-                    <label class="inline-flex items-center gap-2 text-foreground text-sm">
-                        <input
-                            type="checkbox"
-                            name="product_id[]"
-                            value="{{ $id }}"
-                            id="product_{{ $id }}"
-                            @if(
-                            ($selectedProductId && $selectedProductId==$id) ||
-                            in_array($id, old('product_id', $option?->products->pluck('id')->toArray() ?? []))
-                        ) checked @endif
-                        class="w-4 h-4 rounded border-border bg-input text-primary focus:ring-primary">
-                        <span>{{ $name }}</span>
-                    </label>
-                    @endforeach
-                </div>
-
-                @error('product_id')
-                <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
-                @enderror
+            <div class="flex items-center flex-wrap gap-4 ml-2">
+                @foreach($products as $id => $name)
+                <label class="inline-flex items-center gap-2 text-foreground text-sm">
+                    <input
+                        type="checkbox"
+                        name="product_id[]"
+                        value="{{ $id }}"
+                        id="product_{{ $id }}"
+                        @if(
+                        ($selectedProductId && $selectedProductId==$id) ||
+                        in_array($id, old('product_id', $option?->products->pluck('id')->toArray() ?? []))
+                    ) checked @endif
+                    class="w-4 h-4 rounded border-border bg-input text-primary focus:ring-primary">
+                    <span>{{ $name }}</span>
+                </label>
+                @endforeach
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <x-form.input
-                    label="Option Name"
-                    name="name"
-                    :value="old('name', $option?->name)"
-                    required />
+            @error('product_id')
+            <p class="mt-1 text-sm text-destructive">{{ $message }}</p>
+            @enderror
+        </div>
 
-                <x-form.select
-                    label="Type"
-                    name="type"
-                    required
-                    :selected="old('type', $option?->type)"
-                    :options="[
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <x-form.input
+                label="Nom"
+                name="name"
+                :value="old('name', $option?->name)"
+                required />
+
+            <x-form.select
+                label="Type"
+                name="type"
+                required
+                :selected="old('type', $option?->type)"
+                :options="[
                     'choose' => 'Choose a type',
                     'text' => 'Text',
                     'number' => 'Number',
                     'checkbox' => 'Checkbox',
                     'select' => 'Select (multiple values)',
                 ]" />
-            </div>
-
-            <div id="default-value-wrapper"
-                class="grid grid-cols-1 md:grid-cols-2 gap-4"
-                style="display: none;">
-                <x-form.input
-                    label="Value"
-                    name="default_value"
-                    :value="$defaultValue"
-                    placeholder="ex: yes / 5 / blue" />
-
-                <x-form.input
-                    label="Price (€)"
-                    name="default_price"
-                    type="number"
-                    step="0.01"
-                    :value="$defaultPrice"
-                    placeholder="0.00" />
-            </div>
-
-            <div id="valuesContainer" class="space-y-3" style="display:none;">
-                <label class="block text-sm font-medium text-foreground">Values</label>
-
-                <div id="valuesList" class="space-y-2">
-
-                    @if(!empty($values))
-                    @foreach($values as $value)
-                    <div class="flex gap-2 items-center">
-                        <input type="text"
-                            name="values[{{ $value['id'] }}][value]"
-                            value="{{ $value['value'] }}"
-                            placeholder="Value"
-                            class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
-
-                        <input type="number"
-                            name="values[{{ $value['id'] }}][price]"
-                            value="{{ $value['price'] ?? 0 }}"
-                            step="0.01"
-                            placeholder="Price (€)"
-                            class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
-
-                        <input type="radio"
-                            name="default_index"
-                            value="{{ $value['id'] }}"
-                            title="Default"
-                            class="cursor-pointer"
-                            {{ $value['id'] == $defaultIndex ? 'checked' : '' }} />
-
-                        <x-button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            class="!py-1 !text-2xl !text-destructive hover:!text-destructive/70 removeValue">
-                            ×
-                        </x-button>
-                    </div>
-                    @endforeach
-                    @else
-                    <div class="flex gap-2 items-center">
-                        <input type="text"
-                            name="values[0][value]"
-                            placeholder="Value"
-                            class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
-
-                        <input type="number"
-                            name="values[0][price]"
-                            placeholder="Price (€)"
-                            step="0.01"
-                            class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
-
-                        <input type="radio"
-                            name="default_index"
-                            value="0"
-                            title="Default"
-                            class="cursor-pointer" />
-
-                        <x-button
-                            type="button"
-                            variant="ghost"
-                            size="sm"
-                            class="!py-1 !text-2xl !text-destructive hover:!text-destructive/70 removeValue">
-                            ×
-                        </x-button>
-                    </div>
-                    @endif
-                </div>
-
-                <x-button
-                    type="button"
-                    id="addValueBtn"
-                    variant="ghost"
-                    class="!text-primary hover:!text-primary/70 !px-0">
-                    + Add Value
-                </x-button>
-            </div>
-        </x-form.section>
-
-        <div class="flex justify-end">
-            <x-button type="submit" variant="primary" size="sm">
-                {{ $option ? 'Update Option' : 'Create Option' }}
-            </x-button>
         </div>
 
-        <input type="hidden" name="redirect_to" value="{{ $redirectTo }}">
-    </form>
-</x-card>
+        <div id="default-value-wrapper"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4"
+            style="display: none;">
+            <x-form.input
+                label="Valeur"
+                name="default_value"
+                :value="$defaultValue"
+                placeholder="ex: yes / 5 / blue" />
+
+            <x-form.input
+                label="Prix (€)"
+                name="default_price"
+                type="number"
+                step="0.01"
+                :value="$defaultPrice"
+                placeholder="0.00" />
+        </div>
+
+        <div id="valuesContainer" class="space-y-3" style="display:none;">
+            <label class="block text-sm font-medium text-foreground">Valeur</label>
+
+            <div id="valuesList" class="space-y-2">
+                @if(!empty($values))
+                @foreach($values as $value)
+                <div class="flex gap-2 items-center">
+                    <input type="text"
+                        name="values[{{ $value['id'] }}][value]"
+                        value="{{ $value['value'] }}"
+                        placeholder="Value"
+                        class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
+
+                    <input type="number"
+                        name="values[{{ $value['id'] }}][price]"
+                        value="{{ $value['price'] ?? 0 }}"
+                        step="0.01"
+                        placeholder="Price (€)"
+                        class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
+
+                    <input type="radio"
+                        name="default_index"
+                        value="{{ $value['id'] }}"
+                        title="Default"
+                        class="cursor-pointer"
+                        {{ $value['id'] == $defaultIndex ? 'checked' : '' }} />
+
+                    <x-button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        class="!py-1 !text-2xl !text-destructive hover:!text-destructive/70 removeValue">
+                        ×
+                    </x-button>
+                </div>
+                @endforeach
+                @else
+                <div class="flex gap-2 items-center">
+                    <input type="text"
+                        name="values[0][value]"
+                        placeholder="Valeur"
+                        class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
+
+                    <input type="number"
+                        name="values[0][price]"
+                        placeholder="Prix (€)"
+                        step="0.01"
+                        class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
+
+                    <input type="radio"
+                        name="default_index"
+                        value="0"
+                        title="Default"
+                        class="cursor-pointer" />
+
+                    <x-button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        class="!py-1 !text-2xl !text-destructive hover:!text-destructive/70 removeValue">
+                        ×
+                    </x-button>
+                </div>
+                @endif
+            </div>
+
+            <x-button
+                type="button"
+                id="addValueBtn"
+                variant="ghost"
+                class="!text-primary hover:!text-primary/70 !px-0">
+                + Ajouter une valeur
+            </x-button>
+        </div>
+    </x-form.section>
+
+    <div class="flex justify-end">
+        <x-button type="submit" variant="primary" size="sm">
+            {{ $option ? "Mettre à jour l'option" : "Créer l'option" }}
+        </x-button>
+    </div>
+
+    <input type="hidden" name="redirect_to" value="{{ $redirectTo }}">
+</form>
 
 @push('scripts')
 <script>
@@ -261,9 +258,9 @@ break;
             const div = document.createElement('div');
             div.className = 'flex gap-2 items-center';
             div.innerHTML = `
-                <input type="text" name="values[${index}][value]" placeholder="Value" class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
-                <input type="number" name="values[${index}][price]" placeholder="Price (€)" step="0.01" class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
-                <input type="radio" name="default_index" value="${index}" title="Default" class="cursor-pointer" />
+                <input type="text" name="values[${index}][value]" placeholder="Valeur" class="w-1/3 rounded-lg bg-input border border-border text-foreground p-2" />
+                <input type="number" name="values[${index}][price]" placeholder="Prix (€)" step="0.01" class="w-1/4 rounded-lg bg-input border border-border text-foreground p-2" />
+                <input type="radio" name="default_index" value="${index}" title="Défault" class="cursor-pointer" />
                 <x-button type="button" variant="ghost" size="sm" class="!py-1 !text-2xl !text-destructive hover:!text-destructive/70 removeValue">×</x-button>`;
 
             valuesList.appendChild(div);

@@ -15,7 +15,7 @@
 <div class="w-[40%]">
   <x-list-controls
     route="dashboard.products-options.index"
-    searchPlaceholder="Search in options..."
+    searchPlaceholder="Rechercher dans les options..."
     searchName="s"
     :filters="[
         [
@@ -38,11 +38,11 @@
 <div class="overflow-x-auto overflow-y-hidden bg-card border border-border rounded-xl shadow-sm">
   <x-table
     :headers="[
-      ['label' => 'Name', 'sortable' => true, 'column' => 'name'],
+      ['label' => 'Nom', 'sortable' => true, 'column' => 'name'],
       ['label' => 'Type', 'sortable' => true, 'column' => 'type'],
-      ['label' => 'Default Value'],
-      ['label' => 'Default Price', 'sortable' => true, 'column' => 'default_price'],
-      ['label' => 'Products', 'sortable' => true, 'column' => 'product_id'],
+      ['label' => 'Valeur par défault'],
+      ['label' => 'Prix par défault', 'sortable' => true, 'column' => 'default_price'],
+      ['label' => 'Produits', 'sortable' => true, 'column' => 'product_id'],
       ['label' => 'Actions'],
     ]"
     route="dashboard.products-options.index"
