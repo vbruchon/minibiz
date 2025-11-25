@@ -1,41 +1,19 @@
-<!DOCTYPE html>
-<html lang="fr">
+@extends('layouts.app')
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'MiniBiz Dashboard')</title>
+@section('title', 'MiniBiz Dashboard')
 
-  <script>
-    const savedTheme = localStorage.getItem('theme') ?? 'light';
-    if (savedTheme === 'dark') document.documentElement.classList.add('dark');
-  </script>
+@section('body')
+<x-sidebar />
 
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
+<main class="ml-56 p-8">
+  @yield('content')
+</main>
 
-  @stack('styles')
-  @yield('head')
-</head>
+@if(session('success'))
+<x-toast type="success" :message="session('success')" />
+@endif
 
-<body class="font-sans bg-background text-foreground antialiased">
-
-  <x-sidebar />
-
-  <main class="ml-56 p-8">
-    @yield('content')
-  </main>
-
-  @yield('scripts')
-  @stack('scripts')
-
-  @if(session('success'))
-  <x-toast type="success" :message="session('success')" />
-  @endif
-
-  @if(session('error'))
-  <x-toast type="error" :message="session('error')" />
-  @endif
-
-</body>
-
-</html>
+@if(session('error'))
+<x-toast type="error" :message="session('error')" />
+@endif
+@endsection

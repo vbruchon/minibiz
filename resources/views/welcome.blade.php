@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MiniBiz — ERP Freelance</title>
+@section('title', 'MiniBiz — ERP Freelance')
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="bg-background text-foreground antialiased relative overflow-hidden">
+@section('body')
+<div class="overflow-hidden relative">
     <div class="absolute top-0 left-0 pointer-events-none">
         <div class="w-[500px] h-[500px] bg-primary/15 dark:bg-primary/25 
                     blur-[140px] rounded-full -translate-x-1/3 -translate-y-1/3">
@@ -20,6 +14,10 @@
         <div class="w-[600px] h-[600px] bg-primary/15 dark:bg-primary/25 
                     blur-[160px] rounded-full translate-x-1/3 translate-y-1/3">
         </div>
+    </div>
+
+    <div class="absolute top-6 right-6 z-20">
+        <x-theme-toggle />
     </div>
 
     <div class="min-h-screen flex flex-col items-center justify-center px-6 relative z-10">
@@ -78,10 +76,13 @@
             </div>
         </div>
 
-        <div class="mt-16 text-xs text-muted-foreground">
-            MiniBiz — Local-first · Open Source 2025.
+        <div class="mt-16 text-xs text-muted-foreground flex items-center gap-3">
+            <p>MiniBiz</p>
+            <span>—</span>
+            <p>Local-first</p>
+            <span>—</span>
+            <a href="https://github.com/vbruchon" target="_blank" rel="noopener noreferrer">vbruchon</a>
         </div>
     </div>
-</body>
-
-</html>
+</div>
+@endsection
