@@ -1,7 +1,7 @@
 <div>
-  <div class="grid grid-cols-2 text-sm text-gray-700 leading-relaxed gap-8">
+  <div class="grid grid-cols-2 text-sm leading-relaxed gap-8">
     <div class="space-y-0.5">
-      <h4 class="text-lg font-medium mb-4">Conditions</h4>
+      <h4 class="text-lg font-medium mb-4 text-gray-900">Conditions</h4>
 
       <div class="flex items-center gap-4">
         <p class="font-semibold text-gray-900">Conditions de règlement :</p>
@@ -25,7 +25,7 @@
     </div>
 
     <div class="space-y-0.5 justify-self-start">
-      <h4 class="text-lg font-medium mb-4">Bon pour accord</h4>
+      <h4 class="text-lg font-medium mb-4 text-gray-900">Bon pour accord</h4>
       <p class="mt-2">À ............................................., le .... / .... / ........</p>
       <div class="mt-4 space-y-1">
         <p>Signature et cachet :</p>
